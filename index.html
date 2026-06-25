@@ -1,0 +1,2689 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hurghada Holidays — Red Sea Tours & Booking</title>
+<style>
+/* ============================================================
+   DESIGN TOKENS — Red Sea palette
+   Primary: deep ocean blue #0B3D6B
+   Accent:  coral orange  #E8622A
+   Sand:    warm beige    #F5EDD8
+   Gold:    warm gold     #C8973A
+   Surface: white         #FFFFFF
+   Text:    near-black    #1A1A1A
+   Muted:   slate         #6B7B8D
+   ============================================================ */
+:root {
+  --ocean: #0B3D6B;
+  --ocean-light: #1565A8;
+  --coral: #E8622A;
+  --coral-light: #F07A47;
+  --sand: #F5EDD8;
+  --sand-dark: #E8DCC4;
+  --gold: #C8973A;
+  --gold-light: #DBA94C;
+  --white: #FFFFFF;
+  --off-white: #FAFAF8;
+  --text: #1A1A1A;
+  --text-muted: #6B7B8D;
+  --border: #DDE3EA;
+  --shadow-sm: 0 2px 8px rgba(11,61,107,0.08);
+  --shadow-md: 0 6px 24px rgba(11,61,107,0.12);
+  --shadow-lg: 0 16px 48px rgba(11,61,107,0.16);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* RESET */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--off-white);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+body[dir="rtl"] {
+  font-family: 'Segoe UI', 'Cairo', 'Tajawal', -apple-system, Arial, sans-serif;
+}
+img { max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; outline: none; font-family: inherit; }
+input, select, textarea { font-family: inherit; font-size: 1rem; }
+
+/* HERO FLOATING ELEMENTS */
+@keyframes float1 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-18px) rotate(3deg)} }
+@keyframes float2 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-12px) rotate(-2deg)} }
+.hero-deco {
+  position:absolute;
+  opacity:0.08;
+  font-size:6rem;
+  pointer-events:none;
+  animation:float1 7s ease-in-out infinite;
+}
+.hero-deco-1 { top:60px; left:8%; animation-delay:0s; }
+.hero-deco-2 { bottom:130px; right:6%; font-size:4rem; animation:float2 5s ease-in-out infinite; animation-delay:1.5s; }
+.hero-deco-3 { top:40%; left:3%; font-size:3rem; animation:float1 9s ease-in-out infinite; animation-delay:3s; }
+
+/* SECTION DIVIDER */
+.section-divider {
+  width:100%; height:3px;
+  background:linear-gradient(90deg, transparent, var(--coral), var(--gold), var(--ocean), transparent);
+  margin:0;
+  opacity:0.35;
+}
+
+/* SCROLL REVEAL */
+.reveal { opacity:0; transform:translateY(30px); transition:opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* TOOLTIP PRICE NOTE */
+.live-price-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  background:rgba(200,151,58,0.15);
+  border:1px solid rgba(200,151,58,0.3);
+  border-radius:100px;
+  padding:3px 10px;
+  font-size:0.72rem;
+  color:var(--gold);
+  font-weight:600;
+  margin-bottom:0.75rem;
+}
+.live-dot {
+  width:7px; height:7px;
+  background:var(--gold);
+  border-radius:50%;
+  animation:pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:0.4;transform:scale(0.7)}
+}
+
+/* STICKY SUMMARY BAR */
+.sticky-price-bar {
+  position:sticky;
+  bottom:0;
+  background:var(--ocean);
+  color:white;
+  padding:10px 2rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:50;
+  font-size:0.88rem;
+  box-shadow:0 -4px 20px rgba(0,0,0,0.2);
+}
+.sticky-price-bar strong { color:var(--gold-light); font-size:1.1rem; }
+.sticky-price-bar span { opacity:0.75; }
+
+/* EMPTY STATE */
+.empty-state {
+  text-align:center;
+  padding:3rem 1rem;
+  color:var(--text-muted);
+  font-size:0.9rem;
+}
+.empty-state .empty-icon { font-size:3rem; margin-bottom:0.75rem; display:block; }
+
+/* SELECT ALL / CLEAR BUTTONS */
+.act-controls { display:flex; gap:0.75rem; margin-bottom:1.25rem; flex-wrap:wrap; }
+.btn-outline {
+  background:transparent;
+  border:2px solid var(--border);
+  color:var(--ocean);
+  border-radius:6px;
+  padding:7px 16px;
+  font-size:0.82rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:all var(--transition);
+}
+.btn-outline:hover { border-color:var(--ocean); background:rgba(11,61,107,0.06); }
+
+/* HOTEL AMENITY CHIPS */
+.hotel-amenities {
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px;
+  margin-bottom:0.75rem;
+}
+.chip {
+  background:var(--sand);
+  color:var(--ocean);
+  border-radius:100px;
+  padding:2px 8px;
+  font-size:0.68rem;
+  font-weight:600;
+}
+
+/* STEP COMPLETION ANIMATION */
+@keyframes checkPop {
+  0%{transform:scale(0.5);opacity:0}
+  70%{transform:scale(1.2)}
+  100%{transform:scale(1);opacity:1}
+}
+.step-dot.completed .step-circle { animation:checkPop 0.4s ease forwards; }
+
+/* ACTIVE STEP PULSE */
+@keyframes stepPulse {
+  0%,100%{box-shadow:0 0 0 4px rgba(232,98,42,0.2)}
+  50%{box-shadow:0 0 0 8px rgba(232,98,42,0.08)}
+}
+.step-dot.active .step-circle { animation:stepPulse 2s ease infinite; }
+
+/* SUMMARY TABLE HIGHLIGHT */
+.summary-row:hover { background:rgba(11,61,107,0.03); }
+.summary-item-name { font-size:0.85rem; color:var(--text); max-width:220px; line-height:1.4; }
+.summary-item-price { font-size:0.85rem; font-weight:700; color:var(--coral); white-space:nowrap; }
+
+/* ACTIVITY SELECTED COUNT BADGE */
+.selection-counter {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:var(--ocean);
+  color:white;
+  border-radius:100px;
+  padding:5px 14px;
+  font-size:0.82rem;
+  font-weight:700;
+  margin-bottom:1rem;
+}
+
+/* FOOTER LOGO ACCENT */
+.footer-brand .brand-logo-icon {
+  font-size:1.5rem;
+  margin-bottom:0.5rem;
+  display:block;
+}
+
+::-webkit-scrollbar-track { background: var(--sand); }
+::-webkit-scrollbar-thumb { background: var(--ocean-light); border-radius: 4px; }
+
+/* ============================================================
+   TOP NAV
+   ============================================================ */
+#top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--ocean);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--white);
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  flex-shrink: 0;
+}
+.nav-logo .logo-icon {
+  width: 36px; height: 36px;
+  background: var(--coral);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.nav-logo span.accent { color: var(--coral-light); }
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.lang-btn {
+  background: rgba(255,255,255,0.12);
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background var(--transition);
+  cursor: pointer;
+}
+.lang-btn:hover, .lang-btn.active {
+  background: var(--coral);
+  border-color: var(--coral);
+}
+.currency-toggle {
+  background: rgba(255,255,255,0.12);
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.currency-toggle:hover { background: var(--gold); border-color: var(--gold); }
+.admin-link {
+  color: rgba(255,255,255,0.35);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+.admin-link:hover { color: rgba(255,255,255,0.7); }
+.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
+.hamburger span { display:block; width:22px; height:2px; background:white; border-radius:2px; transition:all 0.25s; }
+@media(max-width:520px) {
+  .hamburger { display:flex; }
+  .nav-lang-group { display:none; position:absolute; top:64px; left:0; right:0; background:var(--ocean); padding:1rem; flex-direction:column; gap:0.5rem; border-top:1px solid rgba(255,255,255,0.1); }
+  .nav-lang-group.open { display:flex; }
+  .lang-btn, .currency-toggle, .admin-link { width:100%; text-align:center; padding:10px; }
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+#hero {
+  position: relative;
+  min-height: 560px;
+  background: linear-gradient(135deg, #0B3D6B 0%, #0E5A9A 35%, #1565A8 55%, #0D7EA8 75%, #0A6B5E 100%);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 1rem 8rem;
+}
+.hero-waves {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 120px;
+  overflow: hidden;
+}
+.hero-waves svg { width: 100%; height: 100%; }
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center top, rgba(232,98,42,0.15) 0%, transparent 60%);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  padding: 2rem;
+}
+.hero-badge {
+  display: inline-block;
+  background: rgba(232,98,42,0.25);
+  border: 1px solid rgba(232,98,42,0.5);
+  color: #FFB68A;
+  border-radius: 100px;
+  padding: 6px 18px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+.hero-title {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+}
+.hero-title span { color: #FFB68A; }
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+.hero-cta {
+  display: inline-block;
+  background: var(--coral);
+  color: var(--white);
+  border-radius: 50px;
+  padding: 14px 36px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  box-shadow: 0 8px 32px rgba(232,98,42,0.45);
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+  cursor: pointer;
+  border: none;
+}
+.hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(232,98,42,0.6);
+  background: var(--coral-light);
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  z-index: 2;
+  margin-top: 2.5rem;
+  position: relative;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.15);
+}
+.hero-stat { text-align: center; }
+.hero-stat .num { font-size: 1.6rem; font-weight: 900; color: #FFB68A; }
+.hero-stat .lbl { font-size: 0.78rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; }
+
+/* ============================================================
+   BOOKING WIZARD
+   ============================================================ */
+#booking-wizard {
+  max-width: 920px;
+  margin: -60px auto 4rem;
+  position: relative;
+  z-index: 10;
+  padding: 0 1rem;
+}
+.wizard-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+/* Progress bar */
+.wizard-progress {
+  background: var(--sand);
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.progress-steps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+.progress-line {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  right: 18px;
+  height: 2px;
+  background: var(--border);
+  z-index: 0;
+}
+.progress-line-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--coral), var(--gold));
+  transition: width 0.5s ease;
+}
+.step-dot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.step-circle {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: all var(--transition);
+}
+.step-dot.active .step-circle {
+  background: var(--coral);
+  border-color: var(--coral);
+  color: var(--white);
+  box-shadow: 0 0 0 4px rgba(232,98,42,0.2);
+}
+.step-dot.completed .step-circle {
+  background: var(--ocean);
+  border-color: var(--ocean);
+  color: var(--white);
+}
+.step-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+  display: none;
+}
+@media(min-width:600px) { .step-label { display: block; } }
+.step-dot.active .step-label { color: var(--coral); }
+.step-dot.completed .step-label { color: var(--ocean); }
+
+/* Wizard panels */
+.wizard-body { padding: 2.5rem 2rem; }
+.wizard-step { display: none; animation: fadeSlide 0.3s ease; }
+.wizard-step.active { display: block; }
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+body[dir="rtl"] .wizard-step.active {
+  animation: fadeSlideRtl 0.3s ease;
+}
+@keyframes fadeSlideRtl {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Step title */
+.step-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--ocean);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.3px;
+}
+.step-subtitle {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+/* ============================================================
+   FORM ELEMENTS
+   ============================================================ */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+@media(max-width:640px) { .form-grid { grid-template-columns: 1fr; } }
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-group.full { grid-column: 1/-1; }
+.form-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ocean);
+  letter-spacing: 0.2px;
+}
+.form-label .req { color: var(--coral); margin-left: 2px; }
+.form-input, .form-select, .form-textarea {
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--white);
+  transition: border-color var(--transition), box-shadow var(--transition);
+  width: 100%;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--ocean-light);
+  box-shadow: 0 0 0 3px rgba(21,101,168,0.12);
+}
+.form-input.error, .form-select.error, .form-textarea.error {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220,53,69,0.1);
+}
+.form-textarea { resize: vertical; min-height: 100px; }
+.form-error { font-size: 0.8rem; color: #dc3545; display: none; }
+.form-group.has-error .form-error { display: block; }
+.phone-group {
+  display: flex;
+  gap: 8px;
+}
+.phone-code {
+  width: 110px;
+  flex-shrink: 0;
+}
+.input-with-icon { position: relative; }
+.input-icon {
+  position: absolute;
+  right: 12px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+body[dir="rtl"] .input-icon { right: auto; left: 12px; }
+
+/* Number stepper */
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  height: 44px;
+}
+.stepper-btn {
+  width: 44px; height: 100%;
+  background: var(--sand);
+  color: var(--ocean);
+  font-size: 1.2rem;
+  font-weight: 700;
+  border: none;
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--transition);
+}
+.stepper-btn:hover { background: var(--ocean); color: var(--white); }
+.stepper-val {
+  flex: 1;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+/* Date row */
+.date-row { display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap; }
+.date-row .form-group { flex: 1; min-width: 140px; }
+.duration-badge {
+  background: var(--sand);
+  border: 1px solid var(--gold);
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold);
+  white-space: nowrap;
+  display: flex; align-items: center; gap: 6px;
+  height: 44px;
+  align-self: flex-end;
+}
+
+/* ============================================================
+   HOTEL CARDS
+   ============================================================ */
+.category-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 1.5rem 0 1rem;
+}
+.category-label::before, .category-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.category-label span {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.hotels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+.hotel-card {
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  background: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+.hotel-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--ocean), var(--coral));
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+.hotel-card:hover { border-color: var(--ocean-light); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.hotel-card:hover::before { opacity: 1; }
+.hotel-card.selected {
+  border-color: var(--coral);
+  box-shadow: 0 0 0 3px rgba(232,98,42,0.15), var(--shadow-md);
+}
+.hotel-card.selected::before { opacity: 1; background: linear-gradient(90deg, var(--coral), var(--gold)); }
+.hotel-thumb {
+  width: 100%; height: 130px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.9rem;
+  position: relative;
+  overflow: hidden;
+}
+.hotel-thumb-bg {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #0B3D6B, #1565A8, #0D7EA8);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem;
+}
+.hotel-stars { color: var(--gold); font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 4px; }
+.hotel-name { font-size: 1rem; font-weight: 800; color: var(--ocean); margin-bottom: 0.4rem; }
+.hotel-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 0.9rem; }
+.hotel-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.hotel-price { font-size: 1.1rem; font-weight: 800; color: var(--coral); }
+.hotel-price span { font-size: 0.75rem; color: var(--text-muted); font-weight: 400; }
+.hotel-select-btn {
+  background: var(--ocean);
+  color: var(--white);
+  border-radius: 6px;
+  padding: 7px 16px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: background var(--transition);
+}
+.hotel-select-btn:hover, .hotel-card.selected .hotel-select-btn {
+  background: var(--coral);
+}
+.selected-check {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 24px; height: 24px;
+  background: var(--coral);
+  border-radius: 50%;
+  display: none;
+  align-items: center; justify-content: center;
+  color: var(--white);
+  font-size: 0.75rem;
+}
+body[dir="rtl"] .selected-check { right: auto; left: 12px; }
+.hotel-card.selected .selected-check { display: flex; }
+.price-note {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+  font-style: italic;
+}
+
+/* ============================================================
+   ACTIVITIES CHECKLIST
+   ============================================================ */
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+.activity-item {
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  background: var(--white);
+}
+.activity-item:hover { border-color: var(--ocean-light); box-shadow: var(--shadow-sm); }
+.activity-item.selected {
+  border-color: var(--ocean);
+  background: rgba(11,61,107,0.04);
+}
+.activity-checkbox {
+  width: 22px; height: 22px;
+  border: 2px solid var(--border);
+  border-radius: 5px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition);
+  background: var(--white);
+}
+.activity-item.selected .activity-checkbox {
+  background: var(--ocean);
+  border-color: var(--ocean);
+  color: var(--white);
+  font-size: 0.7rem;
+}
+.activity-icon { font-size: 1.4rem; flex-shrink: 0; }
+.activity-info { flex: 1; }
+.activity-name { font-size: 0.9rem; font-weight: 700; color: var(--ocean); margin-bottom: 3px; }
+.activity-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+.activity-price { font-size: 0.85rem; font-weight: 700; color: var(--coral); margin-top: 5px; }
+
+/* ============================================================
+   TRANSPORT OPTIONS
+   ============================================================ */
+.transport-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+.transport-item {
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  background: var(--white);
+}
+.transport-item:hover { border-color: var(--ocean-light); box-shadow: var(--shadow-sm); }
+.transport-item.selected {
+  border-color: var(--coral);
+  background: rgba(232,98,42,0.04);
+}
+.transport-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.5rem;
+}
+.transport-icon { font-size: 1.5rem; }
+.transport-name { font-size: 0.95rem; font-weight: 700; color: var(--ocean); }
+.transport-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.5rem; }
+.transport-price { font-size: 1rem; font-weight: 800; color: var(--coral); }
+
+/* ============================================================
+   SUMMARY
+   ============================================================ */
+.summary-card {
+  background: var(--sand);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.summary-card h3 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--sand-dark);
+  gap: 1rem;
+}
+.summary-row:last-child { border-bottom: none; }
+.summary-key { font-size: 0.9rem; color: var(--text); }
+.summary-val { font-size: 0.9rem; font-weight: 600; color: var(--ocean); text-align: right; }
+.grand-total-box {
+  background: linear-gradient(135deg, var(--ocean), var(--ocean-light));
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+.total-label { font-size: 1rem; font-weight: 600; opacity: 0.85; }
+.total-amount { font-size: 2rem; font-weight: 900; }
+.price-disclaimer {
+  background: rgba(200,151,58,0.12);
+  border: 1px solid rgba(200,151,58,0.3);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1.1rem;
+  font-size: 0.82rem;
+  color: var(--gold);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+
+/* ============================================================
+   WIZARD NAVIGATION
+   ============================================================ */
+.wizard-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: var(--sand);
+  border-top: 1px solid var(--border);
+}
+.btn {
+  border-radius: 8px;
+  padding: 11px 28px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary {
+  background: var(--coral);
+  color: var(--white);
+  box-shadow: 0 4px 16px rgba(232,98,42,0.3);
+}
+.btn-primary:hover { background: var(--coral-light); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(232,98,42,0.4); }
+.btn-secondary {
+  background: var(--white);
+  color: var(--ocean);
+  border: 2px solid var(--border);
+}
+.btn-secondary:hover { border-color: var(--ocean); background: rgba(11,61,107,0.04); }
+.btn-success {
+  background: linear-gradient(135deg, #1A7A4A, #22A060);
+  color: var(--white);
+  box-shadow: 0 4px 16px rgba(26,122,74,0.3);
+  font-size: 1.05rem;
+  padding: 14px 36px;
+}
+.btn-success:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(26,122,74,0.4); }
+
+/* ============================================================
+   SUCCESS SCREEN
+   ============================================================ */
+#success-screen {
+  display: none;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+#success-screen.active { display: block; }
+.success-icon {
+  width: 80px; height: 80px;
+  background: linear-gradient(135deg, #1A7A4A, #22A060);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 8px 32px rgba(26,122,74,0.3);
+}
+.success-title { font-size: 2rem; font-weight: 900; color: var(--ocean); margin-bottom: 0.75rem; }
+.success-subtitle { color: var(--text-muted); margin-bottom: 2rem; font-size: 1.05rem; }
+.booking-ref {
+  background: var(--sand);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  display: inline-block;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--ocean);
+  letter-spacing: 2px;
+  margin-bottom: 2rem;
+}
+
+/* ============================================================
+   REVIEWS SECTION
+   ============================================================ */
+#reviews-section {
+  max-width: 920px;
+  margin: 0 auto 4rem;
+  padding: 0 1rem;
+}
+.section-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.section-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--coral);
+  margin-bottom: 0.5rem;
+}
+.section-title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--ocean);
+  letter-spacing: -0.5px;
+}
+.rating-averages {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.avg-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.avg-cat { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
+.avg-num { font-size: 2.2rem; font-weight: 900; color: var(--ocean); }
+.avg-stars { color: var(--gold); font-size: 1rem; }
+
+/* Review form */
+.review-form-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+}
+.review-form-card h3 { font-size: 1.15rem; font-weight: 800; color: var(--ocean); margin-bottom: 1.5rem; }
+.rating-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+@media(max-width:480px) { .rating-row { grid-template-columns: 1fr; } }
+.rating-group label { font-size: 0.85rem; font-weight: 600; color: var(--ocean); display: block; margin-bottom: 4px; }
+.star-picker { display: flex; gap: 4px; }
+.star-pick {
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--border);
+  transition: color var(--transition);
+}
+.star-pick.active, .star-pick:hover { color: var(--gold); }
+
+/* Review cards */
+.reviews-list { display: flex; flex-direction: column; gap: 1rem; }
+.review-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--ocean);
+}
+body[dir="rtl"] .review-card { border-left: none; border-right: 4px solid var(--ocean); }
+.review-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+.reviewer-name { font-weight: 700; color: var(--ocean); }
+.review-date { font-size: 0.8rem; color: var(--text-muted); }
+.review-stars { color: var(--gold); font-size: 0.9rem; }
+.review-text { color: var(--text); font-size: 0.9rem; line-height: 1.6; }
+.no-reviews { text-align: center; color: var(--text-muted); padding: 2rem; }
+
+/* ============================================================
+   CURRENCY NOTICE
+   ============================================================ */
+.currency-notice {
+  background: var(--ocean);
+  color: rgba(255,255,255,0.8);
+  text-align: center;
+  padding: 10px 1rem;
+  font-size: 0.8rem;
+}
+.currency-notice strong { color: var(--gold-light); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+#footer {
+  background: #071E35;
+  color: rgba(255,255,255,0.7);
+  padding: 3rem 2rem 1.5rem;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+@media(max-width:640px) { .footer-inner { grid-template-columns: 1fr; } }
+.footer-brand .brand-name {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 0.75rem;
+}
+.footer-brand p { font-size: 0.88rem; line-height: 1.65; }
+.footer-col h4 { font-size: 0.85rem; font-weight: 700; color: var(--white); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.9rem; }
+.footer-col a { display: block; font-size: 0.85rem; margin-bottom: 0.5rem; color: rgba(255,255,255,0.6); transition: color var(--transition); }
+.footer-col a:hover { color: var(--coral-light); }
+.footer-socials { display: flex; gap: 10px; margin-top: 1rem; }
+.social-btn {
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+  transition: background var(--transition);
+  cursor: pointer;
+}
+.social-btn:hover { background: var(--coral); }
+.footer-bottom {
+  max-width: 1100px;
+  margin: 0 auto;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+/* ============================================================
+   WHATSAPP FLOAT
+   ============================================================ */
+.whatsapp-float {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+  width: 58px; height: 58px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 24px rgba(37,211,102,0.45);
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+  text-decoration: none;
+}
+body[dir="rtl"] .whatsapp-float { right: auto; left: 28px; }
+.whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 10px 32px rgba(37,211,102,0.6); }
+.whatsapp-float svg { width: 30px; height: 30px; fill: white; }
+
+/* ============================================================
+   ADMIN PANEL
+   ============================================================ */
+#admin-panel {
+  display: none;
+  min-height: 100vh;
+  background: #0a1628;
+  color: var(--white);
+  padding: 2rem;
+}
+#admin-panel.active { display: block; }
+.admin-login {
+  max-width: 420px;
+  margin: 8vh auto;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  text-align: center;
+}
+.admin-login h2 { color: var(--gold-light); margin-bottom: 0.5rem; font-size: 1.5rem; }
+.admin-login p { color: rgba(255,255,255,0.5); font-size: 0.88rem; margin-bottom: 1.5rem; }
+.admin-input {
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 11px 14px;
+  color: var(--white);
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+.admin-input:focus { outline: none; border-color: var(--gold); }
+.btn-admin { background: var(--gold); color: #0a1628; font-weight: 800; width: 100%; padding: 12px; border-radius: 8px; font-size: 1rem; cursor: pointer; border: none; }
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.admin-title { font-size: 1.5rem; font-weight: 800; color: var(--gold-light); }
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.stat-card {
+  background: rgba(255,255,255,0.06);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; }
+.stat-value { font-size: 1.8rem; font-weight: 900; color: var(--gold-light); }
+.stat-sub { font-size: 0.78rem; color: rgba(255,255,255,0.4); }
+.admin-table-wrap { overflow-x: auto; margin-bottom: 1.5rem; }
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.admin-table th {
+  background: rgba(255,255,255,0.08);
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--gold-light);
+  white-space: nowrap;
+}
+.admin-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.75);
+  white-space: nowrap;
+}
+.admin-table tr:hover td { background: rgba(255,255,255,0.04); }
+.status-badge {
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.status-pending { background: rgba(200,151,58,0.2); color: var(--gold-light); }
+.status-confirmed { background: rgba(26,122,74,0.2); color: #4CC88A; }
+.status-cancelled { background: rgba(220,53,69,0.15); color: #FF7A8A; }
+.btn-xs { padding: 4px 10px; font-size: 0.75rem; border-radius: 4px; border: none; cursor: pointer; font-weight: 600; }
+.btn-confirm { background: #1A7A4A; color: white; }
+.btn-cancel { background: #8B1A2A; color: white; }
+.btn-delete { background: #3A1A1A; color: #FF7A8A; border: 1px solid #FF7A8A; }
+.btn-export { background: var(--gold); color: #0a1628; font-weight: 700; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-size: 0.9rem; }
+.btn-logout { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); padding: 8px 16px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); cursor: pointer; font-size: 0.85rem; }
+
+/* ============================================================
+   UTILITY
+   ============================================================ */
+.hide { display: none !important; }
+.text-center { text-align: center; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mb-0 { margin-bottom: 0; }
+
+/* RTL ADJUSTMENTS */
+body[dir="rtl"] .form-grid { direction: rtl; }
+body[dir="rtl"] .wizard-nav { flex-direction: row-reverse; }
+body[dir="rtl"] .btn svg.arrow-icon { transform: scaleX(-1); }
+body[dir="rtl"] .review-card { border-left: none; border-right: 4px solid var(--ocean); }
+body[dir="rtl"] .phone-group { flex-direction: row; }
+
+/* MOBILE */
+@media(max-width:480px) {
+  .hero-stats { gap: 1.5rem; }
+  .wizard-body { padding: 1.5rem 1rem; }
+  .wizard-nav { padding: 1rem; }
+  .grand-total-box { flex-direction: column; text-align: center; gap: 0.5rem; }
+  #top-nav { padding: 0 1rem; }
+  .admin-stats { grid-template-columns: 1fr 1fr; }
+}
+
+/* NOTIFICATION TOAST */
+.toast {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
+  background: #1A7A4A;
+  color: white;
+  border-radius: var(--radius-sm);
+  padding: 12px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  transform: translateX(120%);
+  transition: transform 0.3s ease;
+}
+body[dir="rtl"] .toast { right: auto; left: 20px; transform: translateX(-120%); }
+.toast.show { transform: translateX(0); }
+body[dir="rtl"] .toast.show { transform: translateX(0); }
+.toast.error-toast { background: #dc3545; }
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ============================================================
+     TOP NAVIGATION
+     ============================================================ -->
+<nav id="top-nav">
+  <div class="nav-logo">
+    <div class="logo-icon">🌊</div>
+    <span>Hurghada <span class="accent">Holidays</span></span>
+  </div>
+  <div class="nav-actions">
+    <div class="nav-lang-group" id="navLangGroup">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('de')">DE</button>
+      <button class="lang-btn" onclick="setLang('ar')">AR</button>
+      <button class="currency-toggle" onclick="cycleCurrency()" id="currencyBtn">USD $</button>
+      <span class="admin-link" onclick="showAdmin()" data-i18n="admin">Admin</span>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- CURRENCY NOTICE -->
+<div class="currency-notice">
+  <strong data-i18n="currency_note_bold">Prices shown in <span id="currencyDisplay">USD</span>.</strong>
+  <span data-i18n="currency_note_text"> Exchange rates are approximate. Live confirmation provided by our team.</span>
+</div>
+
+<!-- ============================================================
+     HERO SECTION
+     ============================================================ -->
+<section id="hero">
+  <div class="hero-deco hero-deco-1">🐠</div>
+  <div class="hero-deco hero-deco-2">🌊</div>
+  <div class="hero-deco hero-deco-3">🪸</div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge" data-i18n="hero_badge">✦ Egypt's Premier Red Sea Destination</div>
+    <h1 class="hero-title">
+      <span data-i18n="hero_title1">Discover the Magic of</span><br>
+      <span data-i18n="hero_title2">Hurghada, Egypt</span>
+    </h1>
+    <p class="hero-subtitle" data-i18n="hero_subtitle">Crystal-clear waters, vibrant coral reefs, and luxury resorts await. Let us craft your perfect Red Sea escape.</p>
+    <button class="hero-cta" onclick="scrollToBooking()" data-i18n="hero_cta">Start Planning Your Trip →</button>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">320+</div><div class="lbl" data-i18n="stat_days">Sunny Days/Year</div></div>
+      <div class="hero-stat"><div class="num">12+</div><div class="lbl" data-i18n="stat_hotels">Luxury Hotels</div></div>
+      <div class="hero-stat"><div class="num">5★</div><div class="lbl" data-i18n="stat_rating">Average Rating</div></div>
+    </div>
+  </div>
+  <div class="hero-waves">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 C360,120 720,0 1080,60 C1260,90 1380,50 1440,60 L1440,120 L0,120 Z" fill="#FAFAF8" opacity="0.5"/>
+      <path d="M0,80 C480,40 720,100 1440,70 L1440,120 L0,120 Z" fill="#FAFAF8"/>
+    </svg>
+  </div>
+</section>
+<div class="section-divider"></div>
+
+<!-- ============================================================
+     BOOKING WIZARD
+     ============================================================ -->
+<div id="booking-wizard">
+  <div class="wizard-card">
+    <!-- Progress -->
+    <div class="wizard-progress">
+      <div class="progress-steps" id="progressSteps">
+        <div class="progress-line"><div class="progress-line-fill" id="progressFill" style="width:0%"></div></div>
+        <div class="step-dot active" data-step="0">
+          <div class="step-circle">1</div>
+          <div class="step-label" data-i18n="step_info">Info</div>
+        </div>
+        <div class="step-dot" data-step="1">
+          <div class="step-circle">2</div>
+          <div class="step-label" data-i18n="step_hotel">Hotel</div>
+        </div>
+        <div class="step-dot" data-step="2">
+          <div class="step-circle">3</div>
+          <div class="step-label" data-i18n="step_activities">Activities</div>
+        </div>
+        <div class="step-dot" data-step="3">
+          <div class="step-circle">4</div>
+          <div class="step-label" data-i18n="step_transport">Transport</div>
+        </div>
+        <div class="step-dot" data-step="4">
+          <div class="step-circle">5</div>
+          <div class="step-label" data-i18n="step_summary">Summary</div>
+        </div>
+        <div class="step-dot" data-step="5">
+          <div class="step-circle">✓</div>
+          <div class="step-label" data-i18n="step_confirm">Confirm</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 1: GUEST INFO -->
+    <div class="wizard-body">
+      <div class="wizard-step active" id="step-0">
+        <div class="step-title" data-i18n="info_title">Your Travel Details</div>
+        <div class="step-subtitle" data-i18n="info_subtitle">Tell us about yourself and your trip so we can tailor the perfect experience.</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" data-i18n="lbl_fullname">Full Name <span class="req">*</span></label>
+            <input class="form-input" id="guestName" type="text" placeholder="" data-i18n-placeholder="ph_fullname">
+            <span class="form-error" data-i18n="err_name">Please enter your full name</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="lbl_nationality">Nationality <span class="req">*</span></label>
+            <select class="form-select" id="guestNationality">
+              <option value="" data-i18n="ph_select">Select...</option>
+              <option>German / Deutsch</option><option>American / USA</option><option>British / UK</option>
+              <option>French / Français</option><option>Italian / Italiano</option><option>Russian / Русский</option>
+              <option>Polish / Polski</option><option>Dutch / Nederlands</option><option>Czech / Čeština</option>
+              <option>Egyptian / مصري</option><option>Saudi / سعودي</option><option>Emirati / إماراتي</option>
+              <option>Other / أخرى</option>
+            </select>
+            <span class="form-error" data-i18n="err_nationality">Please select your nationality</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="lbl_email">Email Address <span class="req">*</span></label>
+            <input class="form-input" id="guestEmail" type="email" placeholder="" data-i18n-placeholder="ph_email">
+            <span class="form-error" data-i18n="err_email">Please enter a valid email address</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="lbl_phone">Phone Number <span class="req">*</span></label>
+            <div class="phone-group">
+              <select class="form-select phone-code" id="phoneCode">
+                <option value="+20">🇪🇬 +20</option><option value="+49">🇩🇪 +49</option>
+                <option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option>
+                <option value="+33">🇫🇷 +33</option><option value="+39">🇮🇹 +39</option>
+                <option value="+7">🇷🇺 +7</option><option value="+48">🇵🇱 +48</option>
+                <option value="+31">🇳🇱 +31</option><option value="+420">🇨🇿 +420</option>
+                <option value="+966">🇸🇦 +966</option><option value="+971">🇦🇪 +971</option>
+                <option value="+90">🇹🇷 +90</option>
+              </select>
+              <input class="form-input" id="guestPhone" type="tel" placeholder="" data-i18n-placeholder="ph_phone" style="flex:1">
+            </div>
+            <span class="form-error" data-i18n="err_phone">Please enter your phone number</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="lbl_adults">Number of Adults <span class="req">*</span></label>
+            <div class="stepper">
+              <button class="stepper-btn" onclick="adjustCount('adults',-1)">−</button>
+              <div class="stepper-val" id="adults-val">2</div>
+              <button class="stepper-btn" onclick="adjustCount('adults',1)">+</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="lbl_children">Number of Children</label>
+            <div class="stepper">
+              <button class="stepper-btn" onclick="adjustCount('children',-1)">−</button>
+              <div class="stepper-val" id="children-val">0</div>
+              <button class="stepper-btn" onclick="adjustCount('children',1)">+</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="lbl_arrival">Arrival Date <span class="req">*</span></label>
+            <input class="form-input" id="arrivalDate" type="date" onchange="calcDuration()">
+            <span class="form-error" data-i18n="err_arrival">Please select your arrival date</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="lbl_departure">Departure Date <span class="req">*</span></label>
+            <input class="form-input" id="departureDate" type="date" onchange="calcDuration()">
+            <span class="form-error" data-i18n="err_departure">Please select a valid departure date</span>
+          </div>
+          <div class="form-group full" id="durationDisplay" style="display:none">
+            <div class="duration-badge">
+              🌙 <span id="durationText"></span>
+            </div>
+          </div>
+          <div class="form-group full">
+            <label class="form-label" data-i18n="lbl_notes">Special Requests or Notes</label>
+            <textarea class="form-textarea" id="guestNotes" placeholder="" data-i18n-placeholder="ph_notes"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: HOTEL SELECTION -->
+      <div class="wizard-step" id="step-1">
+        <div class="step-title" data-i18n="hotel_title">Choose Your Hotel</div>
+        <div class="step-subtitle" data-i18n="hotel_subtitle">Select from our curated collection of Hurghada's finest accommodations.</div>
+        <div class="live-price-badge"><div class="live-dot"></div><span data-i18n="live_price_label">Prices updated periodically — live rates confirmed on booking</span></div>
+        <div class="category-label"><span>★★★★★ <span data-i18n="five_star">Five Star</span></span></div>
+        <div class="hotels-grid" id="hotels5"></div>
+        <div class="category-label"><span>★★★★ <span data-i18n="four_star">Four Star</span></span></div>
+        <div class="hotels-grid" id="hotels4"></div>
+        <div class="category-label"><span>★★★ <span data-i18n="three_star">Three Star</span></span></div>
+        <div class="hotels-grid" id="hotels3"></div>
+        <div class="price-note mt-2" data-i18n="hotel_price_note">⚠ Hotel prices shown are indicative. Final rates depend on your travel dates and are confirmed upon booking. Prices updated periodically.</div>
+      </div>
+
+      <!-- STEP 3: ACTIVITIES -->
+      <div class="wizard-step" id="step-2">
+        <div class="step-title" data-i18n="act_title">Attractions & Excursions</div>
+        <div class="step-subtitle" data-i18n="act_subtitle">Select the experiences you'd like included in your itinerary. Multiple selections welcome!</div>
+        <div class="act-controls">
+          <button class="btn-outline" onclick="selectAllActivities()" data-i18n="btn_select_all">Select All</button>
+          <button class="btn-outline" onclick="clearAllActivities()" data-i18n="btn_clear_all">Clear All</button>
+          <div class="selection-counter" id="actCounter">0 <span data-i18n="selected_label">selected</span></div>
+        </div>
+        <div class="activities-grid" id="activitiesGrid"></div>
+      </div>
+
+      <!-- STEP 4: TRANSPORT -->
+      <div class="wizard-step" id="step-3">
+        <div class="step-title" data-i18n="trans_title">Transportation Options</div>
+        <div class="step-subtitle" data-i18n="trans_subtitle">Choose your preferred transfer and transport services. Multiple options available.</div>
+        <div class="transport-grid" id="transportGrid"></div>
+      </div>
+
+      <!-- STEP 5: SUMMARY -->
+      <div class="wizard-step" id="step-4">
+        <div class="step-title" data-i18n="sum_title">Booking Summary</div>
+        <div class="step-subtitle" data-i18n="sum_subtitle">Please review your selections before confirming. Our team will contact you within 24 hours.</div>
+        <div id="summaryContent"></div>
+      </div>
+
+      <!-- STEP 6: CONFIRM -->
+      <div class="wizard-step" id="step-5" id="confirmStep">
+        <div id="confirmForm">
+          <div class="step-title" data-i18n="confirm_title">Confirm Your Booking</div>
+          <div class="step-subtitle" data-i18n="confirm_subtitle">By clicking "Confirm Booking" you agree that our team will contact you within 24 hours to finalize pricing and payment.</div>
+          <div class="form-group" style="margin-bottom:1.25rem">
+            <label class="form-label">
+              <input type="checkbox" id="termsCheck" style="margin-right:6px"> 
+              <span data-i18n="terms_agree">I agree to be contacted by the Hurghada Holidays team to confirm my booking details and final pricing.</span>
+            </label>
+            <span class="form-error" id="termsError" data-i18n="err_terms">Please agree to continue</span>
+          </div>
+          <div style="text-align:center">
+            <button class="btn btn-success" onclick="submitBooking()">
+              ✓ <span data-i18n="btn_confirm">Confirm Booking</span>
+            </button>
+          </div>
+        </div>
+        <div id="successScreen" style="display:none">
+          <div style="text-align:center; padding:2rem 0">
+            <div class="success-icon">✓</div>
+            <div class="success-title" data-i18n="success_title">Booking Submitted!</div>
+            <div class="success-subtitle" data-i18n="success_subtitle">Thank you! Our team will contact you within 24 hours to confirm your booking and finalize pricing.</div>
+            <div class="booking-ref" id="bookingRef">HH-000000</div>
+            <button class="btn btn-primary" onclick="resetWizard()" data-i18n="btn_new_booking">Make Another Booking</button>
+          </div>
+        </div>
+      </div>
+    </div><!-- end wizard-body -->
+
+    <!-- Sticky Running Total -->
+    <div class="sticky-price-bar" id="stickyBar" style="display:none">
+      <span data-i18n="running_total">Running estimate:</span>
+      <strong id="runningTotal">$0</strong>
+    </div>
+
+    <!-- Navigation -->
+    <div class="wizard-nav" id="wizardNav">
+      <button class="btn btn-secondary" id="prevBtn" onclick="navigateStep(-1)" style="visibility:hidden" data-i18n="btn_back">← Back</button>
+      <button class="btn btn-primary" id="nextBtn" onclick="navigateStep(1)" data-i18n="btn_next">Next →</button>
+    </div>
+  </div><!-- end wizard-card -->
+</div><!-- end booking-wizard -->
+
+<!-- ============================================================
+     REVIEWS SECTION
+     ============================================================ -->
+<section id="reviews-section">
+  <div class="section-header">
+    <div class="section-eyebrow" data-i18n="reviews_eyebrow">Guest Experiences</div>
+    <div class="section-title" data-i18n="reviews_title">What Our Guests Say</div>
+  </div>
+
+  <!-- Average ratings -->
+  <div class="rating-averages" id="ratingAverages"></div>
+
+  <!-- Review form -->
+  <div class="review-form-card">
+    <h3 data-i18n="write_review">Share Your Experience</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label" data-i18n="lbl_reviewer_name">Your Name <span class="req">*</span></label>
+        <input class="form-input" id="reviewerName" type="text" placeholder="" data-i18n-placeholder="ph_your_name">
+      </div>
+      <div class="form-group">
+        <label class="form-label" data-i18n="lbl_reviewer_country">Country</label>
+        <input class="form-input" id="reviewerCountry" type="text" placeholder="" data-i18n-placeholder="ph_your_country">
+      </div>
+    </div>
+    <div class="rating-row">
+      <div class="rating-group">
+        <label data-i18n="rate_hotel">Hotel Experience</label>
+        <div class="star-picker" id="stars-hotel" data-cat="hotel"></div>
+      </div>
+      <div class="rating-group">
+        <label data-i18n="rate_activities">Activities</label>
+        <div class="star-picker" id="stars-activities" data-cat="activities"></div>
+      </div>
+      <div class="rating-group">
+        <label data-i18n="rate_transport">Transportation</label>
+        <div class="star-picker" id="stars-transport" data-cat="transport"></div>
+      </div>
+      <div class="rating-group">
+        <label data-i18n="rate_overall">Overall Service</label>
+        <div class="star-picker" id="stars-overall" data-cat="overall"></div>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:1.25rem">
+      <label class="form-label" data-i18n="lbl_review_text">Your Review <span class="req">*</span></label>
+      <textarea class="form-textarea" id="reviewText" placeholder="" data-i18n-placeholder="ph_review_text"></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="submitReview()" data-i18n="btn_submit_review">Submit Review</button>
+  </div>
+
+  <!-- Reviews list -->
+  <div class="reviews-list" id="reviewsList"></div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="brand-name">🌊 Hurghada Holidays</div>
+      <p data-i18n="footer_about">Your trusted partner for unforgettable Red Sea vacations. We specialize in creating bespoke travel experiences in Hurghada, Egypt — from luxury beach resorts to thrilling underwater adventures.</p>
+      <div class="footer-socials">
+        <div class="social-btn" title="Facebook">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </div>
+        <div class="social-btn" title="Instagram">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+        </div>
+        <div class="social-btn" title="WhatsApp">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </div>
+        <div class="social-btn" title="TripAdvisor">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><circle cx="12" cy="12" r="10"/><path d="M8.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0z" fill="#0a1628"/><path d="M12.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0z" fill="#0a1628"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_quick">Quick Links</h4>
+      <a href="#booking-wizard" data-i18n="footer_book">Book a Trip</a>
+      <a href="#reviews-section" data-i18n="footer_reviews">Guest Reviews</a>
+      <a href="#" data-i18n="footer_about_link">About Hurghada</a>
+      <a href="#" data-i18n="footer_faq">FAQ</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_contact_title">Contact Us</h4>
+      <a href="mailto:hurghadaholidays434@gmail.com">📧 hurghadaholidays434@gmail.com</a>
+      <a href="tel:+201093835275">📞 +20 109 383 5275</a>
+      <a href="https://wa.me/201093835275">💬 WhatsApp</a>
+      <a href="#">📍 <span data-i18n="footer_address">Hurghada, Red Sea, Egypt</span></a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 Hurghada Holidays. <span data-i18n="footer_rights">All rights reserved.</span></span>
+    <span data-i18n="footer_disclaimer">Prices are approximate and subject to confirmation.</span>
+  </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a class="whatsapp-float" href="https://wa.me/201093835275?text=Hello%2C%20I%20want%20to%20book%20a%20vacation%20in%20Hurghada" target="_blank" title="WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+</a>
+
+<!-- ============================================================
+     ADMIN PANEL
+     ============================================================ -->
+<div id="admin-panel">
+  <div id="admin-login-view">
+    <div class="admin-login">
+      <div style="font-size:2.5rem;margin-bottom:1rem">🔐</div>
+      <h2>Admin Panel</h2>
+      <p>Hurghada Holidays — Booking Management</p>
+      <input class="admin-input" id="adminPassword" type="password" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')adminLogin()">
+      <button class="btn-admin" onclick="adminLogin()">Login</button>
+      <div style="margin-top:1rem;font-size:0.8rem;color:rgba(255,255,255,0.3);cursor:pointer" onclick="hideAdmin()">← Back to website</div>
+    </div>
+  </div>
+  <div id="admin-dashboard" style="display:none;max-width:1200px;margin:0 auto">
+    <div class="admin-header">
+      <div class="admin-title">📊 Booking Dashboard</div>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+        <button class="btn-export" onclick="exportCSV()">⬇ Export CSV</button>
+        <button class="btn-logout" onclick="adminLogout()">Logout</button>
+      </div>
+    </div>
+    <div class="admin-stats" id="adminStats"></div>
+    <div class="admin-table-wrap">
+      <table class="admin-table" id="adminTable">
+        <thead>
+          <tr>
+            <th>Ref #</th><th>Guest</th><th>Dates</th><th>Hotel</th>
+            <th>Guests</th><th>Activities</th><th>Transport</th>
+            <th>Total (USD)</th><th>Submitted</th><th>Status</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="adminTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+// ============================================================
+// i18n TRANSLATIONS
+// ============================================================
+const i18n = {
+  en: {
+    hero_badge: '✦ Egypt\'s Premier Red Sea Destination',
+    hero_title1: 'Discover the Magic of',
+    hero_title2: 'Hurghada, Egypt',
+    hero_subtitle: 'Crystal-clear waters, vibrant coral reefs, and luxury resorts await. Let us craft your perfect Red Sea escape.',
+    hero_cta: 'Start Planning Your Trip →',
+    stat_days: 'Sunny Days/Year', stat_hotels: 'Luxury Hotels', stat_rating: 'Average Rating',
+    step_info: 'Info', step_hotel: 'Hotel', step_activities: 'Activities',
+    step_transport: 'Transport', step_summary: 'Summary', step_confirm: 'Confirm',
+    info_title: 'Your Travel Details',
+    info_subtitle: 'Tell us about yourself and your trip so we can tailor the perfect experience.',
+    lbl_fullname: 'Full Name', ph_fullname: 'e.g. Maria Schmidt',
+    lbl_nationality: 'Nationality', ph_select: 'Select...',
+    lbl_email: 'Email Address', ph_email: 'maria@email.com',
+    lbl_phone: 'Phone Number', ph_phone: '555 0123 456',
+    lbl_adults: 'Number of Adults', lbl_children: 'Number of Children',
+    lbl_arrival: 'Arrival Date', lbl_departure: 'Departure Date',
+    lbl_notes: 'Special Requests or Notes', ph_notes: 'E.g. Sea view room, vegetarian meals, wheelchair access...',
+    lbl_reviewer_name: 'Your Name', ph_your_name: 'Your full name',
+    lbl_reviewer_country: 'Country', ph_your_country: 'e.g. Germany',
+    err_name: 'Please enter your full name',
+    err_nationality: 'Please select your nationality',
+    err_email: 'Please enter a valid email address',
+    err_phone: 'Please enter your phone number',
+    err_arrival: 'Please select your arrival date',
+    err_departure: 'Please select a valid departure date (after arrival)',
+    err_hotel: 'Please select a hotel to continue',
+    err_terms: 'Please agree to continue',
+    hotel_title: 'Choose Your Hotel',
+    hotel_subtitle: 'Select from our curated collection of Hurghada\'s finest accommodations.',
+    five_star: 'Five Star', four_star: 'Four Star', three_star: 'Three Star',
+    hotel_price_note: '⚠ Hotel prices shown are indicative. Final rates depend on your travel dates and are confirmed upon booking. Prices updated periodically.',
+    act_title: 'Attractions & Excursions',
+    act_subtitle: 'Select the experiences you\'d like included in your itinerary. Multiple selections welcome!',
+    trans_title: 'Transportation Options',
+    trans_subtitle: 'Choose your preferred transfer and transport services. Multiple options available.',
+    sum_title: 'Booking Summary',
+    sum_subtitle: 'Please review your selections before confirming. Our team will contact you within 24 hours.',
+    confirm_title: 'Confirm Your Booking',
+    confirm_subtitle: 'By clicking "Confirm Booking" you agree that our team will contact you within 24 hours to finalize pricing and payment.',
+    terms_agree: 'I agree to be contacted by the Hurghada Holidays team to confirm my booking details and final pricing.',
+    btn_back: '← Back', btn_next: 'Next →', btn_confirm: 'Confirm Booking',
+    btn_new_booking: 'Make Another Booking',
+    success_title: 'Booking Submitted!',
+    success_subtitle: 'Thank you! Our team will contact you within 24 hours to confirm your booking and finalize pricing.',
+    reviews_eyebrow: 'Guest Experiences', reviews_title: 'What Our Guests Say',
+    write_review: 'Share Your Experience',
+    rate_hotel: 'Hotel Experience', rate_activities: 'Activities',
+    rate_transport: 'Transportation', rate_overall: 'Overall Service',
+    lbl_review_text: 'Your Review', ph_review_text: 'Tell us about your stay...',
+    btn_submit_review: 'Submit Review',
+    footer_about: 'Your trusted partner for unforgettable Red Sea vacations. We specialize in creating bespoke travel experiences in Hurghada, Egypt.',
+    footer_quick: 'Quick Links', footer_book: 'Book a Trip',
+    footer_reviews: 'Guest Reviews', footer_about_link: 'About Hurghada',
+    footer_faq: 'FAQ', footer_contact_title: 'Contact Us',
+    footer_address: 'Hurghada, Red Sea, Egypt',
+    footer_rights: 'All rights reserved.',
+    footer_disclaimer: 'Prices are approximate and subject to confirmation.',
+    currency_note_bold: 'Prices shown in',
+    currency_note_text: 'Exchange rates are approximate. Live confirmation provided by our team.',
+    nights_label: 'nights', night_label: 'night',
+    per_night: 'per night', per_person: 'per person',
+    adults_label: 'Adults', children_label: 'Children',
+    total_hotel: 'Hotel Total', total_activities: 'Activities Total',
+    total_transport: 'Transport Total', grand_total: 'Estimated Grand Total',
+    approx_note: '⚠ Prices are approximate. Our team will confirm exact pricing within 24 hours.',
+    sum_guest: 'Guest', sum_hotel: 'Hotel', sum_nights: 'Nights',
+    sum_activities: 'Activities', sum_transport: 'Transport',
+    no_hotel: 'No hotel selected', no_activities: 'None selected', no_transport: 'None selected',
+    select_btn: 'Select', selected_btn: 'Selected ✓',
+    admin: 'Admin',
+    btn_export: 'Export CSV',
+    live_price_label: 'Prices updated periodically — live rates confirmed on booking',
+    btn_select_all: 'Select All', btn_clear_all: 'Clear All',
+    selected_label: 'selected',
+    running_total: 'Running estimate:',
+    hotel_amenity_beach: 'Private Beach', hotel_amenity_pool: 'Pool',
+    hotel_amenity_spa: 'Spa', hotel_amenity_wifi: 'Free WiFi',
+    hotel_amenity_ai: 'All-Inclusive', hotel_amenity_kids: 'Kids Club',
+    hotel_amenity_dive: 'Dive Center', hotel_amenity_rest: 'Restaurant',
+  },
+  de: {
+    hero_badge: '✦ Ägyptens führendes Rotes-Meer-Ziel',
+    hero_title1: 'Entdecke die Magie von',
+    hero_title2: 'Hurghada, Ägypten',
+    hero_subtitle: 'Kristallklares Wasser, lebendige Korallenriffe und Luxusresorts erwarten Sie. Lassen Sie uns Ihren perfekten Rotes-Meer-Urlaub gestalten.',
+    hero_cta: 'Reise planen →',
+    stat_days: 'Sonnentage/Jahr', stat_hotels: 'Luxushotels', stat_rating: 'Durchschnittsbewertung',
+    step_info: 'Info', step_hotel: 'Hotel', step_activities: 'Aktivitäten',
+    step_transport: 'Transport', step_summary: 'Übersicht', step_confirm: 'Bestätigen',
+    info_title: 'Ihre Reisedaten',
+    info_subtitle: 'Erzählen Sie uns von sich und Ihrer Reise, damit wir das perfekte Erlebnis gestalten können.',
+    lbl_fullname: 'Vollständiger Name', ph_fullname: 'z.B. Maria Schmidt',
+    lbl_nationality: 'Nationalität', ph_select: 'Bitte wählen...',
+    lbl_email: 'E-Mail-Adresse', ph_email: 'maria@email.de',
+    lbl_phone: 'Telefonnummer', ph_phone: '555 0123 456',
+    lbl_adults: 'Anzahl Erwachsene', lbl_children: 'Anzahl Kinder',
+    lbl_arrival: 'Anreisedatum', lbl_departure: 'Abreisedatum',
+    lbl_notes: 'Sonderwünsche oder Notizen', ph_notes: 'z.B. Meerblick, vegetarische Mahlzeiten, Rollstuhlzugang...',
+    lbl_reviewer_name: 'Ihr Name', ph_your_name: 'Ihr vollständiger Name',
+    lbl_reviewer_country: 'Land', ph_your_country: 'z.B. Deutschland',
+    err_name: 'Bitte geben Sie Ihren vollständigen Namen ein',
+    err_nationality: 'Bitte wählen Sie Ihre Nationalität',
+    err_email: 'Bitte geben Sie eine gültige E-Mail-Adresse ein',
+    err_phone: 'Bitte geben Sie Ihre Telefonnummer ein',
+    err_arrival: 'Bitte wählen Sie Ihr Anreisedatum',
+    err_departure: 'Bitte wählen Sie ein gültiges Abreisedatum (nach Anreise)',
+    err_hotel: 'Bitte wählen Sie ein Hotel aus',
+    err_terms: 'Bitte stimmen Sie zu, um fortzufahren',
+    hotel_title: 'Wählen Sie Ihr Hotel',
+    hotel_subtitle: 'Wählen Sie aus unserer kuratierten Auswahl der besten Unterkünfte in Hurghada.',
+    five_star: 'Fünf Sterne', four_star: 'Vier Sterne', three_star: 'Drei Sterne',
+    hotel_price_note: '⚠ Die angezeigten Hotelpreise sind Richtwerte. Die endgültigen Preise hängen von Ihren Reisedaten ab und werden bei der Buchung bestätigt.',
+    act_title: 'Attraktionen & Ausflüge',
+    act_subtitle: 'Wählen Sie Erlebnisse für Ihren Reiseplan. Mehrfachauswahl möglich!',
+    trans_title: 'Transportoptionen',
+    trans_subtitle: 'Wählen Sie Ihren bevorzugten Transfer und Transportservice.',
+    sum_title: 'Buchungsübersicht',
+    sum_subtitle: 'Bitte überprüfen Sie Ihre Auswahl. Unser Team wird Sie innerhalb von 24 Stunden kontaktieren.',
+    confirm_title: 'Buchung bestätigen',
+    confirm_subtitle: 'Mit "Buchung bestätigen" stimmen Sie zu, dass unser Team Sie innerhalb von 24 Stunden kontaktiert.',
+    terms_agree: 'Ich bin damit einverstanden, vom Hurghada Holidays Team kontaktiert zu werden, um meine Buchungsdetails und den endgültigen Preis zu bestätigen.',
+    btn_back: '← Zurück', btn_next: 'Weiter →', btn_confirm: 'Buchung bestätigen',
+    btn_new_booking: 'Weitere Buchung',
+    success_title: 'Buchung eingereicht!',
+    success_subtitle: 'Vielen Dank! Unser Team wird Sie innerhalb von 24 Stunden kontaktieren.',
+    reviews_eyebrow: 'Gästeerlebnisse', reviews_title: 'Was unsere Gäste sagen',
+    write_review: 'Teilen Sie Ihre Erfahrung',
+    rate_hotel: 'Hotelerlebnis', rate_activities: 'Aktivitäten',
+    rate_transport: 'Transport', rate_overall: 'Gesamtservice',
+    lbl_review_text: 'Ihre Bewertung', ph_review_text: 'Erzählen Sie uns von Ihrem Aufenthalt...',
+    btn_submit_review: 'Bewertung absenden',
+    footer_about: 'Ihr vertrauenswürdiger Partner für unvergessliche Rotes-Meer-Urlaube. Wir spezialisieren uns auf maßgeschneiderte Reiseerlebnisse in Hurghada, Ägypten.',
+    footer_quick: 'Schnelllinks', footer_book: 'Reise buchen',
+    footer_reviews: 'Gästebewertungen', footer_about_link: 'Über Hurghada',
+    footer_faq: 'FAQ', footer_contact_title: 'Kontakt',
+    footer_address: 'Hurghada, Rotes Meer, Ägypten',
+    footer_rights: 'Alle Rechte vorbehalten.',
+    footer_disclaimer: 'Preise sind ungefähr und unterliegen der Bestätigung.',
+    currency_note_bold: 'Preise angezeigt in',
+    currency_note_text: 'Wechselkurse sind ungefähr. Endbestätigung durch unser Team.',
+    nights_label: 'Nächte', night_label: 'Nacht',
+    per_night: 'pro Nacht', per_person: 'pro Person',
+    adults_label: 'Erwachsene', children_label: 'Kinder',
+    total_hotel: 'Hotel Gesamt', total_activities: 'Aktivitäten Gesamt',
+    total_transport: 'Transport Gesamt', grand_total: 'Geschätzter Gesamtbetrag',
+    approx_note: '⚠ Preise sind ungefähr. Unser Team bestätigt die genauen Preise innerhalb von 24 Stunden.',
+    sum_guest: 'Gast', sum_hotel: 'Hotel', sum_nights: 'Nächte',
+    sum_activities: 'Aktivitäten', sum_transport: 'Transport',
+    no_hotel: 'Kein Hotel gewählt', no_activities: 'Keine Auswahl', no_transport: 'Keine Auswahl',
+    select_btn: 'Auswählen', selected_btn: 'Gewählt ✓',
+    admin: 'Admin',
+    live_price_label: 'Preise regelmäßig aktualisiert — Live-Preise bei Buchung bestätigt',
+    btn_select_all: 'Alle auswählen', btn_clear_all: 'Alle abwählen',
+    selected_label: 'ausgewählt',
+    running_total: 'Laufende Schätzung:',
+    hotel_amenity_beach: 'Privatstrand', hotel_amenity_pool: 'Pool',
+    hotel_amenity_spa: 'Spa', hotel_amenity_wifi: 'Kostenloses WLAN',
+    hotel_amenity_ai: 'All-Inclusive', hotel_amenity_kids: 'Kinderclub',
+    hotel_amenity_dive: 'Tauchzentrum', hotel_amenity_rest: 'Restaurant',
+  },
+  ar: {
+    hero_badge: '✦ وجهة البحر الأحمر الأولى في مصر',
+    hero_title1: 'اكتشف سحر',
+    hero_title2: 'الغردقة، مصر',
+    hero_subtitle: 'مياه صافية كالكريستال، شعاب مرجانية حيوية ومنتجعات فاخرة في انتظارك. دعنا نصمم رحلتك المثالية على البحر الأحمر.',
+    hero_cta: 'ابدأ تخطيط رحلتك ←',
+    stat_days: 'يوم مشمس/سنة', stat_hotels: 'فنادق فاخرة', stat_rating: 'متوسط التقييم',
+    step_info: 'المعلومات', step_hotel: 'الفندق', step_activities: 'الأنشطة',
+    step_transport: 'النقل', step_summary: 'الملخص', step_confirm: 'التأكيد',
+    info_title: 'تفاصيل رحلتك',
+    info_subtitle: 'أخبرنا عن نفسك ورحلتك حتى نتمكن من تصميم التجربة المثالية لك.',
+    lbl_fullname: 'الاسم الكامل', ph_fullname: 'مثال: محمد أحمد',
+    lbl_nationality: 'الجنسية', ph_select: 'اختر...',
+    lbl_email: 'البريد الإلكتروني', ph_email: 'example@email.com',
+    lbl_phone: 'رقم الهاتف', ph_phone: '555 0123 456',
+    lbl_adults: 'عدد البالغين', lbl_children: 'عدد الأطفال',
+    lbl_arrival: 'تاريخ الوصول', lbl_departure: 'تاريخ المغادرة',
+    lbl_notes: 'طلبات خاصة أو ملاحظات', ph_notes: 'مثال: غرفة بإطلالة على البحر، وجبات نباتية، ...',
+    lbl_reviewer_name: 'اسمك', ph_your_name: 'اسمك الكامل',
+    lbl_reviewer_country: 'الدولة', ph_your_country: 'مثال: مصر',
+    err_name: 'يرجى إدخال اسمك الكامل',
+    err_nationality: 'يرجى اختيار جنسيتك',
+    err_email: 'يرجى إدخال بريد إلكتروني صحيح',
+    err_phone: 'يرجى إدخال رقم هاتفك',
+    err_arrival: 'يرجى اختيار تاريخ الوصول',
+    err_departure: 'يرجى اختيار تاريخ مغادرة صحيح (بعد الوصول)',
+    err_hotel: 'يرجى اختيار فندق للمتابعة',
+    err_terms: 'يرجى الموافقة للمتابعة',
+    hotel_title: 'اختر فندقك',
+    hotel_subtitle: 'اختر من مجموعتنا المختارة من أفضل الفنادق في الغردقة.',
+    five_star: 'خمس نجوم', four_star: 'أربع نجوم', three_star: 'ثلاث نجوم',
+    hotel_price_note: '⚠ أسعار الفنادق المعروضة استرشادية. الأسعار النهائية تعتمد على تواريخ سفرك وتُؤكد عند الحجز.',
+    act_title: 'المعالم السياحية والرحلات',
+    act_subtitle: 'اختر التجارب التي تريد تضمينها في برنامجك. يمكنك اختيار أكثر من خيار!',
+    trans_title: 'خيارات النقل',
+    trans_subtitle: 'اختر خدمات النقل والتوصيل المفضلة لديك.',
+    sum_title: 'ملخص الحجز',
+    sum_subtitle: 'يرجى مراجعة اختياراتك قبل التأكيد. سيتواصل معك فريقنا خلال 24 ساعة.',
+    confirm_title: 'تأكيد حجزك',
+    confirm_subtitle: 'بالنقر على "تأكيد الحجز" توافق على أن يتواصل معك فريقنا خلال 24 ساعة لإتمام الأسعار والدفع.',
+    terms_agree: 'أوافق على التواصل من قِبل فريق Hurghada Holidays لتأكيد تفاصيل حجزي والأسعار النهائية.',
+    btn_back: 'رجوع →', btn_next: '← التالي', btn_confirm: 'تأكيد الحجز',
+    btn_new_booking: 'حجز جديد',
+    success_title: 'تم إرسال الحجز!',
+    success_subtitle: 'شكراً لك! سيتواصل معك فريقنا خلال 24 ساعة لتأكيد حجزك وإتمام التسعير.',
+    reviews_eyebrow: 'تجارب الضيوف', reviews_title: 'ماذا يقول ضيوفنا',
+    write_review: 'شارك تجربتك',
+    rate_hotel: 'تجربة الفندق', rate_activities: 'الأنشطة',
+    rate_transport: 'النقل', rate_overall: 'الخدمة العامة',
+    lbl_review_text: 'تقييمك', ph_review_text: 'أخبرنا عن إقامتك...',
+    btn_submit_review: 'إرسال التقييم',
+    footer_about: 'شريكك الموثوق لعطلات لا تُنسى على البحر الأحمر. نتخصص في تصميم تجارب سفر مخصصة في الغردقة، مصر.',
+    footer_quick: 'روابط سريعة', footer_book: 'احجز رحلة',
+    footer_reviews: 'تقييمات الضيوف', footer_about_link: 'عن الغردقة',
+    footer_faq: 'الأسئلة الشائعة', footer_contact_title: 'اتصل بنا',
+    footer_address: 'الغردقة، البحر الأحمر، مصر',
+    footer_rights: 'جميع الحقوق محفوظة.',
+    footer_disclaimer: 'الأسعار تقريبية وتخضع للتأكيد.',
+    currency_note_bold: 'الأسعار معروضة بـ',
+    currency_note_text: 'أسعار الصرف تقريبية. التأكيد النهائي من قِبل فريقنا.',
+    nights_label: 'ليالٍ', night_label: 'ليلة',
+    per_night: 'لكل ليلة', per_person: 'للشخص',
+    adults_label: 'بالغون', children_label: 'أطفال',
+    total_hotel: 'إجمالي الفندق', total_activities: 'إجمالي الأنشطة',
+    total_transport: 'إجمالي النقل', grand_total: 'الإجمالي التقديري',
+    approx_note: '⚠ الأسعار تقريبية. سيؤكد فريقنا الأسعار الدقيقة خلال 24 ساعة.',
+    sum_guest: 'الضيف', sum_hotel: 'الفندق', sum_nights: 'الليالي',
+    sum_activities: 'الأنشطة', sum_transport: 'النقل',
+    no_hotel: 'لم يُختر فندق', no_activities: 'لا يوجد اختيار', no_transport: 'لا يوجد اختيار',
+    select_btn: 'اختر', selected_btn: 'تم الاختيار ✓',
+    admin: 'إدارة',
+    live_price_label: 'الأسعار تُحدَّث دورياً — أسعار مباشرة تُؤكَّد عند الحجز',
+    btn_select_all: 'اختيار الكل', btn_clear_all: 'إلغاء الكل',
+    selected_label: 'محدد',
+    running_total: 'التقدير الجاري:',
+    hotel_amenity_beach: 'شاطئ خاص', hotel_amenity_pool: 'مسبح',
+    hotel_amenity_spa: 'سبا', hotel_amenity_wifi: 'واي فاي مجاني',
+    hotel_amenity_ai: 'شامل', hotel_amenity_kids: 'نادي أطفال',
+    hotel_amenity_dive: 'مركز غوص', hotel_amenity_rest: 'مطعم',
+  }
+};
+
+// ============================================================
+// STATE
+// ============================================================
+let currentLang = 'en';
+let currentStep = 0;
+const totalSteps = 6;
+let adults = 2, children = 0;
+let selectedHotel = null;
+let selectedActivities = new Set();
+let selectedTransport = new Set();
+let currency = 'USD';
+const rates = { USD: 1, EUR: 0.92, EGP: 48.5 };
+const currSymbols = { USD: '$', EUR: '€', EGP: 'ج.م' };
+const reviewRatings = { hotel: 0, activities: 0, transport: 0, overall: 0 };
+
+// ============================================================
+// HOTEL DATA
+// ============================================================
+const hotels = [
+  { id:'h1', stars:5, emoji:'🏖️', nameEn:'Steigenberger Al Dau Beach', nameDe:'Steigenberger Al Dau Beach', nameAr:'ستايجنبرجر الداو بيتش', descEn:'Iconic beachfront resort on Al Mamsha walkway with private sandy beach, 6 pools, spa, and world-class dining. Direct Red Sea access.', descDe:'Ikonisches Strandresort am Al Mamsha-Boulevard mit Privatstrand, 6 Pools, Spa und erstklassiger Gastronomie. Direktzugang zum Roten Meer.', descAr:'منتجع شاطئي أيقوني على كورنيش المشاية مع شاطئ رملي خاص و6 مسابح وسبا ومطاعم عالمية. وصول مباشر للبحر الأحمر.', priceUSD:189, amenities:['beach','pool','spa','wifi','rest','dive'] },
+  { id:'h2', stars:5, emoji:'🌊', nameEn:'Rixos Premium Seagate', nameDe:'Rixos Premium Seagate', nameAr:'ريكسوس بريميوم سيجيت', descEn:'Ultra-luxury all-inclusive resort with private beach, aquapark, multiple restaurants, and a world-class spa. South Hurghada waterfront.', descDe:'Ultra-Luxus-All-Inclusive-Resort mit Privatstrand, Aquapark, mehreren Restaurants und erstklassigem Spa. Waterfront in Süd-Hurghada.', descAr:'منتجع فاخر للغاية شامل جميع الخدمات مع شاطئ خاص وبارك مائي ومطاعم متعددة وسبا عالمي المستوى. واجهة بحرية جنوب الغردقة.', priceUSD:249, amenities:['beach','pool','spa','wifi','ai','rest'] },
+  { id:'h3', stars:5, emoji:'🐚', nameEn:'Serry Beach Resort', nameDe:'Serry Beach Resort', nameAr:'سيري بيتش ريزورت', descEn:'Elegant resort set in lush tropical gardens with 3 pools, a coral reef directly off the beach, and curated diving programs for all levels.', descDe:'Elegantes Resort in üppigen tropischen Gärten mit 3 Pools, Korallenriff direkt am Strand und kuratierten Tauchprogrammen.', descAr:'منتجع أنيق في حدائق استوائية خضراء مع 3 مسابح وشعاب مرجانية مباشرة أمام الشاطئ وبرامج غوص مختارة لجميع المستويات.', priceUSD:175, amenities:['beach','pool','wifi','dive','rest'] },
+  { id:'h4', stars:5, emoji:'🐠', nameEn:'Jaz Aquamarine', nameDe:'Jaz Aquamarine', nameAr:'جاز أكوامارين', descEn:'Vibrant all-inclusive resort featuring a large lagoon pool, private beach, kids club, entertainment, and exceptional buffet dining on the Red Sea coast.', descDe:'Lebhaftes All-Inclusive-Resort mit großem Lagunenpool, Privatstrand, Kinderclub und hervorragendem Buffet an der Roten-Meer-Küste.', descAr:'منتجع نابض بالحياة شامل جميع الخدمات مع مسبح لاغون كبير وشاطئ خاص ونادٍ للأطفال وترفيه ومطاعم بوفيه استثنائية على ساحل البحر الأحمر.', priceUSD:168, amenities:['beach','pool','ai','kids','wifi','rest'] },
+  { id:'h5', stars:5, emoji:'👑', nameEn:'Baron Palace Sahl Hasheesh', nameDe:'Baron Palace Sahl Hasheesh', nameAr:'بارون بالاس سهل حشيش', descEn:'Grand palace-style resort in the exclusive Sahl Hasheesh bay, featuring a 500m private beach, Roman-inspired architecture, and multiple themed pools.', descDe:'Großartiges Palastresort in der exklusiven Sahl-Hasheesh-Bucht mit 500m Privatstrand, römischer Architektur und mehreren Themenpools.', descAr:'منتجع فخم على طراز القصور في خليج سهل حشيش الراقي، مع شاطئ خاص بطول 500 متر وعمارة رومانية الإلهام ومسابح متعددة ذات طابع مميز.', priceUSD:215, amenities:['beach','pool','spa','wifi','rest','kids'] },
+  { id:'h6', stars:4, emoji:'🌴', nameEn:'Albatros Aqua Park', nameDe:'Albatros Aqua Park', nameAr:'البتروس أكوا بارك', descEn:'Fun-packed family resort with one of Hurghada\'s largest aquaparks, private beach, all-inclusive dining, and vibrant evening entertainment programs.', descDe:'Familien-All-Inclusive-Resort mit einem der größten Aquaparks in Hurghada, Privatstrand und lebendigem Abendunterhaltungsprogramm.', descAr:'منتجع عائلي ممتع مع أحد أكبر البارك المائية في الغردقة وشاطئ خاص وخدمات شاملة وبرامج ترفيهية مسائية حيوية.', priceUSD:119, amenities:['beach','pool','ai','kids','wifi'] },
+  { id:'h7', stars:4, emoji:'⚓', nameEn:'Titanic Palace & Aqua Park', nameDe:'Titanic Palace & Aqua Park', nameAr:'تيتانيك بالاس وأكوا بارك', descEn:'Themed palace resort with impressive Titanic-inspired architecture, a large aquapark, private beach, and extensive all-inclusive dining options.', descDe:'Themed-Palastresort mit beeindruckender Titanic-Architektur, großem Aquapark, Privatstrand und umfangreichen All-Inclusive-Optionen.', descAr:'منتجع قصري ذو طابع خاص بعمارة مستوحاة من التيتانيك وبارك مائي كبير وشاطئ خاص وخيارات واسعة شاملة لجميع الوجبات.', priceUSD:129, amenities:['beach','pool','ai','wifi','rest'] },
+  { id:'h8', stars:4, emoji:'🌺', nameEn:'Pickalbatros Atlas Resort', nameDe:'Pickalbatros Atlas Resort', nameAr:'بيكألباتروس أطلس ريزورت', descEn:'Well-appointed beachfront resort with spacious rooms, multiple pools, a spa, and excellent snorkeling directly off the private beach in North Hurghada.', descDe:'Gut ausgestattetes Strandresort mit geräumigen Zimmern, mehreren Pools, Spa und hervorragendem Schnorcheln direkt am Privatstrand.', descAr:'منتجع شاطئي مجهز بشكل جيد مع غرف فسيحة ومسابح متعددة وسبا وغطس ممتاز مباشرة من الشاطئ الخاص في شمال الغردقة.', priceUSD:109, amenities:['beach','pool','spa','wifi','dive'] },
+  { id:'h9', stars:4, emoji:'☀️', nameEn:'Sunny Days El Palacio', nameDe:'Sunny Days El Palacio', nameAr:'صني دايز إل بالاسيو', descEn:'Spanish-inspired resort with beautiful gardens, heated pools, a dedicated kids\' area, nightly entertainment, and a relaxed all-inclusive atmosphere.', descDe:'Spanisch inspiriertes Resort mit wunderschönen Gärten, beheizten Pools, Kinderbereich, Nachtunterhaltung und entspannter All-Inclusive-Atmosphäre.', descAr:'منتجع مستوحى من الطراز الإسباني مع حدائق جميلة ومسابح مدفأة ومنطقة خاصة للأطفال وترفيه ليلي وأجواء شاملة مريحة.', priceUSD:99, amenities:['pool','ai','kids','wifi','rest'] },
+  { id:'h10', stars:3, emoji:'🪸', nameEn:'Coral Beach Rotana Resort', nameDe:'Coral Beach Rotana Resort', nameAr:'كورال بيتش روتانا ريزورت', descEn:'Boutique beach resort with intimate atmosphere, excellent snorkeling reef, cozy rooms, and personalized service in a serene Red Sea setting.', descDe:'Boutique-Strandresort mit persönlicher Atmosphäre, ausgezeichnetem Schnorcheln, gemütlichen Zimmern und persönlichem Service am Roten Meer.', descAr:'منتجع شاطئي صغير بأجواء حميمة وشعاب مرجانية رائعة للغطس وغرف مريحة وخدمة شخصية في أجواء البحر الأحمر الهادئة.', priceUSD:79, amenities:['beach','pool','wifi','dive'] },
+  { id:'h11', stars:3, emoji:'🌅', nameEn:'Naama Bay Hotel', nameDe:'Naama Bay Hotel', nameAr:'فندق نعمة باي', descEn:'Centrally located hotel near Hurghada Marina with sea views, comfortable rooms, rooftop pool, and easy access to beach clubs and restaurants.', descDe:'Zentral gelegenes Hotel in der Nähe der Hurghada Marina mit Meerblick, komfortablen Zimmern, Dachpool und einfachem Zugang zu Strandclubs.', descAr:'فندق يقع في موقع مركزي بالقرب من مارينا الغردقة مع إطلالات على البحر وغرف مريحة ومسبح علوي وسهولة الوصول إلى نوادي الشاطئ والمطاعم.', priceUSD:69, amenities:['pool','wifi','rest'] },
+  { id:'h12', stars:3, emoji:'🐬', nameEn:'El Samaka Beach Hotel', nameDe:'El Samaka Beach Hotel', nameAr:'فندق السمكة بيتش', descEn:'Charming budget-friendly option with direct beach access, clean comfortable rooms, a pool, and a welcoming family atmosphere near central Hurghada.', descDe:'Charmante budgetfreundliche Option mit direktem Strandzugang, sauberen Zimmern, Pool und familienfreundlicher Atmosphäre in Zentrumsnähe.', descAr:'خيار اقتصادي ساحر مع وصول مباشر للشاطئ وغرف نظيفة ومريحة ومسبح وأجواء عائلية ترحيبية بالقرب من وسط الغردقة.', priceUSD:55, amenities:['beach','pool','wifi'] }
+];
+
+// ============================================================
+// ACTIVITY DATA
+// ============================================================
+const activities = [
+  { id:'a1', emoji:'🤿', nameEn:'Snorkeling at Giftun Island National Park', nameDe:'Schnorcheln im Nationalpark Giftun Island', nameAr:'الغطس في منتزه جزيرة جفتون الوطنية', descEn:'Explore one of Egypt\'s most pristine coral reef ecosystems. Boat trip to the protected marine park with guides and equipment included.', descDe:'Erkunden Sie eines der unberührtesten Korallenriff-Ökosysteme Ägyptens. Bootsfahrt mit Guides und Ausrüstung inklusive.', descAr:'استكشف أحد أنقى النظم البيئية للشعاب المرجانية في مصر. رحلة بحرية إلى المنتزه البحري المحمي مع المرشدين والمعدات.', pricePerPerson:45 },
+  { id:'a2', emoji:'🚢', nameEn:'Glass-bottom boat tour on the Red Sea', nameDe:'Glasbodenboot-Tour auf dem Roten Meer', nameAr:'جولة بالقارب ذي القاع الزجاجي على البحر الأحمر', descEn:'Marvel at coral gardens and tropical fish without getting wet. Family-friendly 2-hour cruise with stunning underwater views.', descDe:'Bestaunen Sie Korallengärten und tropische Fische ohne nass zu werden. Familienfreundliche 2-Stunden-Kreuzfahrt.', descAr:'تأمل حدائق المرجان والأسماك الاستوائية دون أن تبتل. جولة بحرية مدتها ساعتان مناسبة للعائلات مع مناظر خلابة تحت الماء.', pricePerPerson:30 },
+  { id:'a3', emoji:'🌊', nameEn:'Scuba diving at Abu Ramada reef', nameDe:'Tauchen am Abu-Ramada-Riff', nameAr:'الغوص في شعاب أبو رمادة', descEn:'Discover vibrant coral walls and diverse marine life at this iconic dive site. Certified instructors, equipment provided. All levels welcome.', descDe:'Entdecken Sie lebendige Korallenwände und vielfältiges Meeresleben. Zertifizierte Instruktoren, Ausrüstung inklusive.', descAr:'اكتشف جدران المرجان النابضة بالحياة والحياة البحرية المتنوعة في هذا الموقع الأيقوني. مدربون معتمدون ومعدات متوفرة. جميع المستويات مرحب بهم.', pricePerPerson:75 },
+  { id:'a4', emoji:'🏜️', nameEn:'Desert safari & quad biking', nameDe:'Wüstensafari & Quad-Biking', nameAr:'سفاري صحراوي وقيادة الدراجات الرباعية', descEn:'Thrilling adventure into the Eastern Desert. Quad bike across golden dunes, visit a Bedouin camp, and enjoy a stargazing session.', descDe:'Aufregendes Abenteuer in der östlichen Wüste. Quad über Golddünen, Beduinencamp-Besuch und Sternenbeobachtung.', descAr:'مغامرة مثيرة في الصحراء الشرقية. ركوب الدراجات الرباعية عبر الكثبان الذهبية وزيارة مخيم بدوي وجلسة مراقبة النجوم.', pricePerPerson:55 },
+  { id:'a5', emoji:'🪂', nameEn:'Parasailing & water sports at Hurghada Marina', nameDe:'Parasailing & Wassersport in der Hurghada Marina', nameAr:'الباراسيلينج والرياضات المائية في مارينا الغردقة', descEn:'Soar above the Red Sea with parasailing, or choose from jet-skiing, banana boat rides, and windsurfing at the vibrant marina.', descDe:'Fliegen Sie über das Rote Meer beim Parasailing oder wählen Sie Jetski, Bananenboot und Windsurfen an der lebendigen Marina.', descAr:'حلق فوق البحر الأحمر مع الباراسيلينج، أو اختر من قيادة الجيت سكي وركوب قارب الموز والتزلج على الماء في المارينا النابضة بالحياة.', pricePerPerson:60 },
+  { id:'a6', emoji:'🐟', nameEn:'Visit to Hurghada Grand Aquarium', nameDe:'Besuch des Hurghada Grand Aquariums', nameAr:'زيارة أكواريوم الغردقة الكبير', descEn:'One of the largest aquariums in the Middle East with over 1,200 Red Sea species. Entertaining for all ages with underwater tunnel walk.', descDe:'Eines der größten Aquarien im Nahen Osten mit über 1.200 Rote-Meer-Arten. Unterhaltsam für alle Altersgruppen mit Unterwassertunnel.', descAr:'أحد أكبر أحواض الأسماك في الشرق الأوسط مع أكثر من 1200 نوع من البحر الأحمر. ممتع لجميع الأعمار مع نفق تحت الماء للمشي.', pricePerPerson:25 },
+  { id:'a7', emoji:'⛵', nameEn:'Soma Bay & Makadi Bay day trip', nameDe:'Tagesausflug nach Soma Bay & Makadi Bay', nameAr:'رحلة يومية إلى سوما باي ومكادي باي', descEn:'Explore the exclusive resort bays south of Hurghada. Pristine beaches, kite surfing lessons, and world-class snorkeling sites.', descDe:'Erkunden Sie die exklusiven Buchtresorts südlich von Hurghada. Unberührte Strände, Kitesurfkurse und erstklassige Schnorchelplätze.', descAr:'استكشف خلجان المنتجعات الحصرية جنوب الغردقة. شواطئ بكر ودروس ركوب الطائرة الورقية ومواقع غطس عالمية المستوى.', pricePerPerson:40 },
+  { id:'a8', emoji:'🐬', nameEn:'Dolphin House snorkeling trip', nameDe:'Delphinhaus-Schnorchelausflug', nameAr:'رحلة غطس في بيت الدلفين', descEn:'Swim with wild spinner dolphins in their natural habitat at Sha\'ab El Erg reef. An unforgettable experience for families and ocean lovers.', descDe:'Schwimmen Sie mit wilden Spinner-Delphinen in ihrem natürlichen Lebensraum. Ein unvergessliches Erlebnis für Familien und Meeresliebhaber.', descAr:'اسبح مع الدلافين الحرة في موطنها الطبيعي في الشعاب المرجانية. تجربة لا تُنسى للعائلات وعشاق المحيطات.', pricePerPerson:55 },
+  { id:'a9', emoji:'🏛️', nameEn:'Luxor day trip from Hurghada', nameDe:'Tagesausflug nach Luxor von Hurghada', nameAr:'رحلة يومية إلى الأقصر من الغردقة', descEn:'Journey to ancient Egypt! Visit the Valley of the Kings, Karnak Temple, and the Colossi of Memnon. AC coach with licensed guide.', descDe:'Reise ins alte Ägypten! Besuch des Tals der Könige, Karnak-Tempel und der Kolosse von Memnon. Klimabus mit lizenziertem Guide.', descAr:'رحلة إلى مصر القديمة! زيارة وادي الملوك ومعبد الكرنك وتمثالَي ممنون. حافلة مكيفة مع مرشد مرخص.', pricePerPerson:85 },
+  { id:'a10', emoji:'🌀', nameEn:'Sindbad Submarine tour', nameDe:'Sindbad U-Boot-Tour', nameAr:'جولة غواصة السندباد', descEn:'Descend 22 meters beneath the Red Sea in a real submarine and witness spectacular coral reefs and marine life without getting wet!', descDe:'Tauchen Sie 22 Meter unter das Rote Meer in einem echten U-Boot und erleben Sie spektakuläre Korallen und Meeresleben, ohne nass zu werden!', descAr:'انزل 22 متراً تحت البحر الأحمر في غواصة حقيقية وشاهد الشعاب المرجانية الرائعة والحياة البحرية دون أن تبتل!', pricePerPerson:65 },
+  { id:'a11', emoji:'🌇', nameEn:'Sunset cruise on the Red Sea', nameDe:'Sonnenuntergangskreuzfahrt auf dem Roten Meer', nameAr:'رحلة مشاهدة غروب الشمس على البحر الأحمر', descEn:'Sail into a golden Red Sea sunset aboard a traditional felucca or modern catamaran. Snacks, soft drinks, and live music included.', descDe:'Segeln Sie in einen goldenen Roten-Meer-Sonnenuntergang an Bord einer Feluke oder eines modernen Katamarans. Snacks und Live-Musik inklusive.', descAr:'أبحر في غروب شمس ذهبي على البحر الأحمر على متن فلوكة تقليدية أو كاتاماران حديث. وجبات خفيفة ومشروبات غير كحولية وموسيقى حية.', pricePerPerson:35 },
+  { id:'a12', emoji:'🛍️', nameEn:'Local market & bazaar tour in El Dahar', nameDe:'Lokaler Markt- & Bazaartour in El Dahar', nameAr:'جولة في الأسواق والبازار المحلي في الدهار', descEn:'Discover the authentic heartbeat of Hurghada in the old quarter. Spices, papyrus art, perfumes, alabaster, and haggling culture!', descDe:'Entdecken Sie das authentische Herz von Hurghada im alten Viertel. Gewürze, Papyruskunst, Parfums, Alabaster und Handelskultur!', descAr:'اكتشف نبضة الغردقة الأصيلة في الحي القديم. التوابل والبردي والعطور والألاباستر وثقافة المساومة!', pricePerPerson:20 }
+];
+
+// ============================================================
+// TRANSPORT DATA
+// ============================================================
+const transports = [
+  { id:'t1', emoji:'✈️', nameEn:'Airport pickup (Airport → Hotel)', nameDe:'Flughafenabholung (Flughafen → Hotel)', nameAr:'الاستقبال من المطار (المطار ← الفندق)', descEn:'Private air-conditioned vehicle from Hurghada International Airport directly to your hotel. Meet & greet service included.', descDe:'Privates klimatisiertes Fahrzeug vom Hurghada International Airport direkt zu Ihrem Hotel. Meet & Greet inklusive.', descAr:'سيارة خاصة مكيفة من مطار الغردقة الدولي مباشرة إلى فندقك. خدمة الاستقبال والترحيب شاملة.', priceUSD:25 },
+  { id:'t2', emoji:'🚗', nameEn:'Airport drop-off (Hotel → Airport)', nameDe:'Flughafentransfer (Hotel → Flughafen)', nameAr:'التوصيل إلى المطار (الفندق ← المطار)', descEn:'Private transfer back to Hurghada International Airport at the end of your stay. On-time guaranteed departure service.', descDe:'Privater Rücktransfer zum Hurghada International Airport am Ende Ihres Aufenthalts. Pünktlicher Abreiseservice garantiert.', descAr:'نقل خاص إلى مطار الغردقة الدولي في نهاية إقامتك. خدمة مضمونة في الوقت المحدد.', priceUSD:25 },
+  { id:'t3', emoji:'🚙', nameEn:'Private car rental (daily, with driver)', nameDe:'Privater Mietwagen (täglich, mit Fahrer)', nameAr:'استئجار سيارة خاصة (يومي، مع سائق)', descEn:'Fully flexible private car with English-speaking driver for the day. Explore Hurghada and surroundings at your own pace.', descDe:'Vollflexibles Privatfahrzeug mit englischsprachigem Fahrer für den Tag. Erkunden Sie Hurghada in Ihrem eigenen Tempo.', descAr:'سيارة خاصة مرنة بالكامل مع سائق يتحدث الإنجليزية لمدة يوم. استكشف الغردقة وما حولها بوتيرتك الخاصة.', priceUSD:65 },
+  { id:'t4', emoji:'🚌', nameEn:'Shared shuttle (Hotels ↔ City)', nameDe:'Gemeinschaftsshuttle (Hotels ↔ Stadt)', nameAr:'حافلة مشتركة (الفنادق ↔ المدينة)', descEn:'Scheduled shared shuttle service between major hotels and Hurghada city center, Marina, and shopping areas. Flexible timings.', descDe:'Geplanter Gemeinschaftsshuttle zwischen großen Hotels und Hurghada Stadtzentrum, Marina und Einkaufsgebieten.', descAr:'خدمة حافلة مشتركة مجدولة بين الفنادق الكبرى ووسط مدينة الغردقة والمارينا ومناطق التسوق. مواعيد مرنة.', priceUSD:12 },
+  { id:'t5', emoji:'🚐', nameEn:'Private minibus for groups (8+ persons)', nameDe:'Privater Minibus für Gruppen (8+ Personen)', nameAr:'حافلة صغيرة خاصة للمجموعات (8+ أشخاص)', descEn:'Spacious private minibus with professional driver and AC, ideal for family or group transfers to hotels, excursions, or airports.', descDe:'Geräumiger Privatminibus mit professionellem Fahrer und Klimaanlage, ideal für Gruppen-, Hotel- und Ausflugstransfers.', descAr:'حافلة صغيرة خاصة فسيحة مع سائق محترف وتكييف، مثالية للنقل العائلي أو الجماعي إلى الفنادق والرحلات أو المطارات.', priceUSD:95 },
+  { id:'t6', emoji:'⛵', nameEn:'Speedboat transfers to islands', nameDe:'Schnellboot-Transfers zu Inseln', nameAr:'نقل بالقارب السريع إلى الجزر', descEn:'Fast speedboat service to Giftun Island, Mahmya, or Carless Island. Includes snorkeling equipment and life jackets.', descDe:'Schneller Schnellbootservice nach Giftun Island, Mahmya oder Carless Island. Schnorchelausrüstung und Schwimmwesten inklusive.', descAr:'خدمة قارب سريع إلى جزيرة جفتون أو محميا أو جزيرة كارليس. يشمل معدات الغطس وسترات النجاة.', priceUSD:50 }
+];
+
+// ============================================================
+// LANGUAGE SYSTEM
+// ============================================================
+function t(key) {
+  return i18n[currentLang][key] || i18n.en[key] || key;
+}
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  // Update lang buttons
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+  // Update all [data-i18n] elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (i18n[lang][key] !== undefined) el.innerHTML = i18n[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (i18n[lang][key] !== undefined) el.placeholder = i18n[lang][key];
+  });
+  // Rebuild dynamic content
+  renderHotels();
+  renderActivities();
+  renderTransport();
+  renderReviews();
+  renderRatingAverages();
+  calcDuration();
+  if (currentStep === 4) buildSummary();
+}
+
+// ============================================================
+// CURRENCY SYSTEM
+// ============================================================
+const currencies = ['USD', 'EUR', 'EGP'];
+let currIdx = 0;
+function cycleCurrency() {
+  currIdx = (currIdx + 1) % currencies.length;
+  currency = currencies[currIdx];
+  document.getElementById('currencyBtn').textContent = `${currency} ${currSymbols[currency]}`;
+  document.getElementById('currencyDisplay').textContent = currency;
+  renderHotels();
+  renderActivities();
+  renderTransport();
+  if (currentStep === 4) buildSummary();
+}
+function convertPrice(usd) {
+  return (usd * rates[currency]).toFixed(0);
+}
+function priceStr(usd) {
+  return `${currSymbols[currency]}${convertPrice(usd)}`;
+}
+
+// ============================================================
+// RENDER HOTELS
+// ============================================================
+function renderHotels() {
+  const amenityLabels = { beach:'🏖 '+t('hotel_amenity_beach'), pool:'🏊 '+t('hotel_amenity_pool'), spa:'💆 '+t('hotel_amenity_spa'), wifi:'📶 '+t('hotel_amenity_wifi'), ai:'🍽 '+t('hotel_amenity_ai'), kids:'👶 '+t('hotel_amenity_kids'), dive:'🤿 '+t('hotel_amenity_dive'), rest:'🍴 '+t('hotel_amenity_rest') };
+  [5,4,3].forEach(stars => {
+    const container = document.getElementById(`hotels${stars}`);
+    if (!container) return;
+    container.innerHTML = '';
+    hotels.filter(h => h.stars === stars).forEach(hotel => {
+      const langKey = currentLang.charAt(0).toUpperCase()+currentLang.slice(1);
+      const name = hotel[`name${langKey}`] || hotel.nameEn;
+      const desc = hotel[`desc${langKey}`] || hotel.descEn;
+      const isSelected = selectedHotel && selectedHotel.id === hotel.id;
+      const chips = (hotel.amenities||[]).slice(0,4).map(a => `<span class="chip">${amenityLabels[a]||a}</span>`).join('');
+      const card = document.createElement('div');
+      card.className = `hotel-card${isSelected ? ' selected' : ''}`;
+      card.onclick = () => selectHotel(hotel);
+      card.innerHTML = `
+        <div class="selected-check">✓</div>
+        <div class="hotel-thumb"><div class="hotel-thumb-bg">${hotel.emoji}</div></div>
+        <div class="hotel-stars">${'★'.repeat(hotel.stars)}${'☆'.repeat(5-hotel.stars)}</div>
+        <div class="hotel-name">${name}</div>
+        <div class="hotel-amenities">${chips}</div>
+        <div class="hotel-desc">${desc}</div>
+        <div class="hotel-price-row">
+          <div>
+            <div class="hotel-price">${priceStr(hotel.priceUSD)} <span>${t('per_night')}</span></div>
+            <div class="price-note">📍 ${t('live_price_label').split('—')[0].trim()}</div>
+          </div>
+          <button class="hotel-select-btn">${isSelected ? t('selected_btn') : t('select_btn')}</button>
+        </div>`;
+      container.appendChild(card);
+    });
+  });
+}
+function selectHotel(hotel) {
+  selectedHotel = hotel;
+  renderHotels();
+}
+
+// ============================================================
+// RENDER ACTIVITIES
+// ============================================================
+function renderActivities() {
+  const grid = document.getElementById('activitiesGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  activities.forEach(act => {
+    const langKey = currentLang.charAt(0).toUpperCase()+currentLang.slice(1);
+    const name = act[`name${langKey}`] || act.nameEn;
+    const desc = act[`desc${langKey}`] || act.descEn;
+    const isSel = selectedActivities.has(act.id);
+    const item = document.createElement('div');
+    item.className = `activity-item${isSel ? ' selected' : ''}`;
+    item.onclick = () => toggleActivity(act.id);
+    item.innerHTML = `
+      <div class="activity-checkbox">${isSel ? '✓' : ''}</div>
+      <div class="activity-icon">${act.emoji}</div>
+      <div class="activity-info">
+        <div class="activity-name">${name}</div>
+        <div class="activity-desc">${desc}</div>
+        <div class="activity-price">${priceStr(act.pricePerPerson)} ${t('per_person')}</div>
+      </div>`;
+    grid.appendChild(item);
+  });
+  updateActCounter();
+  updateRunningTotal();
+}
+function updateActCounter() {
+  const el = document.getElementById('actCounter');
+  if (el) el.innerHTML = `${selectedActivities.size} <span>${t('selected_label')}</span>`;
+}
+function selectAllActivities() {
+  activities.forEach(a => selectedActivities.add(a.id));
+  renderActivities();
+}
+function clearAllActivities() {
+  selectedActivities.clear();
+  renderActivities();
+}
+
+// ============================================================
+// RENDER TRANSPORT
+// ============================================================
+function renderTransport() {
+  const grid = document.getElementById('transportGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  transports.forEach(trans => {
+    const langKey = currentLang.charAt(0).toUpperCase()+currentLang.slice(1);
+    const name = trans[`name${langKey}`] || trans.nameEn;
+    const desc = trans[`desc${langKey}`] || trans.descEn;
+    const isSel = selectedTransport.has(trans.id);
+    const item = document.createElement('div');
+    item.className = `transport-item${isSel ? ' selected' : ''}`;
+    item.onclick = () => toggleTransport(trans.id);
+    item.innerHTML = `
+      <div class="transport-header">
+        <div class="transport-icon">${trans.emoji}</div>
+        <div class="transport-name">${name}</div>
+        ${isSel ? '<span style="margin-left:auto;color:#22A060;font-weight:700;font-size:0.85rem">✓</span>' : ''}
+      </div>
+      <div class="transport-desc">${desc}</div>
+      <div class="transport-price">${priceStr(trans.priceUSD)}</div>`;
+    grid.appendChild(item);
+  });
+}
+function toggleActivity(id) {
+  if (selectedActivities.has(id)) selectedActivities.delete(id);
+  else selectedActivities.add(id);
+  renderActivities();
+}
+function toggleTransport(id) {
+  if (selectedTransport.has(id)) selectedTransport.delete(id);
+  else selectedTransport.add(id);
+  renderTransport();
+  updateRunningTotal();
+}
+function updateRunningTotal() {
+  const nights = getNights();
+  const hotelTotal = selectedHotel ? selectedHotel.priceUSD * nights : 0;
+  let actTotal = 0;
+  [...selectedActivities].forEach(id => {
+    const act = activities.find(a => a.id === id);
+    if (act) actTotal += act.pricePerPerson * (adults + children);
+  });
+  let transTotal = 0;
+  [...selectedTransport].forEach(id => {
+    const tr = transports.find(t => t.id === id);
+    if (tr) transTotal += tr.priceUSD;
+  });
+  const grand = hotelTotal + actTotal + transTotal;
+  const bar = document.getElementById('stickyBar');
+  const rt = document.getElementById('runningTotal');
+  if (grand > 0) {
+    if (bar) bar.style.display = 'flex';
+    if (rt) rt.textContent = priceStr(grand);
+  } else {
+    if (bar) bar.style.display = 'none';
+  }
+}
+
+// ============================================================
+// FORM HELPERS
+// ============================================================
+function adjustCount(type, delta) {
+  if (type === 'adults') {
+    adults = Math.max(1, adults + delta);
+    document.getElementById('adults-val').textContent = adults;
+  } else {
+    children = Math.max(0, children + delta);
+    document.getElementById('children-val').textContent = children;
+  }
+}
+function calcDuration() {
+  const a = document.getElementById('arrivalDate').value;
+  const d = document.getElementById('departureDate').value;
+  const depField = document.getElementById('departureDate');
+  if (a) depField.min = a;
+  const div = document.getElementById('durationDisplay');
+  const span = document.getElementById('durationText');
+  if (a && d) {
+    const diff = (new Date(d) - new Date(a)) / 86400000;
+    if (diff > 0) {
+      const label = diff === 1 ? t('night_label') : t('nights_label');
+      span.textContent = `${diff} ${label}`;
+      div.style.display = 'block';
+      updateRunningTotal();
+    } else {
+      div.style.display = 'none';
+    }
+  } else {
+    div.style.display = 'none';
+  }
+}
+function getNights() {
+  const a = document.getElementById('arrivalDate').value;
+  const d = document.getElementById('departureDate').value;
+  if (!a || !d) return 0;
+  const diff = Math.round((new Date(d) - new Date(a)) / 86400000);
+  return diff > 0 ? diff : 0;
+}
+
+// ============================================================
+// VALIDATION
+// ============================================================
+function clearErrors() {
+  document.querySelectorAll('.form-group.has-error').forEach(g => g.classList.remove('has-error'));
+  document.querySelectorAll('.form-input.error,.form-select.error,.form-textarea.error').forEach(el => el.classList.remove('error'));
+}
+function setError(field, errSibling) {
+  const el = document.getElementById(field);
+  if (el) {
+    el.classList.add('error');
+    const parent = el.closest('.form-group') || (el.parentElement && el.parentElement.closest('.form-group'));
+    if (parent) parent.classList.add('has-error');
+  }
+}
+function validateStep0() {
+  clearErrors();
+  let ok = true;
+  const name = document.getElementById('guestName').value.trim();
+  const nat = document.getElementById('guestNationality').value;
+  const email = document.getElementById('guestEmail').value.trim();
+  const phone = document.getElementById('guestPhone').value.trim();
+  const arr = document.getElementById('arrivalDate').value;
+  const dep = document.getElementById('departureDate').value;
+  if (!name) { setError('guestName'); ok = false; }
+  if (!nat) { setError('guestNationality'); ok = false; }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('guestEmail'); ok = false; }
+  if (!phone) { setError('guestPhone'); ok = false; }
+  if (!arr) { setError('arrivalDate'); ok = false; }
+  if (!dep || new Date(dep) <= new Date(arr)) { setError('departureDate'); ok = false; }
+  if (!ok) showToast(t('err_name'), true);
+  return ok;
+}
+function validateStep1() {
+  if (!selectedHotel) { showToast(t('err_hotel'), true); return false; }
+  return true;
+}
+
+// ============================================================
+// STEP NAVIGATION
+// ============================================================
+function navigateStep(dir) {
+  if (dir === 1) {
+    if (currentStep === 0 && !validateStep0()) return;
+    if (currentStep === 1 && !validateStep1()) return;
+  }
+  const next = currentStep + dir;
+  if (next < 0 || next >= totalSteps) return;
+  goToStep(next);
+}
+function goToStep(step) {
+  document.querySelectorAll('.wizard-step').forEach((el, i) => {
+    el.classList.toggle('active', i === step);
+  });
+  document.querySelectorAll('.step-dot').forEach((dot, i) => {
+    dot.classList.remove('active','completed');
+    if (i === step) dot.classList.add('active');
+    else if (i < step) dot.classList.add('completed');
+  });
+  const fill = ((step) / (totalSteps-1)) * 100;
+  document.getElementById('progressFill').style.width = fill + '%';
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  prevBtn.style.visibility = step === 0 ? 'hidden' : 'visible';
+  if (step === totalSteps - 1) {
+    nextBtn.style.display = 'none';
+  } else {
+    nextBtn.style.display = '';
+    nextBtn.textContent = step === totalSteps - 2 ? t('btn_confirm') : t('btn_next');
+  }
+  if (step === 4) buildSummary();
+  currentStep = step;
+  document.getElementById('booking-wizard').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ============================================================
+// SUMMARY BUILDER
+// ============================================================
+function buildSummary() {
+  const nights = getNights();
+  const hotelTotal = selectedHotel ? selectedHotel.priceUSD * nights : 0;
+  let activitiesTotal = 0;
+  const actItems = [...selectedActivities].map(id => {
+    const act = activities.find(a => a.id === id);
+    if (!act) return null;
+    const name = act[`name${currentLang.charAt(0).toUpperCase()+currentLang.slice(1)}`] || act.nameEn;
+    const cost = act.pricePerPerson * (adults + children);
+    activitiesTotal += cost;
+    return `${name} (${priceStr(act.pricePerPerson)} × ${adults + children}) = ${priceStr(cost)}`;
+  }).filter(Boolean);
+  let transportTotal = 0;
+  const transItems = [...selectedTransport].map(id => {
+    const tr = transports.find(t => t.id === id);
+    if (!tr) return null;
+    const name = tr[`name${currentLang.charAt(0).toUpperCase()+currentLang.slice(1)}`] || tr.nameEn;
+    transportTotal += tr.priceUSD;
+    return `${name}: ${priceStr(tr.priceUSD)}`;
+  }).filter(Boolean);
+  const grand = hotelTotal + activitiesTotal + transportTotal;
+  const hotelName = selectedHotel ? (selectedHotel[`name${currentLang.charAt(0).toUpperCase()+currentLang.slice(1)}`] || selectedHotel.nameEn) : t('no_hotel');
+  document.getElementById('summaryContent').innerHTML = `
+    <div class="summary-card">
+      <h3>${t('sum_guest')}</h3>
+      <div class="summary-row"><span class="summary-key">${t('lbl_fullname')}</span><span class="summary-val">${document.getElementById('guestName').value}</span></div>
+      <div class="summary-row"><span class="summary-key">${t('lbl_email')}</span><span class="summary-val">${document.getElementById('guestEmail').value}</span></div>
+      <div class="summary-row"><span class="summary-key">${t('lbl_nationality')}</span><span class="summary-val">${document.getElementById('guestNationality').value}</span></div>
+      <div class="summary-row"><span class="summary-key">${t('lbl_phone')}</span><span class="summary-val">${document.getElementById('phoneCode').value} ${document.getElementById('guestPhone').value}</span></div>
+      <div class="summary-row"><span class="summary-key">${t('adults_label')}</span><span class="summary-val">${adults}</span></div>
+      <div class="summary-row"><span class="summary-key">${t('children_label')}</span><span class="summary-val">${children}</span></div>
+      <div class="summary-row"><span class="summary-key">${t('lbl_arrival')}</span><span class="summary-val">${document.getElementById('arrivalDate').value}</span></div>
+      <div class="summary-row"><span class="summary-key">${t('lbl_departure')}</span><span class="summary-val">${document.getElementById('departureDate').value} (${nights} ${t('nights_label')})</span></div>
+      ${document.getElementById('guestNotes').value ? `<div class="summary-row"><span class="summary-key">${t('lbl_notes')}</span><span class="summary-val">${document.getElementById('guestNotes').value}</span></div>` : ''}
+    </div>
+    <div class="summary-card">
+      <h3>${t('sum_hotel')}</h3>
+      <div class="summary-row"><span class="summary-key">${hotelName}</span><span class="summary-val">${selectedHotel ? priceStr(selectedHotel.priceUSD) + ' × ' + nights + ' ' + t('nights_label') : ''}</span></div>
+      ${selectedHotel ? `<div class="summary-row"><span class="summary-key">${t('total_hotel')}</span><span class="summary-val" style="color:var(--coral)">${priceStr(hotelTotal)}</span></div>` : ''}
+    </div>
+    <div class="summary-card">
+      <h3>${t('sum_activities')}</h3>
+      ${actItems.length > 0 ? actItems.map(item => `<div class="summary-row"><span class="summary-key" style="font-size:0.82rem">${item}</span></div>`).join('') : `<div class="summary-row"><span class="summary-key">${t('no_activities')}</span></div>`}
+      ${actItems.length > 0 ? `<div class="summary-row"><span class="summary-key">${t('total_activities')}</span><span class="summary-val" style="color:var(--coral)">${priceStr(activitiesTotal)}</span></div>` : ''}
+    </div>
+    <div class="summary-card">
+      <h3>${t('sum_transport')}</h3>
+      ${transItems.length > 0 ? transItems.map(item => `<div class="summary-row"><span class="summary-key" style="font-size:0.82rem">${item}</span></div>`).join('') : `<div class="summary-row"><span class="summary-key">${t('no_transport')}</span></div>`}
+      ${transItems.length > 0 ? `<div class="summary-row"><span class="summary-key">${t('total_transport')}</span><span class="summary-val" style="color:var(--coral)">${priceStr(transportTotal)}</span></div>` : ''}
+    </div>
+    <div class="grand-total-box">
+      <span class="total-label">${t('grand_total')}</span>
+      <span class="total-amount">${priceStr(grand)}</span>
+    </div>
+    <div class="price-disclaimer">⚠ ${t('approx_note')}</div>`;
+}
+
+// ============================================================
+// BOOKING SUBMISSION
+// ============================================================
+function submitBooking() {
+  const termsCheck = document.getElementById('termsCheck');
+  const termsError = document.getElementById('termsError');
+  if (!termsCheck.checked) {
+    termsError.style.display = 'block';
+    return;
+  }
+  termsError.style.display = 'none';
+  const ref = 'HH-' + Math.floor(100000 + Math.random() * 900000);
+  document.getElementById('bookingRef').textContent = ref;
+  const nights = getNights();
+  const hotelTotal = selectedHotel ? selectedHotel.priceUSD * nights : 0;
+  let activitiesTotal = 0;
+  [...selectedActivities].forEach(id => {
+    const act = activities.find(a => a.id === id);
+    if (act) activitiesTotal += act.pricePerPerson * (adults + children);
+  });
+  let transportTotal = 0;
+  [...selectedTransport].forEach(id => {
+    const tr = transports.find(t => t.id === id);
+    if (tr) transportTotal += tr.priceUSD;
+  });
+  const booking = {
+    ref,
+    name: document.getElementById('guestName').value,
+    email: document.getElementById('guestEmail').value,
+    nationality: document.getElementById('guestNationality').value,
+    phone: document.getElementById('phoneCode').value + ' ' + document.getElementById('guestPhone').value,
+    adults, children,
+    arrival: document.getElementById('arrivalDate').value,
+    departure: document.getElementById('departureDate').value,
+    nights,
+    notes: document.getElementById('guestNotes').value,
+    hotel: selectedHotel ? selectedHotel.nameEn : 'None',
+    activities: [...selectedActivities].map(id => activities.find(a => a.id === id)?.nameEn).filter(Boolean).join('; '),
+    transport: [...selectedTransport].map(id => transports.find(t => t.id === id)?.nameEn).filter(Boolean).join('; '),
+    totalUSD: hotelTotal + activitiesTotal + transportTotal,
+    submittedAt: new Date().toISOString(),
+    status: 'pending'
+  };
+  const bookings = JSON.parse(localStorage.getItem('hh_bookings') || '[]');
+  bookings.push(booking);
+  localStorage.setItem('hh_bookings', JSON.stringify(bookings));
+  document.getElementById('confirmForm').style.display = 'none';
+  document.getElementById('successScreen').style.display = 'block';
+  document.getElementById('wizardNav').style.display = 'none';
+  showToast('✓ Booking submitted successfully!');
+}
+function resetWizard() {
+  selectedHotel = null;
+  selectedActivities.clear();
+  selectedTransport.clear();
+  adults = 2; children = 0;
+  document.getElementById('adults-val').textContent = '2';
+  document.getElementById('children-val').textContent = '0';
+  document.getElementById('guestName').value = '';
+  document.getElementById('guestEmail').value = '';
+  document.getElementById('guestPhone').value = '';
+  document.getElementById('guestNotes').value = '';
+  document.getElementById('arrivalDate').value = '';
+  document.getElementById('departureDate').value = '';
+  document.getElementById('termsCheck').checked = false;
+  document.getElementById('confirmForm').style.display = 'block';
+  document.getElementById('successScreen').style.display = 'none';
+  document.getElementById('wizardNav').style.display = '';
+  goToStep(0);
+  renderHotels(); renderActivities(); renderTransport();
+}
+function scrollToBooking() {
+  document.getElementById('booking-wizard').scrollIntoView({behavior:'smooth'});
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (isError ? ' error-toast' : '') + ' show';
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ============================================================
+// REVIEWS
+// ============================================================
+function initStarPickers() {
+  ['hotel','activities','transport','overall'].forEach(cat => {
+    const container = document.getElementById(`stars-${cat}`);
+    if (!container) return;
+    container.innerHTML = '';
+    for (let i = 1; i <= 5; i++) {
+      const star = document.createElement('span');
+      star.className = 'star-pick';
+      star.textContent = '★';
+      star.dataset.val = i;
+      star.onclick = () => setRating(cat, i);
+      container.appendChild(star);
+    }
+  });
+}
+function setRating(cat, val) {
+  reviewRatings[cat] = val;
+  const container = document.getElementById(`stars-${cat}`);
+  container.querySelectorAll('.star-pick').forEach((s, i) => {
+    s.classList.toggle('active', i < val);
+  });
+}
+function submitReview() {
+  const name = document.getElementById('reviewerName').value.trim();
+  const text = document.getElementById('reviewText').value.trim();
+  if (!name || !text) {
+    showToast('Please fill in your name and review text.', true);
+    return;
+  }
+  const review = {
+    id: Date.now(),
+    name,
+    country: document.getElementById('reviewerCountry').value.trim(),
+    text,
+    ratings: { ...reviewRatings },
+    date: new Date().toLocaleDateString('en-GB')
+  };
+  const reviews = JSON.parse(localStorage.getItem('hh_reviews') || '[]');
+  reviews.unshift(review);
+  localStorage.setItem('hh_reviews', JSON.stringify(reviews));
+  document.getElementById('reviewerName').value = '';
+  document.getElementById('reviewerCountry').value = '';
+  document.getElementById('reviewText').value = '';
+  ['hotel','activities','transport','overall'].forEach(cat => { reviewRatings[cat] = 0; });
+  initStarPickers();
+  renderReviews();
+  renderRatingAverages();
+  showToast('✓ Thank you for your review!');
+}
+function renderReviews() {
+  const list = document.getElementById('reviewsList');
+  if (!list) return;
+  const reviews = JSON.parse(localStorage.getItem('hh_reviews') || '[]');
+  if (reviews.length === 0) {
+    list.innerHTML = `<div class="no-reviews">⭐ ${currentLang === 'ar' ? 'لا توجد تقييمات بعد. كن أول من يشارك تجربته!' : currentLang === 'de' ? 'Noch keine Bewertungen. Seien Sie der Erste!' : 'No reviews yet. Be the first to share your experience!'}</div>`;
+    return;
+  }
+  list.innerHTML = reviews.slice(0,10).map(r => {
+    const avgStar = Math.round((r.ratings.hotel + r.ratings.activities + r.ratings.transport + r.ratings.overall) / 4);
+    return `<div class="review-card">
+      <div class="review-header">
+        <div>
+          <div class="reviewer-name">${r.name}${r.country ? ` · ${r.country}` : ''}</div>
+          <div class="review-stars">${'★'.repeat(avgStar)}${'☆'.repeat(5-avgStar)}</div>
+        </div>
+        <div class="review-date">${r.date}</div>
+      </div>
+      <div class="review-text">${r.text}</div>
+      <div style="margin-top:0.75rem;display:flex;gap:1rem;flex-wrap:wrap;font-size:0.78rem;color:var(--text-muted)">
+        <span>🏨 ${r.ratings.hotel}★</span>
+        <span>🤿 ${r.ratings.activities}★</span>
+        <span>🚗 ${r.ratings.transport}★</span>
+        <span>⭐ ${r.ratings.overall}★</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+function renderRatingAverages() {
+  const container = document.getElementById('ratingAverages');
+  if (!container) return;
+  const reviews = JSON.parse(localStorage.getItem('hh_reviews') || '[]');
+  if (reviews.length === 0) { container.innerHTML = ''; return; }
+  const cats = ['hotel','activities','transport','overall'];
+  const labels = { hotel: t('rate_hotel'), activities: t('rate_activities'), transport: t('rate_transport'), overall: t('rate_overall') };
+  container.innerHTML = cats.map(cat => {
+    const avg = reviews.reduce((s, r) => s + (r.ratings[cat] || 0), 0) / reviews.length;
+    const avgRound = Math.round(avg * 10) / 10;
+    return `<div class="avg-card">
+      <div class="avg-cat">${labels[cat]}</div>
+      <div class="avg-num">${avgRound.toFixed(1)}</div>
+      <div class="avg-stars">${'★'.repeat(Math.round(avg))}${'☆'.repeat(5-Math.round(avg))}</div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// ADMIN PANEL
+// ============================================================
+function showAdmin() {
+  document.getElementById('admin-panel').classList.add('active');
+  document.getElementById('booking-wizard').style.display = 'none';
+  document.getElementById('reviews-section').style.display = 'none';
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('footer').style.display = 'none';
+}
+function hideAdmin() {
+  document.getElementById('admin-panel').classList.remove('active');
+  document.getElementById('booking-wizard').style.display = '';
+  document.getElementById('reviews-section').style.display = '';
+  document.getElementById('hero').style.display = '';
+  document.getElementById('footer').style.display = '';
+  document.getElementById('admin-login-view').style.display = 'block';
+  document.getElementById('admin-dashboard').style.display = 'none';
+}
+function adminLogin() {
+  const pw = document.getElementById('adminPassword').value;
+  if (pw === 'Shoma_2026_BIS') {
+    document.getElementById('admin-login-view').style.display = 'none';
+    document.getElementById('admin-dashboard').style.display = 'block';
+    renderAdminDashboard();
+  } else {
+    showToast('Incorrect password', true);
+  }
+}
+function adminLogout() {
+  document.getElementById('adminPassword').value = '';
+  hideAdmin();
+}
+function renderAdminDashboard() {
+  const bookings = JSON.parse(localStorage.getItem('hh_bookings') || '[]');
+  // Stats
+  const totalRev = bookings.reduce((s,b) => s + (b.totalUSD || 0), 0);
+  const hotels2 = {}; const acts2 = {};
+  bookings.forEach(b => {
+    if (b.hotel) hotels2[b.hotel] = (hotels2[b.hotel]||0)+1;
+    if (b.activities) b.activities.split('; ').forEach(a => { if(a) acts2[a] = (acts2[a]||0)+1; });
+  });
+  const topHotel = Object.keys(hotels2).sort((a,b) => hotels2[b]-hotels2[a])[0] || '—';
+  const topAct = Object.keys(acts2).sort((a,b) => acts2[b]-acts2[a])[0] || '—';
+  document.getElementById('adminStats').innerHTML = `
+    <div class="stat-card"><div class="stat-label">Total Bookings</div><div class="stat-value">${bookings.length}</div></div>
+    <div class="stat-card"><div class="stat-label">Est. Revenue</div><div class="stat-value">$${totalRev.toLocaleString()}</div></div>
+    <div class="stat-card"><div class="stat-label">Top Hotel</div><div class="stat-value" style="font-size:1rem">${topHotel.split(' ').slice(0,2).join(' ')}</div></div>
+    <div class="stat-card"><div class="stat-label">Top Activity</div><div class="stat-value" style="font-size:0.9rem">${topAct.split(' ').slice(0,3).join(' ') || '—'}</div></div>`;
+  // Table
+  const tbody = document.getElementById('adminTableBody');
+  if (bookings.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;color:rgba(255,255,255,0.4);padding:2rem">No bookings yet</td></tr>';
+    return;
+  }
+  tbody.innerHTML = bookings.map((b, i) => `
+    <tr>
+      <td>${b.ref}</td>
+      <td><div>${b.name}</div><div style="font-size:0.75rem;color:rgba(255,255,255,0.4)">${b.email}</div></td>
+      <td>${b.arrival} → ${b.departure}</td>
+      <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis">${b.hotel}</td>
+      <td>${b.adults}A + ${b.children}C</td>
+      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;font-size:0.78rem">${b.activities || '—'}</td>
+      <td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;font-size:0.78rem">${b.transport || '—'}</td>
+      <td style="font-weight:700;color:#FFD77A">$${(b.totalUSD||0).toLocaleString()}</td>
+      <td style="font-size:0.78rem">${new Date(b.submittedAt).toLocaleString('en-GB').slice(0,16)}</td>
+      <td><span class="status-badge status-${b.status||'pending'}">${(b.status||'pending').toUpperCase()}</span></td>
+      <td>
+        <div style="display:flex;gap:4px;flex-wrap:wrap">
+          <button class="btn-xs btn-confirm" onclick="updateStatus(${i},'confirmed')">✓</button>
+          <button class="btn-xs btn-cancel" onclick="updateStatus(${i},'cancelled')">✗</button>
+          <button class="btn-xs btn-delete" onclick="deleteBooking(${i})">🗑</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+function updateStatus(idx, status) {
+  const bookings = JSON.parse(localStorage.getItem('hh_bookings') || '[]');
+  if (bookings[idx]) { bookings[idx].status = status; localStorage.setItem('hh_bookings', JSON.stringify(bookings)); renderAdminDashboard(); }
+}
+function deleteBooking(idx) {
+  if (!confirm('Delete this booking?')) return;
+  const bookings = JSON.parse(localStorage.getItem('hh_bookings') || '[]');
+  bookings.splice(idx, 1);
+  localStorage.setItem('hh_bookings', JSON.stringify(bookings));
+  renderAdminDashboard();
+}
+function exportCSV() {
+  const bookings = JSON.parse(localStorage.getItem('hh_bookings') || '[]');
+  if (!bookings.length) { showToast('No bookings to export', true); return; }
+  const headers = ['Ref','Name','Email','Nationality','Phone','Adults','Children','Arrival','Departure','Nights','Hotel','Activities','Transport','Total USD','Submitted','Status'];
+  const rows = bookings.map(b => [
+    b.ref, b.name, b.email, b.nationality, b.phone,
+    b.adults, b.children, b.arrival, b.departure, b.nights,
+    b.hotel, `"${(b.activities||'').replace(/"/g,'""')}"`,
+    `"${(b.transport||'').replace(/"/g,'""')}"`,
+    b.totalUSD || 0, b.submittedAt, b.status || 'pending'
+  ]);
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'hurghada-bookings.csv'; a.click();
+  URL.revokeObjectURL(url);
+  showToast('✓ CSV exported!');
+}
+
+// ============================================================
+// HASH ROUTING (admin panel secret URL)
+// ============================================================
+function checkHash() {
+  if (window.location.hash === '#admin-panel-2024') showAdmin();
+}
+window.addEventListener('hashchange', checkHash);
+
+// ============================================================
+// MOBILE NAV TOGGLE
+// ============================================================
+function toggleMobileNav() {
+  const group = document.getElementById('navLangGroup');
+  group.classList.toggle('open');
+}
+
+// ============================================================
+// SCROLL REVEAL
+// ============================================================
+function initScrollReveal() {
+  const els = document.querySelectorAll('.wizard-card, #reviews-section, #footer');
+  els.forEach(el => el.classList.add('reveal'));
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  // Set min date for arrival to today
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('arrivalDate').min = today;
+  document.getElementById('departureDate').min = today;
+  renderHotels();
+  renderActivities();
+  renderTransport();
+  initStarPickers();
+  renderReviews();
+  renderRatingAverages();
+  initScrollReveal();
+  checkHash();
+  // Add some sample reviews if none exist
+  const existing = JSON.parse(localStorage.getItem('hh_reviews') || '[]');
+  if (existing.length === 0) {
+    const samples = [
+      { id:1, name:'Thomas M.', country:'Germany', text:'Absolutely breathtaking experience! The snorkeling at Giftun Island was the highlight of our family holiday. Hotels were immaculate and the team arranged everything perfectly.', ratings:{hotel:5,activities:5,transport:4,overall:5}, date:'12/10/2024' },
+      { id:2, name:'Sophie L.', country:'France', text:'We booked the desert safari and sunset cruise — both were incredible. The booking process was smooth and the team responded quickly to our questions. Will definitely return!', ratings:{hotel:4,activities:5,transport:5,overall:5}, date:'28/09/2024' },
+      { id:3, name:'Ahmed K.', country:'Saudi Arabia', text:'ممتازة الخدمة والتنظيم. أسواق الدهار كانت تجربة رائعة وفريدة. الفندق كان نظيفاً ومريحاً. أنصح به بشدة.', ratings:{hotel:5,activities:4,transport:4,overall:5}, date:'05/11/2024' },
+      { id:4, name:'Ingrid K.', country:'Germany', text:'Wunderschöner Urlaub! Das Rixos Resort war traumhaft und das Tauchen war einmalig. Perfekte Organisation von Anfang bis Ende. Wir kommen gerne wieder!', ratings:{hotel:5,activities:5,transport:5,overall:5}, date:'20/10/2024' }
+    ];
+    localStorage.setItem('hh_reviews', JSON.stringify(samples));
+    renderReviews();
+    renderRatingAverages();
+  }
+});
+</script>
+</body>
+</html>

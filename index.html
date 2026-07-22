@@ -87,12 +87,6 @@
     .lang-switch button.active, .currency-switch button.active {
       background: var(--deep); color: #fff;
     }
-    .admin-link {
-      font-size: 0.72rem; color: var(--muted); opacity: 0.45;
-      padding: 6px 8px; border-radius: 6px;
-    }
-    .admin-link:hover { opacity: 1; color: var(--deep); }
-
     /* —— Hero —— */
     .hero {
       position: relative; min-height: min(72vh, 560px);
@@ -498,50 +492,6 @@
     .wa-float:hover { transform: scale(1.08); color: #fff; }
     .wa-float svg { width: 30px; height: 30px; }
 
-    /* —— Admin —— */
-    .admin-overlay {
-      display: none; position: fixed; inset: 0; z-index: 300;
-      background: oklch(0.15 0.03 245 / 0.55); backdrop-filter: blur(4px);
-      overflow-y: auto; padding: 24px 16px;
-    }
-    .admin-overlay.open { display: block; }
-    .admin-panel {
-      max-width: 1080px; margin: 0 auto; background: var(--surface);
-      border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
-    }
-    .admin-header {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 16px 20px; background: var(--deep); color: #fff; gap: 12px; flex-wrap: wrap;
-    }
-    .admin-header h2 { font-family: var(--font-display); font-size: 1.25rem; }
-    .admin-body { padding: 20px; }
-    .login-box { max-width: 380px; margin: 40px auto; padding: 28px; }
-    .login-box h3 { margin-bottom: 16px; color: var(--deep); }
-    .stats-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
-      margin-bottom: 20px;
-    }
-    .stat-card {
-      padding: 16px; background: var(--surface-2); border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-    }
-    .stat-card .val {
-      font-family: var(--font-mono); font-size: 1.35rem; font-weight: 700; color: var(--deep);
-    }
-    .stat-card .lbl { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
-    .admin-toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
-    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); }
-    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-    th, td { padding: 10px 12px; text-align: start; border-bottom: 1px solid var(--border); vertical-align: top; }
-    th { background: var(--surface-2); font-weight: 700; color: var(--deep); white-space: nowrap; }
-    tr:last-child td { border-bottom: 0; }
-    select.status-sel {
-      padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.8rem;
-    }
-    .status-pending { color: oklch(0.55 0.12 75); }
-    .status-confirmed { color: var(--success); }
-    .status-cancelled { color: var(--danger); }
-
     .hidden { display: none !important; }
     .sr-only {
       position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
@@ -575,10 +525,6 @@
         padding: 6px 8px;
         font-size: 0.72rem;
       }
-      .admin-link {
-        flex: 0 0 auto;
-        font-size: 0.68rem;
-      }
       .progress-wrap { top: auto; }
     }
     @media (max-width: 400px) {
@@ -607,7 +553,6 @@
         <button type="button" data-cur="EUR">EUR</button>
         <button type="button" data-cur="EGP">EGP</button>
       </div>
-      <a href="#admin-panel-2024" class="admin-link" data-od-id="admin-link" data-i18n="adminLink">Admin</a>
     </div>
   </header>
 
@@ -834,7 +779,6 @@
           <ul>
             <li><a href="#booking" data-i18n="navBook">Book</a></li>
             <li><a href="#reviews" data-i18n="navReviews">Reviews</a></li>
-            <li><a href="#admin-panel-2024" data-i18n="adminLink">Admin</a></li>
           </ul>
         </div>
       </div>
@@ -851,67 +795,29 @@
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.04-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35z"/><path d="M12 2C6.48 2 2 6.48 2 12c0 1.77.46 3.45 1.27 4.91L2 22l5.25-1.38A9.96 9.96 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18.2c-1.6 0-3.1-.43-4.4-1.18l-.31-.18-3.12.82.83-3.04-.2-.33A8.17 8.17 0 013.8 12 8.2 8.2 0 0112 3.8 8.2 8.2 0 0120.2 12 8.2 8.2 0 0112 20.2z"/></svg>
   </a>
 
-  <!-- Admin panel -->
-  <div class="admin-overlay" id="adminOverlay" data-od-id="admin-panel">
-    <div class="admin-panel">
-      <div class="admin-header">
-        <h2 data-i18n="adminTitle">Admin Panel</h2>
-        <button type="button" class="btn btn-sm btn-secondary" onclick="closeAdmin()" data-i18n="close">Close</button>
-      </div>
-      <div class="admin-body">
-        <div id="adminLogin" class="card login-box">
-          <h3 data-i18n="adminLogin">Admin login</h3>
-          <div class="field">
-            <label for="adminPass" data-i18n="password">Password</label>
-            <input id="adminPass" type="password" autocomplete="current-password" />
-            <span class="error" id="adminPassError"></span>
-          </div>
-          <button type="button" class="btn btn-primary" style="width:100%;margin-top:12px" onclick="adminLogin()" data-i18n="login">Log in</button>
-        </div>
-        <div id="adminDash" class="hidden">
-          <div class="stats-grid" id="adminStats"></div>
-          <div class="admin-toolbar">
-            <button type="button" class="btn btn-sm btn-secondary" onclick="exportCSV()" data-i18n="exportCsv">Export CSV</button>
-            <button type="button" class="btn btn-sm btn-ghost" onclick="adminLogout()" data-i18n="logout">Log out</button>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th data-i18n="thGuest">Guest</th>
-                  <th data-i18n="thDates">Dates</th>
-                  <th data-i18n="thHotel">Hotel</th>
-                  <th data-i18n="thActivities">Activities</th>
-                  <th data-i18n="thTransport">Transport</th>
-                  <th data-i18n="thTotal">Total</th>
-                  <th data-i18n="thStatus">Status</th>
-                  <th data-i18n="thTime">Submitted</th>
-                  <th data-i18n="thActions">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="bookingsTable"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <script>
   /* =========================================================
      Hurghada Holidays — single-file booking app
      ========================================================= */
 
-  const ADMIN_PASSWORD = "Shoma_2026_BIS";
-  const STORAGE_BOOKINGS = "hh_bookings_v1";
   const STORAGE_REVIEWS = "hh_reviews_v1";
   const STORAGE_LANG = "hh_lang";
   const STORAGE_CUR = "hh_currency";
-  const STORAGE_ADMIN = "hh_admin_ok";
 
-  /* Approximate FX (not live) — base USD */
-  const FX = { USD: 1, EUR: 0.92, EGP: 48.5 };
-  const FX_NOTE = true;
+  /* =========================================================
+     CONFIG
+     ========================================================= */
+  /* The Web App URL from your deployed Google Apps Script (Code.gs).
+     Every booking is sent here, saved to your Google Sheet, and
+     triggers an email notification to you. */
+  const BOOKINGS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxDicfSI9f_4611zhoW9Fbz59HXmt9sq8gdh-cDHJCbBpPbUK_XUIv0KIZ3dcuncnI/exec";
+
+  /* Approximate fallback FX (used only if the live rate fetch fails) — base USD */
+  const FX_FALLBACK = { USD: 1, EUR: 0.92, EGP: 48.5 };
+  const FX_CACHE_KEY = "hh_fx_rates_v2";
+  const FX_CACHE_MS = 6 * 60 * 60 * 1000; /* refresh every 6 hours */
+  let FX = { ...FX_FALLBACK };
+  let fxIsLive = false;
 
   const state = {
     step: 0,
@@ -1057,7 +963,7 @@
   /* —— i18n —— */
   const I18N = {
     en: {
-      brand: "Hurghada Holidays", adminLink: "Admin",
+      brand: "Hurghada Holidays",
       heroBadge: "Red Sea · Egypt",
       heroTitle: "Your Hurghada Escape Starts Here",
       heroSub: "Curated hotels, coral-reef adventures, and seamless transfers — planned by local experts for international travellers.",
@@ -1092,6 +998,7 @@
       grandTotal: "Grand total (approx.)",
       approxNote: "Prices are approximate. Our team will confirm exact pricing within 24 hours.",
       submitBooking: "Confirm booking request",
+      sending: "Sending…",
       thanksTitle: "Request received!",
       thanksBody: "Thank you. We will contact you within 24 hours to confirm availability and final pricing.",
       bookAnother: "Book another trip", refLabel: "Reference",
@@ -1105,26 +1012,18 @@
       contact: "Contact", location: "Hurghada, Red Sea, Egypt",
       quickLinks: "Quick links", navBook: "Book", navReviews: "Reviews",
       copyright: "© 2026 Hurghada Holidays. All rights reserved.",
-      adminTitle: "Admin Panel", close: "Close", adminLogin: "Admin login",
-      password: "Password", login: "Log in", logout: "Log out",
-      exportCsv: "Export CSV",
-      thGuest: "Guest", thDates: "Dates", thHotel: "Hotel", thActivities: "Activities",
-      thTransport: "Transport", thTotal: "Total", thStatus: "Status", thTime: "Submitted", thActions: "Actions",
-      delete: "Delete", pending: "Pending", confirmed: "Confirmed", cancelled: "Cancelled",
-      statBookings: "Total bookings", statRevenue: "Est. revenue (USD)",
-      statHotel: "Most popular hotel", statAct: "Most booked activity",
       errRequired: "This field is required.",
       errEmail: "Enter a valid email address.",
       errPhone: "Enter a phone number with country code.",
       errAdults: "At least 1 adult is required.",
       errDates: "Departure must be after arrival.",
       errPast: "Arrival cannot be in the past.",
-      errPass: "Incorrect password.",
       adultsShort: "adults", childrenShort: "children",
-      fxNote: "Rates are approximate (not live FX)."
+      fxNoteLive: "Live exchange rates, updated within the last few hours.",
+      fxNoteFallback: "Rates are approximate (live rates unavailable right now)."
     },
     de: {
-      brand: "Hurghada Holidays", adminLink: "Admin",
+      brand: "Hurghada Holidays",
       heroBadge: "Rotes Meer · Ägypten",
       heroTitle: "Ihr Hurghada-Urlaub beginnt hier",
       heroSub: "Ausgewählte Hotels, Korallenriff-Abenteuer und reibungslose Transfers — geplant von lokalen Experten für internationale Gäste.",
@@ -1159,6 +1058,7 @@
       grandTotal: "Gesamtsumme (ca.)",
       approxNote: "Preise sind Richtwerte. Unser Team bestätigt die genauen Preise innerhalb von 24 Stunden.",
       submitBooking: "Buchungsanfrage senden",
+      sending: "Wird gesendet…",
       thanksTitle: "Anfrage erhalten!",
       thanksBody: "Vielen Dank. Wir melden uns innerhalb von 24 Stunden mit Verfügbarkeit und Endpreis.",
       bookAnother: "Weitere Reise buchen", refLabel: "Referenz",
@@ -1172,26 +1072,18 @@
       contact: "Kontakt", location: "Hurghada, Rotes Meer, Ägypten",
       quickLinks: "Schnelllinks", navBook: "Buchen", navReviews: "Bewertungen",
       copyright: "© 2026 Hurghada Holidays. Alle Rechte vorbehalten.",
-      adminTitle: "Admin-Bereich", close: "Schließen", adminLogin: "Admin-Anmeldung",
-      password: "Passwort", login: "Anmelden", logout: "Abmelden",
-      exportCsv: "CSV exportieren",
-      thGuest: "Gast", thDates: "Daten", thHotel: "Hotel", thActivities: "Aktivitäten",
-      thTransport: "Transport", thTotal: "Summe", thStatus: "Status", thTime: "Eingereicht", thActions: "Aktionen",
-      delete: "Löschen", pending: "Ausstehend", confirmed: "Bestätigt", cancelled: "Storniert",
-      statBookings: "Buchungen gesamt", statRevenue: "Umsatz geschätzt (USD)",
-      statHotel: "Beliebtestes Hotel", statAct: "Meistgebuchte Aktivität",
       errRequired: "Dieses Feld ist erforderlich.",
       errEmail: "Gültige E-Mail eingeben.",
       errPhone: "Telefonnummer mit Ländervorwahl eingeben.",
       errAdults: "Mindestens 1 Erwachsener erforderlich.",
       errDates: "Abreise muss nach Anreise liegen.",
       errPast: "Anreise darf nicht in der Vergangenheit liegen.",
-      errPass: "Falsches Passwort.",
       adultsShort: "Erwachsene", childrenShort: "Kinder",
-      fxNote: "Kurse sind Näherungswerte (kein Live-FX)."
+      fxNoteLive: "Live-Wechselkurse, in den letzten Stunden aktualisiert.",
+      fxNoteFallback: "Kurse sind Näherungswerte (Live-Kurse derzeit nicht verfügbar)."
     },
     ar: {
-      brand: "هوليديز الغردقة", adminLink: "الإدارة",
+      brand: "هوليديز الغردقة",
       heroBadge: "البحر الأحمر · مصر",
       heroTitle: "عطلتك في الغردقة تبدأ من هنا",
       heroSub: "فنادق مختارة ومغامرات الشعاب المرجانية ونقل سلس — يخططها خبراء محليون للمسافرين الدوليين.",
@@ -1226,6 +1118,7 @@
       grandTotal: "الإجمالي التقريبي",
       approxNote: "الأسعار تقريبية. يؤكد فريقنا التسعير الدقيق خلال 24 ساعة.",
       submitBooking: "تأكيد طلب الحجز",
+      sending: "جارٍ الإرسال…",
       thanksTitle: "تم استلام الطلب!",
       thanksBody: "شكرًا لك. سنتواصل خلال 24 ساعة لتأكيد التوفر والأسعار النهائية.",
       bookAnother: "احجز رحلة أخرى", refLabel: "المرجع",
@@ -1239,23 +1132,15 @@
       contact: "تواصل", location: "الغردقة، البحر الأحمر، مصر",
       quickLinks: "روابط سريعة", navBook: "احجز", navReviews: "التقييمات",
       copyright: "© 2026 هوليديز الغردقة. جميع الحقوق محفوظة.",
-      adminTitle: "لوحة الإدارة", close: "إغلاق", adminLogin: "دخول الإدارة",
-      password: "كلمة المرور", login: "تسجيل الدخول", logout: "خروج",
-      exportCsv: "تصدير CSV",
-      thGuest: "الضيف", thDates: "التواريخ", thHotel: "الفندق", thActivities: "الأنشطة",
-      thTransport: "النقل", thTotal: "الإجمالي", thStatus: "الحالة", thTime: "وقت الإرسال", thActions: "إجراءات",
-      delete: "حذف", pending: "قيد الانتظار", confirmed: "مؤكد", cancelled: "ملغى",
-      statBookings: "إجمالي الحجوزات", statRevenue: "الإيراد التقديري (دولار)",
-      statHotel: "الفندق الأكثر شعبية", statAct: "النشاط الأكثر حجزًا",
       errRequired: "هذا الحقل مطلوب.",
       errEmail: "أدخل بريدًا إلكترونيًا صالحًا.",
       errPhone: "أدخل رقم هاتف مع رمز الدولة.",
       errAdults: "مطلوب بالغ واحد على الأقل.",
       errDates: "يجب أن تكون المغادرة بعد الوصول.",
       errPast: "لا يمكن أن يكون الوصول في الماضي.",
-      errPass: "كلمة مرور غير صحيحة.",
       adultsShort: "بالغون", childrenShort: "أطفال",
-      fxNote: "أسعار الصرف تقريبية (ليست لحظية)."
+      fxNoteLive: "أسعار صرف حية، محدّثة خلال آخر بضع ساعات.",
+      fxNoteFallback: "أسعار الصرف تقريبية (الأسعار الحية غير متاحة الآن)."
     }
   };
 
@@ -1279,6 +1164,65 @@
 
   function starsStr(n) {
     return "★".repeat(n) + "☆".repeat(5 - n);
+  }
+
+  /* —— Live FX rates ——
+     NOTE: Frankfurter (ECB-based) does NOT publish an EGP rate at all,
+     so it can never work for this site regardless of the URL used.
+     We use open.er-api.com as the primary source (free, no key, CORS-
+     enabled, and covers EGP), with exchangerate-api's public mirror as
+     a second try, and the hardcoded FX_FALLBACK as the last resort. */
+  async function fetchFxFrom_(url, parseFn) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("FX fetch failed (" + url + "): " + res.status);
+    const data = await res.json();
+    const rates = parseFn(data);
+    if (!rates || typeof rates.EUR !== "number" || typeof rates.EGP !== "number") {
+      throw new Error("FX response missing EUR/EGP rates from " + url);
+    }
+    return rates;
+  }
+
+  async function loadFxRates() {
+    try {
+      const cachedRaw = localStorage.getItem(FX_CACHE_KEY);
+      const cached = cachedRaw ? JSON.parse(cachedRaw) : null;
+      if (cached && cached.rates && (Date.now() - cached.at) < FX_CACHE_MS) {
+        FX = cached.rates;
+        fxIsLive = true;
+        applyI18n();
+        return;
+      }
+
+      let rates = null;
+      try {
+        /* Primary: open.er-api.com — supports EGP, free, no API key */
+        rates = await fetchFxFrom_(
+          "https://open.er-api.com/v6/latest/USD",
+          data => data && data.result === "success" && data.rates
+            ? { USD: 1, EUR: data.rates.EUR, EGP: data.rates.EGP }
+            : null
+        );
+      } catch (err1) {
+        console.warn("Primary FX source failed, trying backup:", err1);
+        /* Backup: exchangerate-api's open mirror — also supports EGP */
+        rates = await fetchFxFrom_(
+          "https://api.exchangerate-api.com/v4/latest/USD",
+          data => data && data.rates
+            ? { USD: 1, EUR: data.rates.EUR, EGP: data.rates.EGP }
+            : null
+        );
+      }
+
+      FX = rates;
+      fxIsLive = true;
+      localStorage.setItem(FX_CACHE_KEY, JSON.stringify({ rates, at: Date.now() }));
+    } catch (err) {
+      console.warn("Live FX rates unavailable from all sources, using fallback:", err);
+      FX = { ...FX_FALLBACK };
+      fxIsLive = false;
+    }
+    applyI18n();
   }
 
   function getNights() {
@@ -1323,9 +1267,6 @@
     updateDuration();
     if (state.step === 4) renderSummary();
     renderReviews();
-    if (document.getElementById("adminDash") && !document.getElementById("adminDash").classList.contains("hidden")) {
-      renderAdmin();
-    }
   }
 
   function renderSteps() {
@@ -1589,7 +1530,7 @@
       <div class="grand-total" data-od-id="grand-total">
         <div>
           <div style="opacity:0.85;font-size:0.85rem">${t("grandTotal")}</div>
-          <div style="font-size:0.75rem;opacity:0.7;margin-top:4px">${t("fxNote")}</div>
+          <div style="font-size:0.75rem;opacity:0.7;margin-top:4px">${fxIsLive ? t("fxNoteLive") : t("fxNoteFallback")}</div>
         </div>
         <div class="amount">${formatMoney(c.grand)} <span style="font-size:0.9rem;font-weight:500">${state.currency}</span></div>
       </div>`;
@@ -1599,16 +1540,24 @@
     return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   }
 
-  /* —— Bookings storage —— */
-  function loadBookings() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_BOOKINGS) || "[]"); }
-    catch { return []; }
-  }
-  function saveBookings(list) {
-    localStorage.setItem(STORAGE_BOOKINGS, JSON.stringify(list));
+  /* Send the booking to the central Google Sheet backend.
+     Uses mode:"no-cors" + text/plain, the standard workaround for posting
+     to a Google Apps Script Web App from the browser without hitting a
+     CORS preflight the script can't answer. We can't read the response
+     back this way, so we just treat "the request was sent" as success. */
+  function sendBookingToSheet(booking) {
+    if (!BOOKINGS_WEBAPP_URL || BOOKINGS_WEBAPP_URL.indexOf("PASTE_YOUR") === 0) {
+      return Promise.resolve({ skipped: true });
+    }
+    return fetch(BOOKINGS_WEBAPP_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(booking)
+    });
   }
 
-  function submitBooking() {
+  async function submitBooking() {
     const c = calcTotals();
     if (!c.hotel) { showStep(1); return; }
     const ref = "HH-" + Date.now().toString(36).toUpperCase();
@@ -1634,9 +1583,21 @@
       transport: c.trLines.map(l => ({ id: l.id, name: l.name, usd: l.usd })),
       totals: { hotelUSD: c.hotelUSD, actUSD: c.actUSD, trUSD: c.trUSD, grandUSD: c.grand }
     };
-    const all = loadBookings();
-    all.unshift(booking);
-    saveBookings(all);
+
+    const submitBtn = document.querySelector('[data-od-id="submit-booking"]');
+    const originalLabel = submitBtn ? submitBtn.textContent : "";
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = t("sending"); }
+
+    try {
+      await sendBookingToSheet(booking);
+    } catch (err) {
+      console.error("Could not send booking to the Google Sheet:", err);
+      /* We still let the guest see a confirmation — the WhatsApp/email
+         contact details in the footer are a backup channel — but you
+         should check BOOKINGS_WEBAPP_URL if this keeps happening. */
+    }
+
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalLabel; }
     document.getElementById("refCode").textContent = t("refLabel") + ": " + ref;
     showStep(5);
   }
@@ -1735,116 +1696,6 @@
     return false;
   }
 
-  /* —— Admin —— */
-  function openAdmin() {
-    document.getElementById("adminOverlay").classList.add("open");
-    const ok = sessionStorage.getItem(STORAGE_ADMIN) === "1";
-    document.getElementById("adminLogin").classList.toggle("hidden", ok);
-    document.getElementById("adminDash").classList.toggle("hidden", !ok);
-    if (ok) renderAdmin();
-  }
-  function closeAdmin() {
-    document.getElementById("adminOverlay").classList.remove("open");
-    if (location.hash === "#admin-panel-2024") history.replaceState(null, "", " ");
-  }
-  function adminLogin() {
-    const pass = document.getElementById("adminPass").value;
-    if (pass === ADMIN_PASSWORD) {
-      sessionStorage.setItem(STORAGE_ADMIN, "1");
-      document.getElementById("adminPassError").textContent = "";
-      document.getElementById("adminLogin").classList.add("hidden");
-      document.getElementById("adminDash").classList.remove("hidden");
-      renderAdmin();
-    } else {
-      document.getElementById("adminPassError").textContent = t("errPass");
-    }
-  }
-  function adminLogout() {
-    sessionStorage.removeItem(STORAGE_ADMIN);
-    document.getElementById("adminPass").value = "";
-    document.getElementById("adminLogin").classList.remove("hidden");
-    document.getElementById("adminDash").classList.add("hidden");
-  }
-
-  function renderAdmin() {
-    const bookings = loadBookings();
-    const revenue = bookings.reduce((s, b) => s + (b.totals?.grandUSD || 0), 0);
-    const hotelCount = {};
-    const actCount = {};
-    bookings.forEach(b => {
-      hotelCount[b.hotelName] = (hotelCount[b.hotelName] || 0) + 1;
-      (b.activities || []).forEach(a => { actCount[a.name] = (actCount[a.name] || 0) + 1; });
-    });
-    const topHotel = Object.entries(hotelCount).sort((a, b) => b[1] - a[1])[0];
-    const topAct = Object.entries(actCount).sort((a, b) => b[1] - a[1])[0];
-
-    document.getElementById("adminStats").innerHTML = `
-      <div class="stat-card"><div class="val">${bookings.length}</div><div class="lbl">${t("statBookings")}</div></div>
-      <div class="stat-card"><div class="val">$${Math.round(revenue).toLocaleString()}</div><div class="lbl">${t("statRevenue")}</div></div>
-      <div class="stat-card"><div class="val" style="font-size:0.95rem">${topHotel ? esc(topHotel[0]) : "—"}</div><div class="lbl">${t("statHotel")}</div></div>
-      <div class="stat-card"><div class="val" style="font-size:0.95rem">${topAct ? esc(topAct[0]) : "—"}</div><div class="lbl">${t("statAct")}</div></div>`;
-
-    const tbody = document.getElementById("bookingsTable");
-    if (!bookings.length) {
-      tbody.innerHTML = `<tr><td colspan="9" style="color:var(--muted);text-align:center;padding:24px">—</td></tr>`;
-      return;
-    }
-    tbody.innerHTML = bookings.map(b => {
-      const acts = (b.activities || []).map(a => a.name).join("; ") || "—";
-      const trs = (b.transport || []).map(x => x.name).join("; ") || "—";
-      const when = new Date(b.submittedAt).toLocaleString();
-      return `<tr data-id="${b.id}">
-        <td><strong>${esc(b.guest.fullName)}</strong><br><span style="color:var(--muted);font-size:0.78rem">${esc(b.guest.email)}<br>${esc(b.guest.phone)}</span></td>
-        <td>${b.guest.arrival} → ${b.guest.departure}<br><span style="color:var(--muted)">${b.nights}n · ${b.guest.adults}A ${b.guest.children}C</span></td>
-        <td>${esc(b.hotelName)}</td>
-        <td style="max-width:160px">${esc(acts)}</td>
-        <td style="max-width:140px">${esc(trs)}</td>
-        <td class="price">$${Math.round(b.totals.grandUSD)}</td>
-        <td>
-          <select class="status-sel" onchange="setStatus('${b.id}', this.value)">
-            <option value="pending" ${b.status === "pending" ? "selected" : ""}>${t("pending")}</option>
-            <option value="confirmed" ${b.status === "confirmed" ? "selected" : ""}>${t("confirmed")}</option>
-            <option value="cancelled" ${b.status === "cancelled" ? "selected" : ""}>${t("cancelled")}</option>
-          </select>
-        </td>
-        <td style="white-space:nowrap;font-size:0.78rem">${when}</td>
-        <td><button type="button" class="btn btn-sm btn-danger" onclick="deleteBooking('${b.id}')">${t("delete")}</button></td>
-      </tr>`;
-    }).join("");
-  }
-
-  function setStatus(id, status) {
-    const all = loadBookings();
-    const b = all.find(x => x.id === id);
-    if (b) { b.status = status; saveBookings(all); renderAdmin(); }
-  }
-  function deleteBooking(id) {
-    saveBookings(loadBookings().filter(b => b.id !== id));
-    renderAdmin();
-  }
-
-  function exportCSV() {
-    const bookings = loadBookings();
-    const headers = ["id", "status", "submittedAt", "fullName", "email", "phone", "nationality", "adults", "children", "arrival", "departure", "hotel", "nights", "activities", "transport", "hotelUSD", "actUSD", "trUSD", "grandUSD", "notes"];
-    const rows = bookings.map(b => [
-      b.id, b.status, b.submittedAt,
-      b.guest.fullName, b.guest.email, b.guest.phone, b.guest.nationality,
-      b.guest.adults, b.guest.children, b.guest.arrival, b.guest.departure,
-      b.hotelName, b.nights,
-      (b.activities || []).map(a => a.name).join("|"),
-      (b.transport || []).map(a => a.name).join("|"),
-      b.totals.hotelUSD, b.totals.actUSD, b.totals.trUSD, b.totals.grandUSD,
-      (b.guest.notes || "").replace(/"/g, '""')
-    ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(","));
-    const csv = [headers.join(","), ...rows].join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "hurghada-bookings.csv";
-    a.click();
-    URL.revokeObjectURL(a.href);
-  }
-
   function goHome(e) {
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1897,22 +1748,6 @@
         applyI18n();
       });
     });
-    document.querySelectorAll('a[href="#admin-panel-2024"]').forEach(a => {
-      a.addEventListener("click", e => {
-        e.preventDefault();
-        location.hash = "admin-panel-2024";
-        openAdmin();
-      });
-    });
-    window.addEventListener("hashchange", () => {
-      if (location.hash === "#admin-panel-2024") openAdmin();
-    });
-    document.getElementById("adminPass").addEventListener("keydown", e => {
-      if (e.key === "Enter") adminLogin();
-    });
-    document.getElementById("adminOverlay").addEventListener("click", e => {
-      if (e.target.id === "adminOverlay") closeAdmin();
-    });
   }
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -1921,7 +1756,7 @@
     initDates();
     bindNav();
     applyI18n();
-    if (location.hash === "#admin-panel-2024") openAdmin();
+    loadFxRates();
   });
   </script>
 </body>

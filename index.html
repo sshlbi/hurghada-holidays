@@ -549,6 +549,44 @@
     }
 
     body.rtl .stars-input { flex-direction: row; justify-content: flex-start; }
+
+    /* —— Mobile nav fix —— */
+    @media (max-width: 640px) {
+      .nav {
+        height: auto;
+        flex-wrap: wrap;
+        row-gap: 10px;
+        padding: 10px 14px;
+      }
+      .logo {
+        font-size: 1.05rem;
+        flex: 1 1 auto;
+      }
+      .nav-actions {
+        width: 100%;
+        justify-content: space-between;
+        gap: 6px;
+      }
+      .lang-switch, .currency-switch {
+        flex: 1 1 auto;
+        justify-content: center;
+      }
+      .lang-switch button, .currency-switch button {
+        padding: 6px 8px;
+        font-size: 0.72rem;
+      }
+      .admin-link {
+        flex: 0 0 auto;
+        font-size: 0.68rem;
+      }
+      .progress-wrap { top: auto; }
+    }
+    @media (max-width: 400px) {
+      .lang-switch button, .currency-switch button {
+        padding: 5px 6px;
+        font-size: 0.66rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1174,7 +1212,7 @@
       nights: "ليالٍ", night: "ليلة", selectDates: "اختر تاريخي الوصول والمغادرة",
       next: "التالي", back: "رجوع",
       hotelPriceNotice: "أسعار الفنادق إرشادية. تعتمد الأسعار النهائية على تواريخ سفرك وتُؤكد عند الحجز.",
-      priceUpdated: "تُحدَّث الأسعار دوريًا. التأكيد النهائي من فريقنا.",
+      priceUpdated: "تُحدَّث الأسعار دوريًا. التأكيد النهائي من فريقنا.",
       approxPerNight: "تقريبًا / ليلة", select: "اختيار", selected: "محدد",
       filterAll: "الكل", filter5: "★★★★★ خمس نجوم", filter4: "★★★★ أربع نجوم", filter3: "★★★ ثلاث نجوم",
       errHotel: "يرجى اختيار فندق للمتابعة.",

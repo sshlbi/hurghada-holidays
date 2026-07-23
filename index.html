@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hurghada Holidays — Book Your Red Sea Escape</title>
   <meta name="description" content="Premium tourism booking for Hurghada, Egypt. Hotels, activities, transfers — English, German & Arabic." />
+  <link rel="canonical" href="https://sshlbi.github.io/hurghada-holidays/" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23234a73'/%3E%3Ctext x='32' y='43' font-size='34' text-anchor='middle' fill='%23ffffff'%3E%E2%97%86%3C/text%3E%3C/svg%3E" />
+  <!-- Open Graph / social share preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Hurghada Holidays" />
+  <meta property="og:title" content="Hurghada Holidays — Book Your Red Sea Escape" />
+  <meta property="og:description" content="Curated hotels, coral-reef adventures, and seamless transfers in Hurghada, Egypt — planned by local experts for international travellers." />
+  <meta property="og:image" content="https://sshlbi.github.io/hurghada-holidays/assets/images/hero.jpg" />
+  <meta property="og:url" content="https://sshlbi.github.io/hurghada-holidays/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Hurghada Holidays — Book Your Red Sea Escape" />
+  <meta name="twitter:description" content="Curated hotels, coral-reef adventures, and seamless transfers in Hurghada, Egypt." />
+  <meta name="twitter:image" content="https://sshlbi.github.io/hurghada-holidays/assets/images/hero.jpg" />
   <style>
     :root {
       --bg: oklch(0.965 0.014 78);
@@ -800,7 +813,6 @@
      Hurghada Holidays — single-file booking app
      ========================================================= */
 
-  const STORAGE_REVIEWS = "hh_reviews_v1";
   const STORAGE_LANG = "hh_lang";
   const STORAGE_CUR = "hh_currency";
 
@@ -1305,7 +1317,7 @@
       return `<article class="card hotel-card${sel ? " selected" : ""}" data-id="${h.id}" data-od-id="hotel-${h.id}">
         <span class="check-badge">✓</span>
         <div class="media">
-          <img src="${h.img}" alt="" loading="lazy" width="600" height="168" />
+          <img src="${h.img}" alt="" loading="lazy" width="600" height="168" onerror="this.style.display='none'" />
           <div class="media-fade"></div>
         </div>
         <div class="body">
@@ -1340,7 +1352,7 @@
       const on = state.selectedActivities.has(a.id);
       return `<label class="card check-item${on ? " selected" : ""}" data-od-id="act-${a.id}">
         <input type="checkbox" data-act="${a.id}" ${on ? "checked" : ""} />
-        <div class="thumb"><img src="${a.img}" alt="" loading="lazy" width="72" height="72" /></div>
+        <div class="thumb"><img src="${a.img}" alt="" loading="lazy" width="72" height="72" onerror="this.style.display='none'" /></div>
         <div><h4>${L.name}</h4><p>${L.desc}</p>
           <p class="price-note">${t("priceUpdated")}</p></div>
         <div class="price">${formatMoney(a.price)} <span style="font-weight:500;color:var(--muted);font-size:0.78rem">${t("perPerson")}</span></div>
@@ -1565,6 +1577,7 @@
       id: ref,
       status: "pending",
       submittedAt: new Date().toISOString(),
+      lang: state.lang,
       guest: {
         fullName: document.getElementById("fullName").value.trim(),
         nationality: document.getElementById("nationality").value.trim(),
@@ -1617,13 +1630,48 @@
     showStep(0);
   }
 
-  /* —— Reviews —— */
-  function loadReviews() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_REVIEWS) || "[]"); }
-    catch { return []; }
+  /* —— Reviews ——
+     Reviews now live in the "Reviews" tab of the same Google Sheet, so
+     every visitor sees every review — not just ones submitted from their
+     own device. We keep a small set of seed reviews as a graceful
+     fallback for when the sheet is empty or unreachable. */
+  const SEED_REVIEWS = [
+    { id: "R1", name: "Lena K.", text: "Perfect family week at Jaz Aquamarine. Giftun snorkel was unforgettable and airport pickup was on time.",
+      ratings: { hotel: 5, activities: 5, transport: 5, overall: 5 }, at: "2026-05-12T10:00:00.000Z" },
+    { id: "R2", name: "Markus W.", text: "Rixos Seagate is outstanding. Desert safari well organised. Would book again through this agency.",
+      ratings: { hotel: 5, activities: 4, transport: 5, overall: 5 }, at: "2026-04-03T14:20:00.000Z" },
+    { id: "R3", name: "Sophie L.", text: "Great communication in German and English. Luxor day trip was long but worth it.",
+      ratings: { hotel: 4, activities: 5, transport: 4, overall: 4 }, at: "2026-03-18T09:00:00.000Z" }
+  ];
+
+  let reviewsState = SEED_REVIEWS.slice();
+
+  async function loadReviewsFromSheet() {
+    if (!BOOKINGS_WEBAPP_URL || BOOKINGS_WEBAPP_URL.indexOf("PASTE_YOUR") === 0) return;
+    try {
+      const res = await fetch(BOOKINGS_WEBAPP_URL + "?action=reviews");
+      if (!res.ok) throw new Error("Reviews fetch failed: " + res.status);
+      const data = await res.json();
+      if (data && data.ok && Array.isArray(data.reviews) && data.reviews.length) {
+        reviewsState = data.reviews;
+        renderReviews();
+      }
+      /* if the sheet has no reviews yet, keep showing the seed reviews */
+    } catch (err) {
+      console.warn("Could not load shared reviews, showing local defaults:", err);
+    }
   }
-  function saveReviews(list) {
-    localStorage.setItem(STORAGE_REVIEWS, JSON.stringify(list));
+
+  function sendReviewToSheet(review) {
+    if (!BOOKINGS_WEBAPP_URL || BOOKINGS_WEBAPP_URL.indexOf("PASTE_YOUR") === 0) {
+      return Promise.resolve({ skipped: true });
+    }
+    return fetch(BOOKINGS_WEBAPP_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ type: "review", ...review })
+    });
   }
 
   function buildStarInputs() {
@@ -1645,7 +1693,7 @@
   }
 
   function renderReviews() {
-    const reviews = loadReviews();
+    const reviews = reviewsState;
     const cats = [
       { key: "hotel", label: "catHotel" },
       { key: "activities", label: "catActivities" },
@@ -1680,14 +1728,20 @@
     const name = document.getElementById("revName").value.trim();
     const text = document.getElementById("revText").value.trim();
     if (!name || !text) return false;
-    const reviews = loadReviews();
-    reviews.unshift({
+
+    const review = {
       id: "R" + Date.now(),
       name, text,
       ratings: { ...state.reviewStars },
       at: new Date().toISOString()
-    });
-    saveReviews(reviews);
+    };
+
+    /* Show it immediately for this visitor, and send it to the shared
+       sheet in the background so every other visitor sees it too on
+       their next visit. */
+    reviewsState = [review, ...reviewsState];
+    sendReviewToSheet(review).catch(err => console.error("Could not sync review to sheet:", err));
+
     document.getElementById("revName").value = "";
     document.getElementById("revText").value = "";
     state.reviewStars = { hotel: 5, activities: 5, transport: 5, overall: 5 };
@@ -1699,19 +1753,6 @@
   function goHome(e) {
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  /* —— Seed demo reviews if empty —— */
-  function seedReviews() {
-    if (loadReviews().length) return;
-    saveReviews([
-      { id: "R1", name: "Lena K.", text: "Perfect family week at Jaz Aquamarine. Giftun snorkel was unforgettable and airport pickup was on time.",
-        ratings: { hotel: 5, activities: 5, transport: 5, overall: 5 }, at: "2026-05-12T10:00:00.000Z" },
-      { id: "R2", name: "Markus W.", text: "Rixos Seagate is outstanding. Desert safari well organised. Would book again through this agency.",
-        ratings: { hotel: 5, activities: 4, transport: 5, overall: 5 }, at: "2026-04-03T14:20:00.000Z" },
-      { id: "R3", name: "Sophie L.", text: "Great communication in German and English. Luxor day trip was long but worth it.",
-        ratings: { hotel: 4, activities: 5, transport: 4, overall: 4 }, at: "2026-03-18T09:00:00.000Z" }
-    ]);
   }
 
   /* —— Init —— */
@@ -1751,12 +1792,12 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    seedReviews();
     buildStarInputs();
     initDates();
     bindNav();
     applyI18n();
     loadFxRates();
+    loadReviewsFromSheet();
   });
   </script>
 </body>

@@ -381,28 +381,82 @@
     /* —— Checklist cards —— */
     .check-list { display: grid; gap: 12px; }
     .check-item {
-      display: grid; grid-template-columns: auto 72px 1fr auto; gap: 14px; align-items: center;
+      display: grid;
+      grid-template-columns: auto 72px 1fr auto;
+      grid-template-areas: "check thumb content price";
+      gap: 10px 14px; align-items: center;
       padding: 12px 14px; cursor: pointer; border: 2px solid var(--border);
       transition: 0.25s var(--ease); overflow: hidden;
     }
+    .check-item.no-thumb {
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas: "check content price";
+    }
     @media (max-width: 560px) {
-      .check-item { grid-template-columns: auto 1fr auto; }
-      .check-item .thumb { display: none; }
+      .check-item {
+        grid-template-columns: auto 56px 1fr;
+        grid-template-areas:
+          "check thumb content"
+          "price price price";
+      }
+      .check-item.no-thumb {
+        grid-template-columns: auto 1fr;
+        grid-template-areas:
+          "check content"
+          "price price";
+      }
     }
     .check-item:hover { border-color: var(--sea-light); box-shadow: var(--shadow-sm); }
     .check-item.selected {
       border-color: var(--sea);
       background: oklch(0.48 0.13 232 / 0.05);
     }
-    .check-item input { width: 18px; height: 18px; accent-color: var(--sea); cursor: pointer; }
+    .check-item input { grid-area: check; width: 18px; height: 18px; accent-color: var(--sea); cursor: pointer; align-self: start; margin-top: 3px; }
     .check-item .thumb {
+      grid-area: thumb;
       width: 72px; height: 72px; border-radius: 10px; overflow: hidden;
       flex-shrink: 0; background: var(--surface-2);
     }
+    @media (max-width: 560px) {
+      .check-item .thumb { width: 56px; height: 56px; }
+    }
     .check-item .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .check-item .content { grid-area: content; min-width: 0; }
     .check-item h4 { font-size: 0.98rem; color: var(--deep); margin-bottom: 4px; font-weight: 650; }
     .check-item p { font-size: 0.84rem; color: var(--muted); line-height: 1.45; }
-    .check-item .price { white-space: nowrap; font-size: 0.95rem; }
+    .check-item .price {
+      grid-area: price; white-space: nowrap; font-size: 0.95rem;
+      display: flex; align-items: center; gap: 4px; justify-self: end; align-self: center;
+    }
+    @media (max-width: 560px) {
+      .check-item .price {
+        justify-self: stretch; justify-content: flex-end;
+        margin-top: 6px; padding-top: 8px; border-top: 1px dashed var(--border);
+      }
+    }
+
+    /* —— Teaser (pre-booking preview) —— */
+    .teaser-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px;
+    }
+    .teaser-card {
+      padding: 0; overflow: hidden; display: flex; flex-direction: column;
+      transition: 0.3s var(--ease);
+    }
+    .teaser-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+    .teaser-card .media {
+      position: relative; height: 140px; overflow: hidden;
+      background: linear-gradient(135deg, var(--deep), var(--sea));
+    }
+    .teaser-card .media img { width: 100%; height: 100%; object-fit: cover; }
+    .teaser-card .body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .teaser-card h4 { font-size: 0.96rem; color: var(--deep); font-family: var(--font-display); line-height: 1.3; }
+    .teaser-card .desc { font-size: 0.82rem; color: var(--muted); line-height: 1.45; flex: 1; }
+    .teaser-card .meta {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--border);
+    }
+    #booking.hidden-until-start { display: none; }
 
     /* —— Summary —— */
     .summary-block {
@@ -600,7 +654,7 @@
       <span class="hero-badge" data-i18n="heroBadge">Red Sea · Egypt</span>
       <h1 data-i18n="heroTitle">Your Hurghada Escape Starts Here</h1>
       <p data-i18n="heroSub">Curated hotels, coral-reef adventures, and seamless transfers — planned by local experts for international travellers.</p>
-      <button type="button" class="btn btn-primary" data-od-id="cta-book" data-i18n="ctaBook" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Plan My Trip</button>
+      <button type="button" class="btn btn-primary" data-od-id="cta-book" data-i18n="ctaBook" onclick="startBooking()">Plan My Trip</button>
       <div class="hero-trust" data-od-id="hero-trust">
         <span data-i18n="trustLocal">Local Red Sea experts</span>
         <span data-i18n="trustLang">EN · DE · AR</span>
@@ -609,8 +663,22 @@
     </div>
   </section>
 
+  <!-- Teaser: shown before booking starts -->
+  <section class="section" id="teaser" data-od-id="teaser-section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 data-i18n="teaserTitle">Popular Right Now</h2>
+        <p data-i18n="teaserSub">A quick look at guest favourites. Start your booking to pick dates, hotels and transfers.</p>
+      </div>
+      <div class="teaser-grid" id="teaserGrid"></div>
+      <div style="text-align:center;margin-top:28px">
+        <button type="button" class="btn btn-primary" data-od-id="cta-book-2" data-i18n="ctaStartBooking" onclick="startBooking()">Start Booking</button>
+      </div>
+    </div>
+  </section>
+
   <!-- Booking wizard -->
-  <section class="section wizard-section" id="booking" data-od-id="booking-section">
+  <section class="section wizard-section hidden-until-start" id="booking" data-od-id="booking-section">
     <div class="wrap">
       <div class="section-head">
         <h2 data-i18n="bookingTitle">Book Your Stay</h2>
@@ -823,7 +891,7 @@
         <div>
           <h4 data-i18n="quickLinks">Quick links</h4>
           <ul>
-            <li><a href="#booking" data-i18n="navBook">Book</a></li>
+            <li><a href="#booking" onclick="startBooking(); return false;" data-i18n="navBook">Book</a></li>
             <li><a href="#reviews" data-i18n="navReviews">Reviews</a></li>
           </ul>
         </div>
@@ -1026,6 +1094,9 @@
       ar: { name: "نقل بزورق سريع للجزر", desc: "رحلات زورق خاصة سريعة للجزر ومواقع الغوص القريبة." } }
   ];
 
+  /* Featured picks for the pre-booking teaser strip */
+  const TEASER_ACTIVITY_IDS = ["giftun", "desert-safari", "abu-ramada", "sunset"];
+
   /* —— i18n —— */
   const I18N = {
     en: {
@@ -1034,6 +1105,9 @@
       heroTitle: "Your Hurghada Escape Starts Here",
       heroSub: "Curated hotels, coral-reef adventures, and seamless transfers — planned by local experts for international travellers.",
       ctaBook: "Plan My Trip",
+      ctaStartBooking: "Start Booking",
+      teaserTitle: "Popular Right Now",
+      teaserSub: "A quick look at guest favourites. Start your booking to pick dates, hotels and transfers.",
       trustLocal: "Local Red Sea experts",
       trustLang: "EN · DE · AR",
       trustConfirm: "Confirm within 24h",
@@ -1094,6 +1168,9 @@
       heroTitle: "Ihr Hurghada-Urlaub beginnt hier",
       heroSub: "Ausgewählte Hotels, Korallenriff-Abenteuer und reibungslose Transfers — geplant von lokalen Experten für internationale Gäste.",
       ctaBook: "Reise planen",
+      ctaStartBooking: "Jetzt buchen",
+      teaserTitle: "Aktuell beliebt",
+      teaserSub: "Ein schneller Blick auf Gästefavoriten. Starten Sie Ihre Buchung, um Termine, Hotels und Transfers auszuwählen.",
       trustLocal: "Lokale Rotmeer-Experten",
       trustLang: "EN · DE · AR",
       trustConfirm: "Bestätigung in 24 Std.",
@@ -1154,6 +1231,9 @@
       heroTitle: "عطلتك في الغردقة تبدأ من هنا",
       heroSub: "فنادق مختارة ومغامرات الشعاب المرجانية ونقل سلس — يخططها خبراء محليون للمسافرين الدوليين.",
       ctaBook: "خطّط رحلتي",
+      ctaStartBooking: "ابدأ الحجز",
+      teaserTitle: "الأكثر رواجًا الآن",
+      teaserSub: "نظرة سريعة على المفضلات لدى ضيوفنا. ابدأ حجزك لاختيار التواريخ والفنادق والنقل.",
       trustLocal: "خبراء محليون للبحر الأحمر",
       trustLang: "EN · DE · AR",
       trustConfirm: "تأكيد خلال 24 ساعة",
@@ -1327,6 +1407,7 @@
     });
 
     renderSteps();
+    renderTeaser();
     renderHotels();
     renderActivities();
     renderTransport();
@@ -1345,6 +1426,30 @@
       return `<div class="${cls}"><div class="num">${i < state.step ? "✓" : i + 1}</div>${t(k)}</div>`;
     }).join("");
     document.getElementById("progressFill").style.width = ((state.step + 1) / 6 * 100) + "%";
+  }
+
+  /* —— Pre-booking teaser strip —— */
+  function renderTeaser() {
+    const grid = document.getElementById("teaserGrid");
+    if (!grid) return;
+    const items = TEASER_ACTIVITY_IDS
+      .map(id => ACTIVITIES.find(a => a.id === id))
+      .filter(Boolean);
+    grid.innerHTML = items.map(a => {
+      const L = loc(a);
+      return `<article class="card teaser-card" data-od-id="teaser-${a.id}">
+        <div class="media">
+          <img src="${a.img}" alt="" loading="lazy" width="400" height="140" onerror="this.style.display='none'" />
+        </div>
+        <div class="body">
+          <h4>${L.name}</h4>
+          <p class="desc">${L.desc}</p>
+          <div class="meta">
+            <span class="price">${formatMoney(a.price)} <span style="font-weight:500;color:var(--muted);font-size:0.76rem">${t("perPerson")}</span></span>
+          </div>
+        </div>
+      </article>`;
+    }).join("");
   }
 
   /* —— Hotels —— */
@@ -1406,8 +1511,11 @@
       return `<label class="card check-item${on ? " selected" : ""}" data-od-id="act-${a.id}">
         <input type="checkbox" data-act="${a.id}" ${on ? "checked" : ""} />
         <div class="thumb"><img src="${a.img}" alt="" loading="lazy" width="72" height="72" onerror="this.style.display='none'" /></div>
-        <div><h4>${L.name}</h4><p>${L.desc}</p>
-          <p class="price-note">${t("priceUpdated")}</p></div>
+        <div class="content">
+          <h4>${L.name}</h4>
+          <p>${L.desc}</p>
+          <p class="price-note">${t("priceUpdated")}</p>
+        </div>
         <div class="price">${formatMoney(a.price)} <span style="font-weight:500;color:var(--muted);font-size:0.78rem">${t("perPerson")}</span></div>
       </label>`;
     }).join("");
@@ -1425,10 +1533,13 @@
     list.innerHTML = TRANSPORT.map(tr => {
       const L = loc(tr);
       const on = state.selectedTransport.has(tr.id);
-      return `<label class="card check-item${on ? " selected" : ""}" data-od-id="tr-${tr.id}">
+      return `<label class="card check-item no-thumb${on ? " selected" : ""}" data-od-id="tr-${tr.id}">
         <input type="checkbox" data-tr="${tr.id}" ${on ? "checked" : ""} />
-        <div><h4>${L.name}</h4><p>${L.desc}</p>
-          <p class="price-note">${t("priceUpdated")}</p></div>
+        <div class="content">
+          <h4>${L.name}</h4>
+          <p>${L.desc}</p>
+          <p class="price-note">${t("priceUpdated")}</p>
+        </div>
         <div class="price">${formatMoney(tr.price)} <span style="font-weight:500;color:var(--muted);font-size:0.78rem">${t("perTrip")}</span></div>
       </label>`;
     }).join("");
@@ -1499,6 +1610,14 @@
 
   function prevStep() {
     if (state.step > 0) showStep(state.step - 1);
+  }
+
+  /* Reveal the booking wizard (hidden by default until the guest
+     explicitly asks to start), then jump into step 1. */
+  function startBooking() {
+    const booking = document.getElementById("booking");
+    booking.classList.remove("hidden-until-start");
+    showStep(0);
   }
 
   /* Skip buttons: explicitly clear any selection made for that step

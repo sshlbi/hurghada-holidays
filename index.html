@@ -622,8 +622,48 @@
         <div class="steps-row" id="stepsRow"></div>
       </div>
 
-      <!-- Step 1: Guest info -->
-      <div class="wizard-panel active card" id="step-0" style="padding:24px" data-od-id="step-guest">
+      <!-- Step 1: Activities -->
+      <div class="wizard-panel active card" id="step-0" style="padding:24px" data-od-id="step-activities">
+        <p class="price-note" style="margin-bottom:14px" data-i18n="activityHint">Select one or more activities. Prices are per person (approximate).</p>
+        <div class="check-list" id="activityList"></div>
+        <div class="wizard-nav">
+          <span></span>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button type="button" class="btn btn-ghost" data-i18n="skip" onclick="skipActivities()">Skip</button>
+            <button type="button" class="btn btn-primary" data-i18n="next" onclick="nextStep()">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Hotels -->
+      <div class="wizard-panel card" id="step-1" style="padding:24px" data-od-id="step-hotel">
+        <p class="price-note" style="margin-bottom:14px" data-i18n="hotelPriceNotice">Hotel prices shown are indicative. Final rates depend on your travel dates and are confirmed upon booking.</p>
+        <div class="hotel-filters" id="hotelFilters"></div>
+        <div class="hotel-grid" id="hotelGrid"></div>
+        <div class="wizard-nav">
+          <button type="button" class="btn btn-secondary" data-i18n="back" onclick="prevStep()">Back</button>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button type="button" class="btn btn-ghost" data-i18n="skip" onclick="skipHotel()">Skip</button>
+            <button type="button" class="btn btn-primary" data-i18n="next" onclick="nextStep()">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Transport -->
+      <div class="wizard-panel card" id="step-2" style="padding:24px" data-od-id="step-transport">
+        <p class="price-note" style="margin-bottom:14px" data-i18n="transportHint">Choose transfers that suit your group. Multi-select allowed.</p>
+        <div class="check-list" id="transportList"></div>
+        <div class="wizard-nav">
+          <button type="button" class="btn btn-secondary" data-i18n="back" onclick="prevStep()">Back</button>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button type="button" class="btn btn-ghost" data-i18n="skip" onclick="skipTransport()">Skip</button>
+            <button type="button" class="btn btn-primary" data-i18n="next" onclick="nextStep()">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Guest info -->
+      <div class="wizard-panel card" id="step-3" style="padding:24px" data-od-id="step-guest">
         <div class="form-grid" id="guestForm">
           <div class="field" data-field="fullName">
             <label for="fullName" data-i18n="fullName">Full name</label>
@@ -674,38 +714,6 @@
             <span class="error"></span>
           </div>
         </div>
-        <div class="wizard-nav">
-          <span></span>
-          <button type="button" class="btn btn-primary" data-i18n="next" onclick="nextStep()">Next</button>
-        </div>
-      </div>
-
-      <!-- Step 2: Hotels -->
-      <div class="wizard-panel card" id="step-1" style="padding:24px" data-od-id="step-hotel">
-        <p class="price-note" style="margin-bottom:14px" data-i18n="hotelPriceNotice">Hotel prices shown are indicative. Final rates depend on your travel dates and are confirmed upon booking.</p>
-        <div class="hotel-filters" id="hotelFilters"></div>
-        <div class="hotel-grid" id="hotelGrid"></div>
-        <p class="error" id="hotelError" style="color:var(--danger);font-size:0.85rem;margin-top:10px"></p>
-        <div class="wizard-nav">
-          <button type="button" class="btn btn-secondary" data-i18n="back" onclick="prevStep()">Back</button>
-          <button type="button" class="btn btn-primary" data-i18n="next" onclick="nextStep()">Next</button>
-        </div>
-      </div>
-
-      <!-- Step 3: Activities -->
-      <div class="wizard-panel card" id="step-2" style="padding:24px" data-od-id="step-activities">
-        <p class="price-note" style="margin-bottom:14px" data-i18n="activityHint">Select one or more activities. Prices are per person (approximate).</p>
-        <div class="check-list" id="activityList"></div>
-        <div class="wizard-nav">
-          <button type="button" class="btn btn-secondary" data-i18n="back" onclick="prevStep()">Back</button>
-          <button type="button" class="btn btn-primary" data-i18n="next" onclick="nextStep()">Next</button>
-        </div>
-      </div>
-
-      <!-- Step 4: Transport -->
-      <div class="wizard-panel card" id="step-3" style="padding:24px" data-od-id="step-transport">
-        <p class="price-note" style="margin-bottom:14px" data-i18n="transportHint">Choose transfers that suit your group. Multi-select allowed.</p>
-        <div class="check-list" id="transportList"></div>
         <div class="wizard-nav">
           <button type="button" class="btn btn-secondary" data-i18n="back" onclick="prevStep()">Back</button>
           <button type="button" class="btn btn-primary" data-i18n="next" onclick="nextStep()">Next</button>
@@ -968,7 +976,27 @@
     { id: "bazaar", price: 20, img: "assets/images/act-market.jpg",
       en: { name: "Local market & bazaar tour in El Dahar", desc: "Guided stroll through spices, textiles, and souvenirs in old Hurghada." },
       de: { name: "Markt- & Basar-Tour in El Dahar", desc: "Geführter Spaziergang durch Gewürze, Stoffe und Souvenirs in Alt-Hurghada." },
-      ar: { name: "جولة السوق والبازار في الدهار", desc: "جولة مرشدة بين التوابل والأقمشة والهدايا في الغردقة القديمة." } }
+      ar: { name: "جولة السوق والبازار في الدهار", desc: "جولة مرشدة بين التوابل والأقمشة والهدايا في الغردقة القديمة." } },
+    { id: "private-yacht", price: 180, img: "assets/images/act-yacht.jpg",
+      en: { name: "Private yacht charter on the Red Sea", desc: "A full or half-day private yacht with crew — swimming stops, snacks, and open sea views, just for your group." },
+      de: { name: "Private Yachtcharter im Roten Meer", desc: "Ganz- oder halbtägige private Yacht mit Crew — Schwimmstopps, Snacks und Meerblick nur für Ihre Gruppe." },
+      ar: { name: "استئجار يخت خاص في البحر الأحمر", desc: "يخت خاص بطاقم ليوم كامل أو نصف يوم — توقفات سباحة ومقرمشات وإطلالات بحرية لمجموعتك فقط." } },
+    { id: "fishing-trip", price: 65, img: "assets/images/act-fishing.jpg",
+      en: { name: "Deep-sea fishing trip", desc: "Half-day boat trip chasing tuna, barracuda, and reef fish with an experienced local crew; gear included." },
+      de: { name: "Hochsee-Angeltour", desc: "Halbtägige Bootstour auf Thunfisch, Barrakuda und Riff-Fische mit erfahrener lokaler Crew; Ausrüstung inklusive." },
+      ar: { name: "رحلة صيد في أعماق البحر", desc: "رحلة نصف يوم لصيد التونة والباراكودا وأسماك الشعاب مع طاقم محلي خبير؛ المعدات متضمّنة." } },
+    { id: "quad-safari-sunset", price: 50, img: "assets/images/act-safari-sunset.jpg",
+      en: { name: "Sunset desert safari by quad bike", desc: "Late-afternoon dune ride timed for a golden-hour finish, with Bedouin tea and stargazing on clear nights." },
+      de: { name: "Sonnenuntergangs-Wüstensafari mit Quad", desc: "Späte Dünenfahrt mit goldener Stunde zum Abschluss, Beduinen-Tee und Sternenhimmel an klaren Abenden." },
+      ar: { name: "سفاري صحراوي عند الغروب بالدراجات الرباعية", desc: "جولة في الكثبان في العصر تنتهي مع الغروب الذهبي، مع شاي بدوي ومشاهدة النجوم في الليالي الصافية." } },
+    { id: "overnight-safari", price: 110, img: "assets/images/act-safari-camp.jpg",
+      en: { name: "Overnight desert safari & Bedouin camp", desc: "Quad or jeep ride into the desert, dinner under the stars, traditional music, and an overnight stay in a Bedouin-style camp." },
+      de: { name: "Wüstensafari mit Übernachtung im Beduinencamp", desc: "Quad- oder Jeepfahrt in die Wüste, Abendessen unter Sternen, traditionelle Musik und Übernachtung im Beduinencamp." },
+      ar: { name: "سفاري صحراوي بمبيت في مخيم بدوي", desc: "رحلة بالدراجة الرباعية أو الجيب للصحراء، عشاء تحت النجوم، موسيقى تقليدية، ومبيت في مخيم على الطراز البدوي." } },
+    { id: "island-hopping", price: 75, img: "assets/images/act-island-hop.jpg",
+      en: { name: "Island-hopping boat trip", desc: "A full day sailing between two or three Red Sea islands — snorkeling stops, beach time, and lunch on board." },
+      de: { name: "Insel-Hopping-Bootstour", desc: "Ganztägige Fahrt zwischen zwei bis drei Rotmeer-Inseln — Schnorchelstopps, Strandzeit und Mittagessen an Bord." },
+      ar: { name: "رحلة تنقل بين الجزر بالقارب", desc: "يوم كامل إبحار بين جزيرتين أو ثلاث في البحر الأحمر — توقفات غطس ووقت على الشاطئ وغداء على متن القارب." } }
   ];
 
   const TRANSPORT = [
@@ -1020,12 +1048,11 @@
       phName: "e.g. Anna Müller", phNationality: "e.g. Germany",
       phNotes: "Dietary needs, room preferences, celebration…",
       nights: "nights", night: "night", selectDates: "Select arrival & departure",
-      next: "Next", back: "Back",
+      next: "Next", back: "Back", skip: "Skip",
       hotelPriceNotice: "Hotel prices shown are indicative. Final rates depend on your travel dates and are confirmed upon booking.",
       priceUpdated: "Prices updated periodically. Live confirmation provided by our team.",
       approxPerNight: "approx. / night", select: "Select", selected: "Selected",
       filterAll: "All", filter5: "★★★★★ Five Star", filter4: "★★★★ Four Star", filter3: "★★★ Three Star",
-      errHotel: "Please select a hotel to continue.",
       activityHint: "Select one or more activities. Prices are per person (approximate).",
       transportHint: "Choose transfers that suit your group. Multi-select allowed.",
       perPerson: "/ person", perTrip: "/ trip",
@@ -1081,12 +1108,11 @@
       phName: "z. B. Anna Müller", phNationality: "z. B. Deutschland",
       phNotes: "Ernährung, Zimmerwünsche, Feier…",
       nights: "Nächte", night: "Nacht", selectDates: "An- und Abreise wählen",
-      next: "Weiter", back: "Zurück",
+      next: "Weiter", back: "Zurück", skip: "Überspringen",
       hotelPriceNotice: "Hotelpreise sind Richtwerte. Endpreise hängen von Ihren Reisedaten ab und werden bei Buchung bestätigt.",
       priceUpdated: "Preise werden regelmäßig aktualisiert. Endgültige Bestätigung durch unser Team.",
       approxPerNight: "ca. / Nacht", select: "Auswählen", selected: "Ausgewählt",
       filterAll: "Alle", filter5: "★★★★★ Fünf Sterne", filter4: "★★★★ Vier Sterne", filter3: "★★★ Drei Sterne",
-      errHotel: "Bitte wählen Sie ein Hotel.",
       activityHint: "Wählen Sie eine oder mehrere Aktivitäten. Preise pro Person (ca.).",
       transportHint: "Wählen Sie passende Transfers. Mehrfachauswahl möglich.",
       perPerson: "/ Person", perTrip: "/ Fahrt",
@@ -1142,12 +1168,11 @@
       phName: "مثال: أحمد حسن", phNationality: "مثال: مصر",
       phNotes: "احتياجات غذائية، تفضيلات الغرفة، احتفال…",
       nights: "ليالٍ", night: "ليلة", selectDates: "اختر تاريخي الوصول والمغادرة",
-      next: "التالي", back: "رجوع",
+      next: "التالي", back: "رجوع", skip: "تخطي",
       hotelPriceNotice: "أسعار الفنادق إرشادية. تعتمد الأسعار النهائية على تواريخ سفرك وتُؤكد عند الحجز.",
       priceUpdated: "تُحدَّث الأسعار دوريًا. التأكيد النهائي من فريقنا.",
       approxPerNight: "تقريبًا / ليلة", select: "اختيار", selected: "محدد",
       filterAll: "الكل", filter5: "★★★★★ خمس نجوم", filter4: "★★★★ أربع نجوم", filter3: "★★★ ثلاث نجوم",
-      errHotel: "يرجى اختيار فندق للمتابعة.",
       activityHint: "اختر نشاطًا أو أكثر. الأسعار للشخص الواحد (تقريبية).",
       transportHint: "اختر وسائل النقل المناسبة. يُسمح بتحديد متعدد.",
       perPerson: "/ شخص", perTrip: "/ رحلة",
@@ -1311,7 +1336,7 @@
   }
 
   function renderSteps() {
-    const labels = ["stepInfo", "stepHotel", "stepActivities", "stepTransport", "stepSummary", "stepConfirm"];
+    const labels = ["stepActivities", "stepHotel", "stepTransport", "stepInfo", "stepSummary", "stepConfirm"];
     const row = document.getElementById("stepsRow");
     row.innerHTML = labels.map((k, i) => {
       let cls = "step-dot";
@@ -1368,7 +1393,6 @@
     grid.querySelectorAll(".hotel-card").forEach(card => {
       card.onclick = () => {
         state.selectedHotel = card.dataset.id;
-        document.getElementById("hotelError").textContent = "";
         renderHotels();
       };
     });
@@ -1469,18 +1493,30 @@
   }
 
   function nextStep() {
-    if (state.step === 0 && !validateGuest()) return;
-    if (state.step === 1) {
-      if (!state.selectedHotel) {
-        document.getElementById("hotelError").textContent = t("errHotel");
-        return;
-      }
-    }
+    if (state.step === 3 && !validateGuest()) return;
     if (state.step < 5) showStep(state.step + 1);
   }
 
   function prevStep() {
     if (state.step > 0) showStep(state.step - 1);
+  }
+
+  /* Skip buttons: explicitly clear any selection made for that step
+     and move on, for guests who don't want a hotel/activity/transfer. */
+  function skipActivities() {
+    state.selectedActivities.clear();
+    renderActivities();
+    nextStep();
+  }
+  function skipHotel() {
+    state.selectedHotel = null;
+    renderHotels();
+    nextStep();
+  }
+  function skipTransport() {
+    state.selectedTransport.clear();
+    renderTransport();
+    nextStep();
   }
 
   /* —— Pricing —— */
@@ -1530,7 +1566,7 @@
     const arrival = document.getElementById("arrival").value;
     const departure = document.getElementById("departure").value;
     const notes = document.getElementById("notes").value.trim();
-    const hotelName = c.hotel ? loc(c.hotel).name : "—";
+    const hotelName = c.hotel ? loc(c.hotel).name : t("summaryNone");
 
     const actHtml = c.actLines.length
       ? c.actLines.map(l => `<div class="summary-row"><span class="label">${l.name}</span><span class="price">${formatMoney(l.usd)}</span></div>`).join("")
@@ -1538,6 +1574,13 @@
 
     const trHtml = c.trLines.length
       ? c.trLines.map(l => `<div class="summary-row"><span class="label">${l.name}</span><span class="price">${formatMoney(l.usd)}</span></div>`).join("")
+      : `<div class="summary-row"><span class="label">${t("summaryNone")}</span><span>—</span></div>`;
+
+    const hotelBlock = c.hotel
+      ? `<div class="summary-row"><span class="label">${hotelName}</span><span class="price">${formatMoney(c.hotel.price)} ${t("approxPerNight")}</span></div>
+         <div class="summary-row"><span class="label">${t("nightsLabel")}</span><span>${c.nights}</span></div>
+         <div class="summary-row"><span class="label">${t("hotelTotal")}</span><span class="price">${formatMoney(c.hotelUSD)}</span></div>
+         <p class="price-note">${t("hotelPriceNotice")}</p>`
       : `<div class="summary-row"><span class="label">${t("summaryNone")}</span><span>—</span></div>`;
 
     document.getElementById("summaryContent").innerHTML = `
@@ -1553,10 +1596,7 @@
       </div>
       <div class="card summary-block" data-od-id="sum-hotel">
         <h3>${t("summaryHotel")}</h3>
-        <div class="summary-row"><span class="label">${hotelName}</span><span class="price">${formatMoney(c.hotel ? c.hotel.price : 0)} ${t("approxPerNight")}</span></div>
-        <div class="summary-row"><span class="label">${t("nightsLabel")}</span><span>${c.nights}</span></div>
-        <div class="summary-row"><span class="label">${t("hotelTotal")}</span><span class="price">${formatMoney(c.hotelUSD)}</span></div>
-        <p class="price-note">${t("hotelPriceNotice")}</p>
+        ${hotelBlock}
       </div>
       <div class="card summary-block" data-od-id="sum-act">
         <h3>${t("summaryAct")}</h3>
@@ -1600,7 +1640,6 @@
 
   async function submitBooking() {
     const c = calcTotals();
-    if (!c.hotel) { showStep(1); return; }
     const ref = "HH-" + Date.now().toString(36).toUpperCase();
     const booking = {
       id: ref,
@@ -1618,8 +1657,8 @@
         departure: document.getElementById("departure").value,
         notes: document.getElementById("notes").value.trim()
       },
-      hotelId: c.hotel.id,
-      hotelName: c.hotel.en.name,
+      hotelId: c.hotel ? c.hotel.id : null,
+      hotelName: c.hotel ? c.hotel.en.name : "",
       nights: c.nights,
       activities: c.actLines.map(l => ({ id: l.id, name: l.name, usd: l.usd })),
       transport: c.trLines.map(l => ({ id: l.id, name: l.name, usd: l.usd })),

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sshlbi.github.io/hurghada-holidays/sitemap.xml

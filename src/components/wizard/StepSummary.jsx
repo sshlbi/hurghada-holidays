@@ -25,6 +25,11 @@ export default function StepSummary() {
 
   return (
     <div>
+      <div className="flex justify-start mb-4">
+        <button type="button" onClick={prevStep} className="rounded-full bg-surface border border-border px-4 py-2 font-semibold text-[0.85rem] text-deep shadow-soft">
+          {t("back")}
+        </button>
+      </div>
       <SummaryBlock title={t("summaryGuest")}>
         <SummaryRow label={t("fullName")} value={guest.fullName} />
         <SummaryRow label={t("nationality")} value={guest.nationality} />
@@ -80,10 +85,7 @@ export default function StepSummary() {
         {t("approxNote")}
       </div>
 
-      <div className="flex justify-between gap-3 mt-7 flex-wrap">
-        <button type="button" onClick={prevStep} className="rounded-full bg-surface border border-border px-5 py-2.5 font-semibold text-[0.95rem] text-deep shadow-soft">
-          {t("back")}
-        </button>
+      <div className="flex justify-end mt-7">
         <button
           type="button"
           onClick={submitBooking}

@@ -16,6 +16,14 @@ export default function StepHotels() {
 
   return (
     <div className="p-6 max-[480px]:p-4 bg-surface rounded-2xl border border-border shadow-soft">
+      <div className="flex justify-between items-center gap-3 mb-4 flex-wrap">
+        <button type="button" onClick={prevStep} className="rounded-full bg-surface border border-border px-4 py-2 font-semibold text-[0.85rem] text-deep">
+          {t("back")}
+        </button>
+        <button type="button" onClick={skipHotel} className="rounded-full border border-border px-4 py-2 font-semibold text-[0.85rem] text-deep">
+          {t("skip")}
+        </button>
+      </div>
       <p className="text-[0.78rem] text-muted mb-3.5">{t("hotelPriceNotice")}</p>
 
       <div className="flex flex-wrap gap-2 mb-[1.125rem]">
@@ -96,23 +104,15 @@ export default function StepHotels() {
       </div>
 
       <WarnBanner step={1} />
-      <div className="flex justify-between gap-3 mt-7 flex-wrap">
-        <button type="button" onClick={prevStep} className="rounded-full bg-surface border border-border px-5 py-2.5 font-semibold text-[0.95rem] text-deep shadow-soft">
-          {t("back")}
+      <div className="flex justify-end mt-7">
+        <button
+          type="button"
+          onClick={() => nextStep()}
+          className="rounded-full px-6 py-2.5 font-semibold text-[0.95rem] text-white shadow-soft"
+          style={{ background: "linear-gradient(145deg, #D3A34C -10%, #E2603D 55%, #C94F30 100%)" }}
+        >
+          {t("next")}
         </button>
-        <div className="flex gap-2.5 flex-wrap">
-          <button type="button" onClick={skipHotel} className="rounded-full border border-border px-5 py-2.5 font-semibold text-[0.95rem] text-deep">
-            {t("skip")}
-          </button>
-          <button
-            type="button"
-            onClick={() => nextStep()}
-            className="rounded-full px-6 py-2.5 font-semibold text-[0.95rem] text-white shadow-soft"
-            style={{ background: "linear-gradient(145deg, #D3A34C -10%, #E2603D 55%, #C94F30 100%)" }}
-          >
-            {t("next")}
-          </button>
-        </div>
       </div>
     </div>
   );

@@ -1,4 +1,7 @@
+import { Suspense, lazy } from "react";
 import { useApp } from "../context/AppContext";
+
+const Scene3D = lazy(() => import("./Scene3D"));
 
 export default function Hero() {
   const { t, startBooking } = useApp();
@@ -13,6 +16,9 @@ export default function Hero() {
         backgroundPosition: "center",
       }}
     >
+      <Suspense fallback={null}>
+        <Scene3D />
+      </Suspense>
       <div className="absolute inset-0 z-0 pointer-events-none bg-[radial-gradient(ellipse_70%_50%_at_50%_100%,rgba(211,163,76,0.22),transparent_55%)]" />
       <div className="absolute inset-0 z-0 pointer-events-none hero-caustic origin-[80%_20%] bg-[radial-gradient(circle_at_80%_20%,rgba(211,163,76,0.2),transparent_40%)]" />
 

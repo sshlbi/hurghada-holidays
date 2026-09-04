@@ -64,7 +64,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="absolute left-0 right-0 -bottom-[3px] h-[3px] nav-flow bg-gradient-to-r from-sea via-coral via-gold to-sea" />
+      <div className="absolute left-0 right-0 -bottom-px h-px bg-border" />
     </header>
   );
 }

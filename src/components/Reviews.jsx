@@ -49,10 +49,10 @@ export default function Reviews() {
 
   return (
     <section className="relative py-14 px-5 bg-deep-2 text-sand overflow-hidden" id="reviews">
-      <div className="wave-divider absolute top-0 left-0 right-0 h-[60px] overflow-hidden leading-none -translate-y-px" aria-hidden="true">
-        <svg viewBox="0 0 2880 90" preserveAspectRatio="none" className="w-[200%] h-full block">
+      <div className="absolute top-0 left-0 right-0 h-[60px] overflow-hidden leading-none -translate-y-px" aria-hidden="true">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none" className="w-full h-full block">
           <path
-            d="M0,32 C240,80 480,0 720,28 C960,56 1200,8 1440,40 C1680,80 1920,0 2160,28 C2400,56 2640,8 2880,40 L2880,0 L0,0 Z"
+            d="M0,32 C240,80 480,0 720,28 C960,56 1200,8 1440,40 L1440,0 L0,0 Z"
             fill="#061620"
           />
         </svg>

@@ -13,15 +13,14 @@ const STEPS = [StepActivities, StepHotels, StepTransport, StepGuestInfo, StepSum
 export default function BookingWizard() {
   const { t, bookingStarted, step } = useApp();
   const sectionRef = useRef(null);
-  const mounted = useRef(false);
 
   useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true;
-      return;
-    }
-    sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, [step]);
+    if (!bookingStarted) return;
+    const id = requestAnimationFrame(() => {
+      sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [bookingStarted, step]);
 
   if (!bookingStarted) return null;
 

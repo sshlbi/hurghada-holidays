@@ -13,6 +13,10 @@ export default function Hero() {
         backgroundPosition: "center",
       }}
     >
+      <div
+        className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, transparent, #061620)" }}
+      />
       <div className="relative z-10 max-w-[720px]">
         <span className="inline-block px-5 py-2 rounded-full bg-white/8 border border-white/15 backdrop-blur-sm text-[0.74rem] tracking-[0.14em] uppercase font-semibold text-gold/90 mb-6">
           {t("heroBadge")}

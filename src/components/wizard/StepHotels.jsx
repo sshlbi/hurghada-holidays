@@ -41,67 +41,98 @@ export default function StepHotels() {
         ))}
       </div>
 
-      <div className="grid gap-5 grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
-        {list.map((h) => {
-          const L = loc(h);
-          const sel = selectedHotel === h.id;
-          return (
-            <article
-              key={h.id}
-              onClick={() => chooseHotel(h.id)}
-              className={`relative flex flex-col overflow-hidden bg-surface rounded-2xl border-2 cursor-pointer transition-all ${
-                sel
-                  ? "border-coral shadow-[0_0_0_3px_rgba(226,96,61,0.22)] -translate-y-0.5"
-                  : "border-border hover:border-sea-light hover:shadow-lifted hover:-translate-y-1"
-              }`}
-            >
-              {sel && (
-                <span className="absolute top-0 left-0 right-0 h-1 z-[3]" style={{ background: "linear-gradient(90deg, #D3A34C, #E2603D)" }} />
-              )}
-              <span
-                className={`absolute top-3 right-3 rtl:left-3 rtl:right-auto z-[2] w-7 h-7 rounded-full bg-coral text-white grid place-items-center text-[0.9rem] shadow-[0_4px_12px_rgba(200,79,48,0.45)] ${
-                  sel ? "grid" : "hidden"
+      {list.length === 0 ? (
+        <div className="rounded-2xl border border-dashed border-border bg-surface-soft p-5 text-center">
+          <p className="font-semibold text-deep mb-2">{t("noHotelsFound")}</p>
+          <p className="text-[0.86rem] text-muted mb-4">{t("noHotelsFoundHint")}</p>
+          <button
+            type="button"
+            onClick={() => setHotelFilter("all")}
+            className="rounded-full border border-border px-4 py-2 text-[0.82rem] font-semibold text-deep"
+          >
+            {t("showAllHotels")}
+          </button>
+        </div>
+      ) : (
+        <div className="grid gap-5 grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
+          {list.map((h) => {
+            const L = loc(h);
+            const sel = selectedHotel === h.id;
+            const handleKeyDown = (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                chooseHotel(h.id);
+              }
+            };
+
+            return (
+              <article
+                key={h.id}
+                role="button"
+                tabIndex={0}
+                aria-pressed={sel}
+                onClick={() => chooseHotel(h.id)}
+                onKeyDown={handleKeyDown}
+                className={`relative flex flex-col overflow-hidden bg-surface rounded-2xl border-2 cursor-pointer transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/70 ${
+                  sel
+                    ? "border-coral shadow-[0_0_0_3px_rgba(226,96,61,0.22)] -translate-y-0.5"
+                    : "border-border hover:border-sea-light hover:shadow-lifted hover:-translate-y-1"
                 }`}
               >
-                ✓
-              </span>
-              <div className="relative h-[168px] overflow-hidden bg-gradient-to-br from-deep to-sea">
-                <img
-                  src={h.img}
-                  alt=""
-                  loading="lazy"
-                  width="600"
-                  height="168"
-                  className="w-full h-full object-cover"
-                  onError={(e) => (e.currentTarget.style.display = "none")}
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-ink/45 pointer-events-none" style={{ backgroundImage: "linear-gradient(180deg, transparent 40%, rgba(18,37,49,0.45))" }} />
-              </div>
-              <div className="flex flex-col gap-2 p-[1.125rem] flex-1">
-                <div className="text-gold text-[0.82rem] tracking-widest">{"★".repeat(h.stars)}</div>
-                <h3 className="font-display font-semibold text-[1.08rem] text-deep leading-snug">{L.name}</h3>
-                <p className="text-[0.88rem] text-muted leading-relaxed flex-1">{L.desc}</p>
-                <p className="text-[0.78rem] text-muted">{t("priceUpdated")}</p>
-                <div className="flex items-center justify-between gap-2.5 flex-wrap mt-1.5 pt-3 border-t border-border">
-                  <div>
-                    <span className="font-mono font-semibold text-deep">{money(h.price)}</span>{" "}
-                    <span className="text-[0.8rem] text-muted">{t("approxPerNight")}</span>
-                  </div>
-                  <button
-                    type="button"
-                    className={`rounded-full px-3.5 py-2 text-[0.85rem] font-semibold ${
-                      sel ? "text-white" : "border border-border text-deep"
-                    }`}
-                    style={sel ? { background: "linear-gradient(145deg, #D3A34C -10%, #E2603D 55%, #C94F30 100%)" } : undefined}
-                  >
-                    {sel ? t("selected") : t("select")}
-                  </button>
+                {sel && (
+                  <span className="absolute top-0 left-0 right-0 h-1 z-[3]" style={{ background: "linear-gradient(90deg, #D3A34C, #E2603D)" }} />
+                )}
+                <span
+                  className={`absolute top-3 right-3 rtl:left-3 rtl:right-auto z-[2] w-7 h-7 rounded-full bg-coral text-white grid place-items-center text-[0.9rem] shadow-[0_4px_12px_rgba(200,79,48,0.45)] ${
+                    sel ? "grid" : "hidden"
+                  }`}
+                >
+                  ✓
+                </span>
+                <div className="relative h-[168px] overflow-hidden bg-gradient-to-br from-deep to-sea">
+                  <img
+                    src={h.img}
+                    alt=""
+                    loading="lazy"
+                    width="600"
+                    height="168"
+                    className="w-full h-full object-cover"
+                    onError={(e) => (e.currentTarget.style.display = "none")}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-ink/45 pointer-events-none" style={{ backgroundImage: "linear-gradient(180deg, transparent 40%, rgba(18,37,49,0.45))" }} />
                 </div>
-              </div>
-            </article>
-          );
-        })}
-      </div>
+                <div className="flex flex-col gap-2 p-[1.125rem] flex-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="text-gold text-[0.82rem] tracking-widest">{"★".repeat(h.stars)}</div>
+                    {sel && (
+                      <span className="rounded-full bg-deep text-white px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.08em]">
+                        {t("selected")}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="font-display font-semibold text-[1.08rem] text-deep leading-snug">{L.name}</h3>
+                  <p className="text-[0.88rem] text-muted leading-relaxed flex-1">{L.desc}</p>
+                  <p className="text-[0.78rem] text-muted">{t("priceUpdated")}</p>
+                  <div className="flex items-center justify-between gap-2.5 flex-wrap mt-1.5 pt-3 border-t border-border">
+                    <div>
+                      <span className="font-mono font-semibold text-deep">{money(h.price)}</span>{" "}
+                      <span className="text-[0.8rem] text-muted">{t("approxPerNight")}</span>
+                    </div>
+                    <span
+                      className={`inline-flex items-center rounded-full px-3.5 py-2 text-[0.85rem] font-semibold ${
+                        sel ? "text-white" : "border border-border text-deep"
+                      }`}
+                      style={sel ? { background: "linear-gradient(145deg, #D3A34C -10%, #E2603D 55%, #C94F30 100%)" } : undefined}
+                    >
+                      {sel ? t("selected") : t("select")}
+                    </span>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      )}
 
       <WarnBanner step={1} />
       <div className="flex justify-end mt-7">

@@ -4,7 +4,7 @@ import WarnBanner from "./WarnBanner";
 
 export default function StepActivities() {
   const { t, loc, money, selectedActivities, toggleActivity, skipActivities, nextStep } = useApp();
- 
+
   return (
     <div className="p-6 max-[480px]:p-4 bg-surface rounded-2xl border border-border shadow-soft">
       <div className="flex justify-between items-center gap-3 mb-4">

@@ -6,7 +6,7 @@ import { TRANSPORT } from "../data/transport";
 import { SEED_REVIEWS } from "../data/seedReviews";
 import { loadFxRates, FX_FALLBACK } from "../utils/fx";
 import { formatMoney, loc as locItem } from "../utils/format";
-import { COMPANY_EMAIL, loadReviewsFromSheet, sendBookingToSheet, sendReviewToSheet } from "../utils/sheets";
+import { loadReviewsFromSheet, sendBookingToSheet, sendReviewToSheet } from "../utils/sheets";
 
 const STORAGE_LANG = "hh_lang";
 const STORAGE_CUR = "hh_currency";
@@ -258,32 +258,6 @@ export function AppProvider({ children }) {
     } catch (err) {
       console.error("Could not send booking to the Google Sheet:", err);
     }
-
-    try {
-      const emailTo = [guest.email.trim(), COMPANY_EMAIL].filter(Boolean).join(",");
-      const summaryLines = [
-        `Reference: ${ref}`,
-        `Name: ${booking.guest.fullName}`,
-        `Email: ${booking.guest.email}`,
-        `Phone: ${booking.guest.phone}`,
-        `Nationality: ${booking.guest.nationality}`,
-        `Arrival: ${booking.guest.arrival}`,
-        `Departure: ${booking.guest.departure}`,
-        `Guests: ${booking.guest.adults} adults / ${booking.guest.children} children`,
-        `Hotel: ${booking.hotelName || "Not selected"}`,
-        `Total: $${booking.totals.grandUSD.toFixed(2)}`,
-        `Notes: ${booking.guest.notes || "-"}`,
-      ];
-
-      if (typeof window !== "undefined" && emailTo) {
-        const subject = encodeURIComponent(`Booking request ${ref}`);
-        const body = encodeURIComponent(summaryLines.join("\n"));
-        window.location.href = `mailto:${emailTo}?subject=${subject}&body=${body}`;
-      }
-    } catch (err) {
-      console.error("Could not prepare booking email:", err);
-    }
-
     setSubmitting(false);
     setRefCode(t("refLabel") + ": " + ref);
     setStep(5);

@@ -1,56 +1,26 @@
 export const BOOKINGS_WEBAPP_URL =
   "https://script.google.com/macros/s/AKfycbxDicfSI9f_4611zhoW9Fbz59HXmt9sq8gdh-cDHJCbBpPbUK_XUIv0KIZ3dcuncnI/exec";
-export const COMPANY_EMAIL = "hurghadaholidays434@gmail.com";
 
 function isConfigured() {
   return BOOKINGS_WEBAPP_URL && BOOKINGS_WEBAPP_URL.indexOf("PASTE_YOUR") !== 0;
 }
 
-async function fetchJson(url, options = {}) {
-  const res = await fetch(url, {
-    mode: "cors",
-    cache: "no-store",
-    credentials: "omit",
-    ...options,
-  });
-
-  const text = await res.text();
-  if (!text) return { ok: res.ok };
-
-  try {
-    const data = JSON.parse(text);
-    if (!res.ok) {
-      throw new Error((data && data.error) || `Request failed with status ${res.status}`);
-    }
-    return data;
-  } catch (err) {
-    if (!res.ok) throw err;
-    return { ok: true, raw: text };
-  }
-}
-
 export function sendBookingToSheet(booking) {
-  if (!isConfigured()) return Promise.resolve({ skipped: true, reason: "not_configured" });
-
-  return fetchJson(BOOKINGS_WEBAPP_URL + "?action=booking", {
+  if (!isConfigured()) return Promise.resolve({ skipped: true });
+  return fetch(BOOKINGS_WEBAPP_URL, {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ type: "booking", ...booking }),
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(booking),
   });
 }
 
 export function sendReviewToSheet(review) {
-  if (!isConfigured()) return Promise.resolve({ skipped: true, reason: "not_configured" });
-
-  return fetchJson(BOOKINGS_WEBAPP_URL + "?action=review", {
+  if (!isConfigured()) return Promise.resolve({ skipped: true });
+  return fetch(BOOKINGS_WEBAPP_URL, {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify({ type: "review", ...review }),
   });
 }
@@ -58,11 +28,9 @@ export function sendReviewToSheet(review) {
 export async function loadReviewsFromSheet() {
   if (!isConfigured()) return null;
   try {
-    const data = await fetchJson(BOOKINGS_WEBAPP_URL + "?action=reviews", {
-      method: "GET",
-      headers: { Accept: "application/json" },
-    });
-
+    const res = await fetch(BOOKINGS_WEBAPP_URL + "?action=reviews");
+    if (!res.ok) throw new Error("Reviews fetch failed: " + res.status);
+    const data = await res.json();
     if (data && data.ok && Array.isArray(data.reviews) && data.reviews.length) {
       return data.reviews;
     }

@@ -3,7 +3,6 @@ import { I18N } from "../data/i18n";
 import { HOTELS } from "../data/hotels";
 import { ACTIVITIES } from "../data/activities";
 import { TRANSPORT } from "../data/transport";
-import { SEED_REVIEWS } from "../data/seedReviews";
 import { loadFxRates, FX_FALLBACK } from "../utils/fx";
 import { formatMoney, loc as locItem } from "../utils/format";
 import { loadReviewsFromSheet, sendBookingToSheet, sendReviewToSheet } from "../utils/sheets";
@@ -43,7 +42,7 @@ export function AppProvider({ children }) {
   const [refCode, setRefCode] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  const [reviews, setReviews] = useState(SEED_REVIEWS);
+  const [reviews, setReviews] = useState([]);
   const [reviewStars, setReviewStars] = useState({ hotel: 5, activities: 5, transport: 5, overall: 5 });
 
   useEffect(() => {

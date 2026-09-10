@@ -73,7 +73,10 @@ export default function StepHotels() {
                   width="600"
                   height="168"
                   className="w-full h-full object-cover"
-                  onError={(e) => (e.currentTarget.style.display = "none")}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "assets/images/resort-1.jpg";
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-ink/45 pointer-events-none" style={{ backgroundImage: "linear-gradient(180deg, transparent 40%, rgba(18,37,49,0.45))" }} />
               </div>

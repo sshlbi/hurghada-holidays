@@ -17,10 +17,10 @@ export default function StepHotels() {
   return (
     <div className="p-6 max-[480px]:p-4 bg-surface rounded-2xl border border-border shadow-soft">
       <div className="flex justify-between items-center gap-3 mb-4 flex-wrap">
-        <button type="button" onClick={prevStep} className="rounded-full bg-surface border border-border px-4 py-2 font-semibold text-[0.85rem] text-deep">
+        <button type="button" onClick={prevStep} className="rounded-full bg-surface border border-border px-4 py-2 font-medium text-[0.85rem] text-deep transition-colors duration-200 hover:border-coral/40 hover:text-coral">
           {t("back")}
         </button>
-        <button type="button" onClick={skipHotel} className="rounded-full border border-border px-4 py-2 font-semibold text-[0.85rem] text-deep">
+        <button type="button" onClick={skipHotel} className="rounded-full border border-border px-4 py-2 font-medium text-[0.85rem] text-deep transition-colors duration-200 hover:border-coral/40 hover:text-coral">
           {t("skip")}
         </button>
       </div>
@@ -32,7 +32,7 @@ export default function StepHotels() {
             key={f.id}
             type="button"
             onClick={() => setHotelFilter(f.id)}
-            className={`rounded-full px-4 py-2 text-[0.82rem] font-semibold border transition-colors ${
+            className={`rounded-full px-4 py-2 text-[0.82rem] font-semibold border transition-colors duration-200 ${
               hotelFilter === f.id ? "bg-deep text-white border-deep" : "border-border text-muted hover:bg-deep hover:text-white hover:border-deep"
             }`}
           >
@@ -49,7 +49,7 @@ export default function StepHotels() {
             <article
               key={h.id}
               onClick={() => chooseHotel(h.id)}
-              className={`relative flex flex-col overflow-hidden bg-surface rounded-2xl border-2 cursor-pointer transition-all ${
+              className={`relative flex flex-col overflow-hidden bg-surface rounded-2xl border-2 cursor-pointer transition-all duration-200 ${
                 sel
                   ? "border-coral shadow-[0_0_0_3px_rgba(226,96,61,0.22)] -translate-y-0.5"
                   : "border-border hover:border-sea-light hover:shadow-lifted hover:-translate-y-1"
@@ -89,10 +89,9 @@ export default function StepHotels() {
                   </div>
                   <button
                     type="button"
-                    className={`rounded-full px-3.5 py-2 text-[0.85rem] font-semibold ${
-                      sel ? "text-white" : "border border-border text-deep"
+                    className={`rounded-full px-3.5 py-2 text-[0.85rem] font-medium transition-colors duration-200 ${
+                      sel ? "text-white bg-coral hover:bg-coral-hover" : "border border-border text-deep hover:border-coral/40"
                     }`}
-                    style={sel ? { background: "linear-gradient(145deg, #D3A34C -10%, #E2603D 55%, #C94F30 100%)" } : undefined}
                   >
                     {sel ? t("selected") : t("select")}
                   </button>
@@ -108,8 +107,7 @@ export default function StepHotels() {
         <button
           type="button"
           onClick={() => nextStep()}
-          className="rounded-full px-6 py-2.5 font-semibold text-[0.95rem] text-white shadow-soft"
-          style={{ background: "linear-gradient(145deg, #D3A34C -10%, #E2603D 55%, #C94F30 100%)" }}
+          className="rounded-full px-6 py-2.5 font-medium text-[0.92rem] text-white bg-coral transition-colors duration-200 hover:bg-coral-hover"
         >
           {t("next")}
         </button>

@@ -26,7 +26,7 @@ export default function Teaser() {
             return (
               <article
                 key={a.id}
-                className="flex flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-soft transition-all hover:shadow-lifted hover:-translate-y-1"
+                className="flex flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-soft transition-all duration-200 hover:shadow-lifted hover:-translate-y-1"
               >
                 <div className="relative h-[140px] overflow-hidden bg-gradient-to-br from-deep to-sea">
                   <img
@@ -58,7 +58,7 @@ export default function Teaser() {
           <button
             type="button"
             onClick={startBooking}
-            className="inline-flex items-center gap-2 rounded-full px-7 py-3 font-medium text-[0.92rem] text-white bg-coral transition-colors hover:bg-coral-hover"
+            className="inline-flex items-center gap-2 rounded-full px-7 py-3 font-medium text-[0.92rem] text-white bg-coral transition-colors duration-200 hover:bg-coral-hover"
           >
             {t("ctaStartBooking")}
             <span className="rtl:rotate-180">→</span>

@@ -30,7 +30,7 @@ export default function BookingWizard() {
     <section ref={sectionRef} className="pt-10 pb-14 px-5" id="booking">
       <div className="max-w-[1100px] mx-auto">
         <div className="mb-7">
-          <h2 className="font-display font-semibold text-[clamp(1.65rem,3vw,2.2rem)] text-sand mb-2 tracking-tight">
+          <h2 className="font-display font-medium text-[clamp(1.5rem,2.6vw,2rem)] text-sand mb-2 tracking-tight">
             {t("bookingTitle")}
           </h2>
           <p className="max-w-[560px] text-lagoon/90">{t("bookingSub")}</p>

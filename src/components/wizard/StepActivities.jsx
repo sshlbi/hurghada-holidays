@@ -9,7 +9,7 @@ export default function StepActivities() {
     <div className="p-6 max-[480px]:p-4 bg-surface rounded-2xl border border-border shadow-soft">
       <div className="flex justify-between items-center gap-3 mb-4">
         <p className="text-[0.78rem] text-muted">{t("activityHint")}</p>
-        <button type="button" onClick={skipActivities} className="shrink-0 rounded-full border border-border px-4 py-2 font-semibold text-[0.85rem] text-deep">
+        <button type="button" onClick={skipActivities} className="shrink-0 rounded-full border border-border px-4 py-2 font-medium text-[0.85rem] text-deep transition-colors duration-200 hover:border-coral/40 hover:text-coral">
           {t("skip")}
         </button>
       </div>
@@ -20,15 +20,15 @@ export default function StepActivities() {
           return (
             <label
               key={a.id}
-              className={`grid grid-cols-[auto_72px_1fr_auto] max-[560px]:grid-cols-[auto_56px_1fr] gap-x-3.5 gap-y-2.5 items-center rounded-2xl border-2 p-3.5 cursor-pointer transition-all ${
-                on ? "border-sea bg-sea/5" : "border-border hover:border-sea-light hover:shadow-soft"
+              className={`grid grid-cols-[auto_72px_1fr_auto] max-[560px]:grid-cols-[auto_56px_1fr] gap-x-3.5 gap-y-2.5 items-center rounded-2xl border-2 p-3.5 cursor-pointer transition-all duration-200 ${
+                on ? "border-coral bg-coral/5" : "border-border hover:border-coral/40 hover:shadow-soft"
               }`}
             >
               <input
                 type="checkbox"
                 checked={on}
                 onChange={() => toggleActivity(a.id)}
-                className="w-[18px] h-[18px] accent-sea cursor-pointer self-start mt-0.5"
+                className="w-[18px] h-[18px] accent-coral cursor-pointer self-start mt-0.5"
               />
               <div className="w-[72px] h-[72px] max-[560px]:w-14 max-[560px]:h-14 rounded-[10px] overflow-hidden shrink-0 bg-surface-2">
                 <img
@@ -59,8 +59,7 @@ export default function StepActivities() {
         <button
           type="button"
           onClick={() => nextStep()}
-          className="rounded-full px-6 py-2.5 font-semibold text-[0.95rem] text-white shadow-soft"
-          style={{ background: "linear-gradient(145deg, #D3A34C -10%, #E2603D 55%, #C94F30 100%)" }}
+          className="rounded-full px-6 py-2.5 font-medium text-[0.92rem] text-white bg-coral transition-colors duration-200 hover:bg-coral-hover"
         >
           {t("next")}
         </button>

@@ -26,7 +26,7 @@ export default function StepSummary() {
   return (
     <div>
       <div className="flex justify-start mb-4">
-        <button type="button" onClick={prevStep} className="rounded-full bg-surface border border-border px-4 py-2 font-semibold text-[0.85rem] text-deep shadow-soft">
+        <button type="button" onClick={prevStep} className="rounded-full bg-surface border border-border px-4 py-2 font-medium text-[0.85rem] text-deep shadow-soft transition-colors duration-200 hover:border-coral/40 hover:text-coral">
           {t("back")}
         </button>
       </div>
@@ -90,8 +90,7 @@ export default function StepSummary() {
           type="button"
           onClick={submitBooking}
           disabled={submitting}
-          className="rounded-full px-6 py-2.5 font-semibold text-[0.95rem] text-white shadow-soft disabled:opacity-50"
-          style={{ background: "linear-gradient(145deg, #D3A34C -10%, #E2603D 55%, #C94F30 100%)" }}
+          className="rounded-full px-6 py-2.5 font-medium text-[0.92rem] text-white bg-coral transition-colors duration-200 hover:bg-coral-hover disabled:opacity-50"
         >
           {submitting ? t("sending") : t("submitBooking")}
         </button>

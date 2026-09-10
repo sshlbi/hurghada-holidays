@@ -60,7 +60,7 @@ export default function Reviews() {
 
       <div className="max-w-[1100px] mx-auto relative">
         <div ref={headRef} className="reveal mb-7">
-          <h2 className="font-display font-semibold text-[clamp(1.65rem,3vw,2.2rem)] text-white mb-2 tracking-tight">
+          <h2 className="font-display font-medium text-[clamp(1.5rem,2.6vw,2rem)] text-white mb-2 tracking-tight">
             {t("reviewsTitle")}
           </h2>
           <p className="max-w-[560px] text-lagoon/80">{t("reviewsSub")}</p>
@@ -122,8 +122,7 @@ export default function Reviews() {
               </div>
               <button
                 type="submit"
-                className="rounded-full px-6 py-2.5 font-semibold text-[0.95rem] text-white shadow-soft"
-                style={{ background: "linear-gradient(145deg, #D3A34C -10%, #E2603D 55%, #C94F30 100%)" }}
+                className="rounded-full px-6 py-2.5 font-medium text-[0.92rem] text-white bg-coral transition-colors duration-200 hover:bg-coral-hover"
               >
                 {t("postReview")}
               </button>

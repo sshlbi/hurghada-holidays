@@ -6,7 +6,6 @@ import Teaser from "./components/Teaser";
 import BookingWizard from "./components/wizard/BookingWizard";
 import Reviews from "./components/Reviews";
 import Footer from "./components/Footer";
-import WhatsAppFloat from "./components/WhatsAppFloat";
 
 export default function App() {
   return (
@@ -18,7 +17,6 @@ export default function App() {
       <BookingWizard />
       <Reviews />
       <Footer />
-      <WhatsAppFloat />
     </AppProvider>
   );
 }

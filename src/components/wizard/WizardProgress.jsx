@@ -6,7 +6,7 @@ export default function WizardProgress() {
   const { t, step } = useApp();
 
   return (
-    <div className="sticky top-[72px] max-[640px]:top-auto z-40 mb-7">
+    <div className="relative z-10 mb-7">
       <div className="bg-surface-2/95 backdrop-blur-sm rounded-2xl shadow-soft border border-border/70 py-4 px-4 max-[480px]:px-2.5">
         <div className="h-1 bg-border rounded-full overflow-hidden mb-3.5">
           <div

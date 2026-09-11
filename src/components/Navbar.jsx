@@ -13,9 +13,11 @@ export default function Navbar() {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }}
       >
-        <span className="grid place-items-center w-9 h-9 rounded-[10px] bg-white/10 text-white shadow-soft border border-white/10">
-          ◆
-        </span>
+        <img
+          src="Icon.jpg"
+          alt="Hurghada Holidays logo"
+          className="w-10 h-10 rounded-[10px] object-cover border border-white/10 bg-white/10 shadow-soft"
+        />
         <span>{t("brand")}</span>
       </a>
 

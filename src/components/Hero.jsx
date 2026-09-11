@@ -30,9 +30,9 @@ export default function Hero() {
         <button
           type="button"
           onClick={startBooking}
-          className="inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 font-medium text-[0.92rem] text-white bg-coral transition-colors hover:bg-coral-hover"
+          className="inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 font-medium text-[0.92rem] text-white bg-white/10 backdrop-blur-md border border-white/25 shadow-glass transition-all duration-200 hover:bg-white/20 hover:border-white/40"
         >
-          {t("ctaBook")}
+           {t("ctaBook")}
           <span className="rtl:rotate-180">→</span>
         </button>
         <div className="flex flex-wrap gap-x-6 gap-y-2 justify-center mt-8 text-[0.78rem] opacity-70 font-medium">

@@ -19,9 +19,19 @@ function StarsInput({ cat, value, onChange }) {
   return (
     <div className="stars-input flex gap-1 flex-row-reverse justify-end rtl:justify-start">
       {[5, 4, 3, 2, 1].map((n) => (
-        <label key={n} title={String(n)}>
-          <input type="radio" name={`star-${cat}`} checked={value === n} onChange={() => onChange(n)} />★
-        </label>
+        <>
+          <input
+            key={`in-${n}`}
+            type="radio"
+            id={`star-${cat}-${n}`}
+            name={`star-${cat}`}
+            checked={value === n}
+            onChange={() => onChange(n)}
+          />
+          <label key={`lb-${n}`} htmlFor={`star-${cat}-${n}`} title={String(n)}>
+            ★
+          </label>
+        </>
       ))}
     </div>
   );
@@ -122,7 +132,7 @@ export default function Reviews() {
               </div>
               <button
                 type="submit"
-                className="rounded-full px-6 py-2.5 font-medium text-[0.92rem] text-white bg-coral transition-colors duration-200 hover:bg-coral-hover"
+                className="rounded-full px-6 py-2.5 font-medium text-[0.92rem] text-white bg-white/10 backdrop-blur-md border border-white/20 shadow-glass transition-all duration-200 hover:bg-white/20 hover:border-white/35"
               >
                 {t("postReview")}
               </button>

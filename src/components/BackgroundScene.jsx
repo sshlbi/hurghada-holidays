@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 function useParallax() {
   const [offsets, setOffsets] = useState([0, 0]);
@@ -27,50 +27,25 @@ function useParallax() {
   return offsets;
 }
 
-function Bubbles({ count = 10 }) {
-  const bubbles = useRef(
-    Array.from({ length: count }, () => ({
-      size: 6 + Math.random() * 16,
-      left: Math.random() * 100,
-      duration: 22 + Math.random() * 18,
-      delay: -(Math.random() * 30),
-      drift: Math.random() * 30 - 15,
-    }))
-  ).current;
-
-  return (
-    <div className="absolute inset-0">
-      {bubbles.map((b, i) => (
-        <span
-          key={i}
-          className="absolute -bottom-[10vh] rounded-full border border-white/15 animate-rise"
-          style={{
-            width: b.size,
-            height: b.size,
-            left: `${b.left}%`,
-            animationDuration: `${b.duration}s`,
-            animationDelay: `${b.delay}s`,
-            "--drift": `${b.drift}px`,
-            background: "radial-gradient(circle at 32% 28%, rgba(255,255,255,0.35), rgba(255,255,255,0.02) 70%)",
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
 export default function BackgroundScene() {
   const [y1, y2] = useParallax();
 
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none bg-abyss" aria-hidden="true">
       <div style={{ transform: `translate3d(0, ${y1}px, 0)` }} className="absolute inset-0">
-        <div className="absolute -top-[16vw] -left-[10vw] w-[46vw] h-[46vw] max-w-[560px] max-h-[560px] rounded-full blur-[80px] opacity-35 bg-[radial-gradient(circle_at_35%_35%,#1C7C93,transparent_70%)]" />
+        <div className="absolute -top-[16vw] -left-[10vw] w-[46vw] h-[46vw] max-w-[560px] max-h-[560px] rounded-full blur-[100px] opacity-25 bg-[radial-gradient(circle_at_35%_35%,#1C7C93,transparent_70%)]" />
       </div>
       <div style={{ transform: `translate3d(0, ${y2}px, 0)` }} className="absolute inset-0 hidden sm:block">
-        <div className="absolute -bottom-[14vw] -right-[10vw] w-[38vw] h-[38vw] max-w-[480px] max-h-[480px] rounded-full blur-[80px] opacity-20 bg-[radial-gradient(circle_at_60%_40%,#D3A34C,transparent_72%)]" />
+        <div className="absolute -bottom-[14vw] -right-[10vw] w-[38vw] h-[38vw] max-w-[480px] max-h-[480px] rounded-full blur-[100px] opacity-15 bg-[radial-gradient(circle_at_60%_40%,#D3A34C,transparent_72%)]" />
       </div>
-      <Bubbles />
+      {/* subtle premium grain */}
+      <div
+        className="absolute inset-0 opacity-[0.03] mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+        }}
+      />
     </div>
   );
 }

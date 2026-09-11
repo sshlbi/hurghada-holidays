@@ -2,17 +2,17 @@ import { useApp } from "../../context/AppContext";
 
 function SummaryRow({ label, value }) {
   return (
-    <div className="flex justify-between gap-3 py-1.5 text-[0.92rem] border-b border-dashed border-border last:border-0">
-      <span className="text-muted">{label}</span>
-      <span>{value}</span>
+    <div className="flex justify-between gap-3 py-1.5 text-[0.92rem] border-b border-dashed border-white/10 last:border-0">
+      <span className="text-lagoon/60">{label}</span>
+      <span className="text-sand">{value}</span>
     </div>
   );
 }
 
 function SummaryBlock({ title, children }) {
   return (
-    <div className="bg-surface rounded-2xl border border-border shadow-soft p-5 mb-3.5">
-      <h3 className="text-[0.85rem] uppercase tracking-wide text-sea font-bold mb-3">{title}</h3>
+    <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-glass p-5 mb-3.5">
+      <h3 className="text-[0.85rem] uppercase tracking-wide text-sea-light font-bold mb-3">{title}</h3>
       {children}
     </div>
   );
@@ -26,7 +26,7 @@ export default function StepSummary() {
   return (
     <div>
       <div className="flex justify-start mb-4">
-        <button type="button" onClick={prevStep} className="rounded-full bg-surface border border-border px-4 py-2 font-medium text-[0.85rem] text-deep shadow-soft transition-colors duration-200 hover:border-coral/40 hover:text-coral">
+        <button type="button" onClick={prevStep} className="rounded-full bg-white/5 backdrop-blur-md border border-white/15 px-4 py-2 font-medium text-[0.85rem] text-sand transition-all duration-200 hover:bg-white/10 hover:border-white/30">
           {t("back")}
         </button>
       </div>
@@ -45,8 +45,8 @@ export default function StepSummary() {
           <>
             <SummaryRow label={hotelName} value={`${money(c.hotel.price)} ${t("approxPerNight")}`} />
             <SummaryRow label={t("nightsLabel")} value={c.nights} />
-            <SummaryRow label={t("hotelTotal")} value={<span className="font-mono font-semibold text-deep">{money(c.hotelUSD)}</span>} />
-            <p className="text-[0.78rem] text-muted mt-2">{t("hotelPriceNotice")}</p>
+            <SummaryRow label={t("hotelTotal")} value={<span className="font-mono font-semibold text-white">{money(c.hotelUSD)}</span>} />
+            <p className="text-[0.78rem] text-lagoon/50 mt-2">{t("hotelPriceNotice")}</p>
           </>
         ) : (
           <SummaryRow label={t("summaryNone")} value="—" />
@@ -55,20 +55,20 @@ export default function StepSummary() {
 
       <SummaryBlock title={t("summaryAct")}>
         {c.actLines.length ? (
-          c.actLines.map((l) => <SummaryRow key={l.id} label={l.name} value={<span className="font-mono font-semibold text-deep">{money(l.usd)}</span>} />)
+          c.actLines.map((l) => <SummaryRow key={l.id} label={l.name} value={<span className="font-mono font-semibold text-white">{money(l.usd)}</span>} />)
         ) : (
           <SummaryRow label={t("summaryNone")} value="—" />
         )}
-        <SummaryRow label={t("actTotal")} value={<span className="font-mono font-semibold text-deep">{money(c.actUSD)}</span>} />
+        <SummaryRow label={t("actTotal")} value={<span className="font-mono font-semibold text-white">{money(c.actUSD)}</span>} />
       </SummaryBlock>
 
       <SummaryBlock title={t("summaryTrans")}>
         {c.trLines.length ? (
-          c.trLines.map((l) => <SummaryRow key={l.id} label={l.name} value={<span className="font-mono font-semibold text-deep">{money(l.usd)}</span>} />)
+          c.trLines.map((l) => <SummaryRow key={l.id} label={l.name} value={<span className="font-mono font-semibold text-white">{money(l.usd)}</span>} />)
         ) : (
           <SummaryRow label={t("summaryNone")} value="—" />
         )}
-        <SummaryRow label={t("transTotal")} value={<span className="font-mono font-semibold text-deep">{money(c.trUSD)}</span>} />
+        <SummaryRow label={t("transTotal")} value={<span className="font-mono font-semibold text-white">{money(c.trUSD)}</span>} />
       </SummaryBlock>
 
       <div className="flex justify-between items-center gap-3 px-[1.375rem] py-5 rounded-2xl text-white shadow-lifted bg-grand-total mt-2">
@@ -81,7 +81,7 @@ export default function StepSummary() {
         </div>
       </div>
 
-      <div className="px-4 py-3 rounded-xl bg-warn/15 border border-warn/35 text-[0.86rem] text-deep my-4">
+      <div className="px-4 py-3 rounded-xl bg-warn/10 border border-warn/30 text-[0.86rem] text-sand my-4">
         {t("approxNote")}
       </div>
 
@@ -90,7 +90,7 @@ export default function StepSummary() {
           type="button"
           onClick={submitBooking}
           disabled={submitting}
-          className="rounded-full px-6 py-2.5 font-medium text-[0.92rem] text-white bg-coral transition-colors duration-200 hover:bg-coral-hover disabled:opacity-50"
+          className="rounded-full px-6 py-2.5 font-medium text-[0.92rem] text-white bg-white/10 backdrop-blur-md border border-white/25 shadow-glass transition-all duration-200 hover:bg-white/20 hover:border-white/40 disabled:opacity-50"
         >
           {submitting ? t("sending") : t("submitBooking")}
         </button>

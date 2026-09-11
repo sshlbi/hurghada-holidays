@@ -14,7 +14,7 @@ export default function Navbar() {
         }}
       >
         <img
-          src="Icon.jpg"
+          src="Icon.png"
           alt="Hurghada Holidays logo"
           className="w-10 h-10 rounded-[10px] object-cover border border-white/10 bg-white/10 shadow-soft"
         />

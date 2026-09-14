@@ -49,12 +49,14 @@ export default function StepTransport() {
 
                 <p className="text-[0.84rem] text-lagoon/60 leading-snug mt-2.5">{L.desc}</p>
 
-                <div className="flex items-center justify-between gap-2 mt-2.5 pt-2.5 border-t border-white/10">
-                  <span className="text-[0.78rem] text-lagoon/40">{t("priceUpdated")}</span>
-                  <span className="whitespace-nowrap text-[0.95rem] font-mono font-semibold text-white flex items-center gap-1">
-                    {money(tr.price)}{" "}
-                    <span className="font-medium text-lagoon/50 text-[0.78rem]">{t("perTrip")}</span>
-                  </span>
+                <div className="mt-2.5 pt-2.5 border-t border-white/10">
+                  <p className="text-[0.78rem] text-lagoon/40 leading-snug line-clamp-2">{t("priceUpdated")}</p>
+                  <div className="flex justify-end mt-1.5">
+                    <span className="whitespace-nowrap text-[0.95rem] font-mono font-semibold text-white flex items-center gap-1">
+                      {money(tr.price)}{" "}
+                      <span className="font-medium text-lagoon/50 text-[0.78rem]">{t("perTrip")}</span>
+                    </span>
+                  </div>
                 </div>
               </div>
 

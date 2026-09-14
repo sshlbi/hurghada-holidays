@@ -55,11 +55,13 @@ export default function StepActivities() {
 
                 <p className="text-[0.8rem] text-lagoon/60 leading-snug mt-2.5">{L.desc}</p>
 
-                <div className="flex items-center justify-between gap-2 mt-2.5 pt-2.5 border-t border-white/10">
-                  <span className="text-[0.72rem] text-lagoon/40">{t("priceUpdated")}</span>
-                  <span className="whitespace-nowrap text-[0.9rem] font-mono font-semibold text-white">
-                    {money(a.price)} <span className="font-medium text-lagoon/50 text-[0.72rem]">{t("perPerson")}</span>
-                  </span>
+                <div className="mt-2.5 pt-2.5 border-t border-white/10">
+                  <p className="text-[0.72rem] text-lagoon/40 leading-snug line-clamp-2">{t("priceUpdated")}</p>
+                  <div className="flex justify-end mt-1.5">
+                    <span className="whitespace-nowrap text-[0.9rem] font-mono font-semibold text-white">
+                      {money(a.price)} <span className="font-medium text-lagoon/50 text-[0.72rem]">{t("perPerson")}</span>
+                    </span>
+                  </div>
                 </div>
               </div>
 

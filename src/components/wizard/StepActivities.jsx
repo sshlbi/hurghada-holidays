@@ -20,7 +20,7 @@ export default function StepActivities() {
           return (
             <label
               key={a.id}
-              className={`relative flex gap-3.5 sm:grid sm:grid-cols-[72px_1fr_auto] sm:items-center rounded-2xl border-2 p-3.5 cursor-pointer transition-all duration-200 ${
+              className={`relative rounded-2xl border-2 p-3.5 cursor-pointer transition-all duration-200 ${
                 on ? "border-sea-light bg-sea-light/10" : "border-white/10 hover:border-sea-light/40 hover:bg-white/5"
               }`}
             >
@@ -31,27 +31,31 @@ export default function StepActivities() {
                 className="sr-only"
               />
 
-              <div className="relative w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-[10px] overflow-hidden shrink-0 bg-white/5">
-                <img
-                  src={a.img}
-                  alt=""
-                  loading="lazy"
-                  className="w-full h-full object-cover"
-                  onError={(e) => (e.currentTarget.style.display = "none")}
-                />
-                <span
-                  className={`absolute top-1 right-1 rtl:right-auto rtl:left-1 w-5 h-5 rounded-full grid place-items-center text-[0.65rem] border transition-colors ${
-                    on ? "bg-sea-light border-sea-light text-white" : "bg-black/40 border-white/40 text-transparent"
-                  }`}
-                >
-                  ✓
-                </span>
-              </div>
+              {/* ===== Mobile / Tablet layout (below md = 768px) ===== */}
+              <div className="md:hidden">
+                <div className="flex gap-3.5 items-start">
+                  <div className="relative w-16 h-16 rounded-[10px] overflow-hidden shrink-0 bg-white/5">
+                    <img
+                      src={a.img}
+                      alt=""
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                      onError={(e) => (e.currentTarget.style.display = "none")}
+                    />
+                    <span
+                      className={`absolute top-1 right-1 rtl:right-auto rtl:left-1 w-5 h-5 rounded-full grid place-items-center text-[0.65rem] border transition-colors ${
+                        on ? "bg-sea-light border-sea-light text-white" : "bg-black/40 border-white/40 text-transparent"
+                      }`}
+                    >
+                      ✓
+                    </span>
+                  </div>
+                  <h4 className="text-[0.94rem] font-semibold text-white leading-snug pt-1">{L.name}</h4>
+                </div>
 
-              <div className="min-w-0 flex-1">
-                <h4 className="text-[0.94rem] font-semibold text-white mb-1 leading-snug">{L.name}</h4>
-                <p className="text-[0.8rem] text-lagoon/60 leading-snug line-clamp-2 sm:line-clamp-none">{L.desc}</p>
-                <div className="flex items-center justify-between gap-2 mt-1.5 sm:hidden">
+                <p className="text-[0.8rem] text-lagoon/60 leading-snug mt-2.5">{L.desc}</p>
+
+                <div className="flex items-center justify-between gap-2 mt-2.5 pt-2.5 border-t border-white/10">
                   <span className="text-[0.72rem] text-lagoon/40">{t("priceUpdated")}</span>
                   <span className="whitespace-nowrap text-[0.9rem] font-mono font-semibold text-white">
                     {money(a.price)} <span className="font-medium text-lagoon/50 text-[0.72rem]">{t("perPerson")}</span>
@@ -59,11 +63,36 @@ export default function StepActivities() {
                 </div>
               </div>
 
-              <div className="hidden sm:flex flex-col items-end gap-1 whitespace-nowrap">
-                <span className="text-[0.95rem] font-mono font-semibold text-white">
-                  {money(a.price)} <span className="font-medium text-lagoon/50 text-[0.78rem]">{t("perPerson")}</span>
-                </span>
-                <span className="text-[0.72rem] text-lagoon/40">{t("priceUpdated")}</span>
+              {/* ===== Desktop layout (md and up, unchanged) ===== */}
+              <div className="hidden md:grid md:grid-cols-[72px_1fr_auto] md:items-center md:gap-3.5">
+                <div className="relative w-[72px] h-[72px] rounded-[10px] overflow-hidden shrink-0 bg-white/5">
+                  <img
+                    src={a.img}
+                    alt=""
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                    onError={(e) => (e.currentTarget.style.display = "none")}
+                  />
+                  <span
+                    className={`absolute top-1 right-1 rtl:right-auto rtl:left-1 w-5 h-5 rounded-full grid place-items-center text-[0.65rem] border transition-colors ${
+                      on ? "bg-sea-light border-sea-light text-white" : "bg-black/40 border-white/40 text-transparent"
+                    }`}
+                  >
+                    ✓
+                  </span>
+                </div>
+
+                <div className="min-w-0 flex-1">
+                  <h4 className="text-[0.94rem] font-semibold text-white mb-1 leading-snug">{L.name}</h4>
+                  <p className="text-[0.8rem] text-lagoon/60 leading-snug">{L.desc}</p>
+                </div>
+
+                <div className="flex flex-col items-end gap-1 whitespace-nowrap">
+                  <span className="text-[0.95rem] font-mono font-semibold text-white">
+                    {money(a.price)} <span className="font-medium text-lagoon/50 text-[0.78rem]">{t("perPerson")}</span>
+                  </span>
+                  <span className="text-[0.72rem] text-lagoon/40">{t("priceUpdated")}</span>
+                </div>
               </div>
             </label>
           );

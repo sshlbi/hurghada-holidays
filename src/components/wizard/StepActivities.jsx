@@ -21,14 +21,14 @@ export default function StepActivities() {
             <label
               key={a.id}
               className={`grid grid-cols-[auto_72px_1fr_auto] max-[560px]:grid-cols-[auto_56px_1fr] gap-x-3.5 gap-y-2.5 items-center rounded-2xl border-2 p-3.5 cursor-pointer transition-all duration-200 ${
-                on ? "border-coral bg-coral/10" : "border-white/10 hover:border-coral/40 hover:bg-white/5"
+                on ? "border-sea-light bg-sea-light/10" : "border-white/10 hover:border-sea-light/40 hover:bg-white/5"
               }`}
             >
               <input
                 type="checkbox"
                 checked={on}
                 onChange={() => toggleActivity(a.id)}
-                className="w-[18px] h-[18px] accent-coral cursor-pointer self-start mt-0.5"
+                className="w-[18px] h-[18px] accent-sea-light cursor-pointer self-start mt-0.5"
               />
               <div className="w-[72px] h-[72px] max-[560px]:w-14 max-[560px]:h-14 rounded-[10px] overflow-hidden shrink-0 bg-white/5">
                 <img

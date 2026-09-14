@@ -24,14 +24,14 @@ export default function StepTransport() {
             <label
               key={tr.id}
               className={`grid grid-cols-[auto_1fr_auto] gap-x-3.5 gap-y-2.5 items-center rounded-2xl border-2 p-3.5 cursor-pointer transition-all duration-200 ${
-                on ? "border-coral bg-coral/10" : "border-white/10 hover:border-coral/40 hover:bg-white/5"
+                on ? "border-sea-light bg-sea-light/10" : "border-white/10 hover:border-sea-light/40 hover:bg-white/5"
               }`}
             >
               <input
                 type="checkbox"
                 checked={on}
                 onChange={() => toggleTransport(tr.id)}
-                className="w-[18px] h-[18px] accent-coral cursor-pointer self-start mt-0.5"
+                className="w-[18px] h-[18px] accent-sea-light cursor-pointer self-start mt-0.5"
               />
               <div className="min-w-0">
                 <h4 className="text-[0.98rem] font-semibold text-white mb-1">{L.name}</h4>

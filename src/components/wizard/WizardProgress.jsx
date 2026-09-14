@@ -10,7 +10,7 @@ export default function WizardProgress() {
       <div className="bg-white/5 backdrop-blur-md rounded-2xl shadow-glass border border-white/10 py-4 px-4 max-[480px]:px-2.5">
         <div className="h-1 bg-white/10 rounded-full overflow-hidden mb-3.5">
           <div
-            className="h-full bg-gradient-to-r from-sea-light to-coral rounded-full transition-all duration-500"
+            className="h-full bg-gradient-to-r from-sea to-sea-light rounded-full transition-all duration-500"
             style={{ width: `${((step + 1) / 6) * 100}%` }}
           />
         </div>
@@ -20,7 +20,7 @@ export default function WizardProgress() {
               <div
                 className={`w-7 h-7 rounded-full mx-auto mb-1.5 grid place-items-center text-[0.75rem] border-2 transition-all ${
                   i === step
-                    ? "border-coral bg-coral text-white shadow-[0_4px_12px_rgba(200,79,48,0.35)]"
+                    ? "border-sea-light bg-sea-light text-white shadow-[0_4px_12px_rgba(95,173,185,0.4)]"
                     : i < step
                     ? "border-success bg-success text-white"
                     : "border-white/15 bg-white/5 text-lagoon/50"

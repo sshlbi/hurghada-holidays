@@ -51,15 +51,15 @@ export default function StepHotels() {
               onClick={() => chooseHotel(h.id)}
               className={`relative flex flex-col overflow-hidden bg-white/5 backdrop-blur-md rounded-2xl border-2 cursor-pointer transition-all duration-200 ${
                 sel
-                  ? "border-coral shadow-[0_0_0_3px_rgba(226,96,61,0.22)] -translate-y-0.5"
+                  ? "border-sea-light shadow-[0_0_0_3px_rgba(95,173,185,0.25)] -translate-y-0.5"
                   : "border-white/10 hover:border-sea-light hover:shadow-lifted hover:-translate-y-1"
               }`}
             >
               {sel && (
-                <span className="absolute top-0 left-0 right-0 h-1 z-[3]" style={{ background: "linear-gradient(90deg, #D3A34C, #E2603D)" }} />
+                <span className="absolute top-0 left-0 right-0 h-1 z-[3]" style={{ background: "linear-gradient(90deg, #1C7C93, #5FADB9)" }} />
               )}
               <span
-                className={`absolute top-3 right-3 rtl:left-3 rtl:right-auto z-[2] w-7 h-7 rounded-full bg-coral text-white grid place-items-center text-[0.9rem] shadow-[0_4px_12px_rgba(200,79,48,0.45)] ${
+                className={`absolute top-3 right-3 rtl:left-3 rtl:right-auto z-[2] w-7 h-7 rounded-full bg-sea-light text-white grid place-items-center text-[0.9rem] shadow-[0_4px_12px_rgba(95,173,185,0.45)] ${
                   sel ? "grid" : "hidden"
                 }`}
               >
@@ -93,7 +93,7 @@ export default function StepHotels() {
                   <button
                     type="button"
                     className={`rounded-full px-3.5 py-2 text-[0.85rem] font-medium backdrop-blur-md border transition-all duration-200 ${
-                      sel ? "text-white bg-coral/80 border-coral/60" : "bg-white/5 border-white/15 text-sand hover:border-white/30"
+                      sel ? "text-white bg-sea-light/80 border-sea-light/60" : "bg-white/5 border-white/15 text-sand hover:border-white/30"
                     }`}
                   >
                     {sel ? t("selected") : t("select")}

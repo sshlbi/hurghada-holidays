@@ -20,7 +20,7 @@ export default function StepActivities() {
           return (
             <label
               key={a.id}
-              className={`grid grid-cols-[auto_72px_1fr_auto] max-[560px]:grid-cols-[auto_56px_1fr] gap-x-3.5 gap-y-2.5 items-center rounded-2xl border-2 p-3.5 cursor-pointer transition-all duration-200 ${
+              className={`relative flex gap-3.5 sm:grid sm:grid-cols-[72px_1fr_auto] sm:items-center rounded-2xl border-2 p-3.5 cursor-pointer transition-all duration-200 ${
                 on ? "border-sea-light bg-sea-light/10" : "border-white/10 hover:border-sea-light/40 hover:bg-white/5"
               }`}
             >
@@ -28,27 +28,42 @@ export default function StepActivities() {
                 type="checkbox"
                 checked={on}
                 onChange={() => toggleActivity(a.id)}
-                className="w-[18px] h-[18px] accent-sea-light cursor-pointer self-start mt-0.5"
+                className="sr-only"
               />
-              <div className="w-[72px] h-[72px] max-[560px]:w-14 max-[560px]:h-14 rounded-[10px] overflow-hidden shrink-0 bg-white/5">
+
+              <div className="relative w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-[10px] overflow-hidden shrink-0 bg-white/5">
                 <img
                   src={a.img}
                   alt=""
                   loading="lazy"
-                  width="72"
-                  height="72"
                   className="w-full h-full object-cover"
                   onError={(e) => (e.currentTarget.style.display = "none")}
                 />
+                <span
+                  className={`absolute top-1 right-1 rtl:right-auto rtl:left-1 w-5 h-5 rounded-full grid place-items-center text-[0.65rem] border transition-colors ${
+                    on ? "bg-sea-light border-sea-light text-white" : "bg-black/40 border-white/40 text-transparent"
+                  }`}
+                >
+                  ✓
+                </span>
               </div>
-              <div className="min-w-0">
-                <h4 className="text-[0.98rem] font-semibold text-white mb-1">{L.name}</h4>
-                <p className="text-[0.84rem] text-lagoon/60 leading-snug">{L.desc}</p>
-                <p className="text-[0.78rem] text-lagoon/40 mt-1">{t("priceUpdated")}</p>
+
+              <div className="min-w-0 flex-1">
+                <h4 className="text-[0.94rem] font-semibold text-white mb-1 leading-snug">{L.name}</h4>
+                <p className="text-[0.8rem] text-lagoon/60 leading-snug line-clamp-2 sm:line-clamp-none">{L.desc}</p>
+                <div className="flex items-center justify-between gap-2 mt-1.5 sm:hidden">
+                  <span className="text-[0.72rem] text-lagoon/40">{t("priceUpdated")}</span>
+                  <span className="whitespace-nowrap text-[0.9rem] font-mono font-semibold text-white">
+                    {money(a.price)} <span className="font-medium text-lagoon/50 text-[0.72rem]">{t("perPerson")}</span>
+                  </span>
+                </div>
               </div>
-              <div className="whitespace-nowrap text-[0.95rem] font-mono font-semibold text-white flex items-center gap-1 justify-self-end self-center max-[560px]:col-span-3 max-[560px]:justify-self-stretch max-[560px]:justify-end max-[560px]:mt-1.5 max-[560px]:pt-2 max-[560px]:border-t max-[560px]:border-dashed max-[560px]:border-white/10">
-                {money(a.price)}{" "}
-                <span className="font-medium text-lagoon/50 text-[0.78rem]">{t("perPerson")}</span>
+
+              <div className="hidden sm:flex flex-col items-end gap-1 whitespace-nowrap">
+                <span className="text-[0.95rem] font-mono font-semibold text-white">
+                  {money(a.price)} <span className="font-medium text-lagoon/50 text-[0.78rem]">{t("perPerson")}</span>
+                </span>
+                <span className="text-[0.72rem] text-lagoon/40">{t("priceUpdated")}</span>
               </div>
             </label>
           );

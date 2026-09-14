@@ -7,6 +7,7 @@ import StepTransport from "./StepTransport";
 import StepGuestInfo from "./StepGuestInfo";
 import StepSummary from "./StepSummary";
 import StepConfirm from "./StepConfirm";
+import FloatingNextButton from "./FloatingNextButton";
 
 const STEPS = [StepActivities, StepHotels, StepTransport, StepGuestInfo, StepSummary, StepConfirm];
 
@@ -40,6 +41,7 @@ export default function BookingWizard() {
           <StepComponent />
         </div>
       </div>
+      <FloatingNextButton />
     </section>
   );
 }

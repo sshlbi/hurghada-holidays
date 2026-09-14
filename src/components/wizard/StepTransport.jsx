@@ -3,7 +3,7 @@ import { useApp } from "../../context/AppContext";
 import WarnBanner from "./WarnBanner";
 
 export default function StepTransport() {
-  const { t, loc, money, selectedTransport, toggleTransport, skipTransport, nextStep, prevStep } = useApp();
+  const { t, loc, money, selectedTransport, toggleTransport, skipTransport, prevStep } = useApp();
 
   return (
     <div className="p-6 max-[480px]:p-4 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-glass">
@@ -47,15 +47,6 @@ export default function StepTransport() {
         })}
       </div>
       <WarnBanner step={2} />
-      <div className="flex justify-end mt-7">
-        <button
-          type="button"
-          onClick={() => nextStep()}
-          className="rounded-full px-6 py-2.5 font-medium text-[0.92rem] text-white bg-white/10 backdrop-blur-md border border-white/25 shadow-glass transition-all duration-200 hover:bg-white/20 hover:border-white/40"
-        >
-          {t("next")}
-        </button>
-      </div>
     </div>
   );
 }

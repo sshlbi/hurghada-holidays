@@ -10,7 +10,7 @@ const FILTERS = [
 ];
 
 export default function StepHotels() {
-  const { t, loc, money, hotelFilter, setHotelFilter, selectedHotel, chooseHotel, skipHotel, nextStep, prevStep } = useApp();
+  const { t, loc, money, hotelFilter, setHotelFilter, selectedHotel, chooseHotel, skipHotel, prevStep } = useApp();
 
   const list = HOTELS.filter((h) => hotelFilter === "all" || String(h.stars) === hotelFilter);
 
@@ -106,15 +106,6 @@ export default function StepHotels() {
       </div>
 
       <WarnBanner step={1} />
-      <div className="flex justify-end mt-7">
-        <button
-          type="button"
-          onClick={() => nextStep()}
-          className="rounded-full px-6 py-2.5 font-medium text-[0.92rem] text-white bg-white/10 backdrop-blur-md border border-white/25 shadow-glass transition-all duration-200 hover:bg-white/20 hover:border-white/40"
-        >
-          {t("next")}
-        </button>
-      </div>
     </div>
   );
 }

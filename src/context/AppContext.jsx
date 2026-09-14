@@ -299,6 +299,7 @@ export function AppProvider({ children }) {
     skipActivities, skipHotel, skipTransport,
     guest, setGuest, errors, validateGuest,
     warnStep,
+    hasSelectionForStep,
     nights,
     calcTotals,
     submitBooking, submitting, refCode,

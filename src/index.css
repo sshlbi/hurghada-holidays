@@ -4,10 +4,12 @@
 
 html {
   scroll-behavior: smooth;
+  scrollbar-color: #1363DF #06283D;
+  scrollbar-width: thin;
 }
 
 body {
-  @apply bg-abyss text-ink font-body;
+  @apply bg-abyss text-pearl font-body antialiased;
   overflow-x: hidden;
 }
 
@@ -19,21 +21,102 @@ body.rtl .font-display-brand {
   @apply font-display-ar;
 }
 
+input, textarea, select {
+  color-scheme: dark;
+}
+
+:focus-visible {
+  outline: 2px solid #7DE5ED;
+  outline-offset: 2px;
+}
+
+::selection {
+  background: rgba(71, 181, 255, 0.35);
+}
+
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
 }
 ::-webkit-scrollbar-track {
-  background: #061620;
+  background: #06283D;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(#1c7c93, #e2603d);
+  background: linear-gradient(#1363DF, #47B5FF);
   border-radius: 999px;
-  border: 3px solid #061620;
+  border: 3px solid #06283D;
 }
-html {
-  scrollbar-color: #1c7c93 #061620;
-  scrollbar-width: thin;
+
+/* ---------- Glass design system ---------- */
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 0 8px 32px rgba(6, 40, 61, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    border-radius: 20px;
+  }
+  .glass-soft {
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 6px 24px rgba(6, 40, 61, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+  }
+  .glass-hover {
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  }
+  .glass-hover:hover {
+    transform: translateY(-4px);
+    border-color: rgba(125, 229, 237, 0.45);
+    background: rgba(255, 255, 255, 0.11);
+    box-shadow: 0 16px 40px rgba(6, 40, 61, 0.4), 0 0 24px rgba(71, 181, 255, 0.18);
+  }
+  .glass-input {
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    color: #F8FBFF;
+    padding: 0.625rem 0.875rem;
+    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .glass-input:focus {
+    outline: none;
+    border-color: #47B5FF;
+    box-shadow: 0 0 0 3px rgba(71, 181, 255, 0.25);
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    padding: 0.75rem 1.75rem;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: #fff;
+    background: linear-gradient(135deg, #1363DF, #2F8FF0);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 24px rgba(19, 99, 223, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+    box-shadow: 0 10px 30px rgba(71, 181, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+  .btn-primary:disabled {
+    opacity: 0.5;
+    transform: none;
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass { background: rgba(10, 58, 94, 0.88); }
+  .glass-soft { background: rgba(10, 58, 94, 0.75); }
 }
 
 .wave-divider svg {
@@ -89,13 +172,16 @@ html {
 .stars-input label {
   cursor: pointer;
   font-size: 1.4rem;
-  color: #c9d8de;
-  transition: color 0.15s;
+  color: rgba(255, 255, 255, 0.3);
+  transition: color 0.15s, transform 0.15s;
+}
+.stars-input label:hover {
+  transform: scale(1.12);
 }
 .stars-input label:hover,
 .stars-input label:hover ~ label,
 .stars-input input:checked ~ label {
-  color: #d7a83b;
+  color: #F4C27A;
 }
 body.rtl .stars-input {
   flex-direction: row-reverse;
@@ -110,4 +196,8 @@ body.rtl .stars-input {
     transform: none;
     transition: none;
   }
+  .glass-hover:hover, .btn-primary:hover {
+    transform: none;
+  }
+  html { scroll-behavior: auto; }
 }

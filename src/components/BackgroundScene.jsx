@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 function useParallax() {
-  const [offsets, setOffsets] = useState([0, 0]);
-  const speeds = [0.08, 0.05];
+  const [offsets, setOffsets] = useState([0, 0, 0]);
+  const speeds = [0.08, 0.05, 0.03];
 
   useEffect(() => {
     const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -28,17 +28,19 @@ function useParallax() {
 }
 
 export default function BackgroundScene() {
-  const [y1, y2] = useParallax();
+  const [y1, y2, y3] = useParallax();
 
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none bg-abyss" aria-hidden="true">
       <div style={{ transform: `translate3d(0, ${y1}px, 0)` }} className="absolute inset-0">
-        <div className="absolute -top-[16vw] -left-[10vw] w-[46vw] h-[46vw] max-w-[560px] max-h-[560px] rounded-full blur-[100px] opacity-25 bg-[radial-gradient(circle_at_35%_35%,#1C7C93,transparent_70%)]" />
+        <div className="absolute -top-[16vw] -left-[10vw] w-[52vw] h-[52vw] max-w-[640px] max-h-[640px] rounded-full blur-[110px] opacity-40 bg-[radial-gradient(circle_at_35%_35%,#1363DF,transparent_70%)]" />
+      </div>
+      <div style={{ transform: `translate3d(0, ${y3}px, 0)` }} className="absolute inset-0">
+        <div className="absolute top-[38%] -right-[12vw] w-[40vw] h-[40vw] max-w-[520px] max-h-[520px] rounded-full blur-[110px] opacity-30 bg-[radial-gradient(circle_at_50%_50%,#7DE5ED,transparent_70%)]" />
       </div>
       <div style={{ transform: `translate3d(0, ${y2}px, 0)` }} className="absolute inset-0 hidden sm:block">
-        <div className="absolute -bottom-[14vw] -right-[10vw] w-[38vw] h-[38vw] max-w-[480px] max-h-[480px] rounded-full blur-[100px] opacity-15 bg-[radial-gradient(circle_at_60%_40%,#D3A34C,transparent_72%)]" />
+        <div className="absolute -bottom-[14vw] -left-[6vw] w-[38vw] h-[38vw] max-w-[480px] max-h-[480px] rounded-full blur-[120px] opacity-20 bg-[radial-gradient(circle_at_60%_40%,#F4C27A,transparent_72%)]" />
       </div>
-      {/* subtle premium grain */}
       <div
         className="absolute inset-0 opacity-[0.03] mix-blend-overlay"
         style={{

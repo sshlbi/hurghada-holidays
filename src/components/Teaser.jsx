@@ -13,54 +13,44 @@ export default function Teaser() {
     <section className="py-14 px-5">
       <div className="max-w-[1100px] mx-auto">
         <div ref={headRef} className="reveal mb-7">
-          <h2 className="font-display font-medium text-[clamp(1.5rem,2.6vw,2rem)] text-sand mb-2 tracking-tight">
+          <h2 className="font-display font-bold text-[clamp(1.5rem,2.6vw,2.1rem)] text-white mb-2 tracking-tight">
             {t("teaserTitle")}
           </h2>
-          <p className="max-w-[560px] text-lagoon/80">{t("teaserSub")}</p>
-          <div className="w-10 h-0.5 mt-3.5 rounded-sm bg-coral/70" />
+          <p className="max-w-[560px] text-lagoon/85">{t("teaserSub")}</p>
+          <div className="w-12 h-1 mt-3.5 rounded-full bg-gradient-to-r from-gold to-lagoon" />
         </div>
 
         <div ref={gridRef} className="reveal grid gap-[1.125rem] grid-cols-[repeat(auto-fill,minmax(220px,1fr))]">
           {items.map((a) => {
             const L = loc(a);
             return (
-              <article
-                key={a.id}
-                className="flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md shadow-glass transition-all duration-200 hover:border-white/20 hover:bg-white/[0.07] hover:-translate-y-1"
-              >
-                <div className="relative h-[140px] overflow-hidden bg-gradient-to-br from-deep to-sea">
+              <article key={a.id} className="glass-soft glass-hover flex flex-col overflow-hidden">
+                <div className="relative h-[150px] overflow-hidden bg-gradient-to-br from-deep to-sea">
                   <img
                     src={a.img}
                     alt=""
                     loading="lazy"
                     width="400"
-                    height="140"
-                    className="w-full h-full object-cover"
+                    height="150"
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                     onError={(e) => (e.currentTarget.style.display = "none")}
                   />
-                  <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(180deg, transparent 50%, rgba(6,22,32,0.55))" }} />
+                  <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(180deg, transparent 45%, rgba(6,40,61,0.7))" }} />
+                  <span className="absolute bottom-2.5 left-2.5 rtl:left-auto rtl:right-2.5 glass !rounded-full px-3 py-1 text-[0.8rem] font-mono font-semibold text-white">
+                    {money(a.price)} <span className="text-white/60 text-[0.7rem]">{t("perPerson")}</span>
+                  </span>
                 </div>
                 <div className="flex flex-col gap-1.5 flex-1 p-4">
-                  <h4 className="font-display font-semibold text-[0.96rem] text-white leading-snug">{L.name}</h4>
-                  <p className="text-[0.82rem] text-lagoon/60 leading-relaxed flex-1">{L.desc}</p>
-                  <div className="flex items-center justify-between mt-1 pt-2.5 border-t border-white/10">
-                    <span className="font-mono font-semibold text-white tabular-nums">
-                      {money(a.price)}{" "}
-                      <span className="font-medium text-lagoon/50 text-[0.76rem]">{t("perPerson")}</span>
-                    </span>
-                  </div>
+                  <h4 className="font-display font-semibold text-[0.98rem] text-white leading-snug">{L.name}</h4>
+                  <p className="text-[0.82rem] text-lagoon/70 leading-relaxed flex-1">{L.desc}</p>
                 </div>
               </article>
             );
           })}
         </div>
 
-        <div className="text-center mt-7">
-          <button
-            type="button"
-            onClick={startBooking}
-            className="inline-flex items-center gap-2 rounded-full px-7 py-3 font-medium text-[0.92rem] text-white bg-white/10 backdrop-blur-md border border-white/25 shadow-glass transition-all duration-200 hover:bg-white/20 hover:border-white/40"
-          >
+        <div className="text-center mt-8">
+          <button type="button" onClick={startBooking} className="btn-primary">
             {t("ctaStartBooking")}
             <span className="rtl:rotate-180">→</span>
           </button>
